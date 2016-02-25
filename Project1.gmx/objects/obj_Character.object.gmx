@@ -29,12 +29,14 @@
 grounded = false;
 jumping = false;
 climbing = false;
+touchingLadder = false;
+movingUpLadder = false;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="3" enumb="2">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -53,15 +55,17 @@ climbing = false;
             <kind>1</kind>
             <string>// === COLLISION ===
 // Check if colliding with a ladder
-ladderBlock = collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, obj_Ladder, false, true);
-if (ladderBlock != noone &amp;&amp; climbing) {
-    grounded = true;
+ladderBlock = collision_rectangle(bbox_left + 12, bbox_top, bbox_right - 12, bbox_bottom, obj_Ladder, false, true);
+if (ladderBlock != noone) {
+    touchingLadder = true;
 } else {
+    touchingLadder = false;
+    movingUpLadder = false;
     climbing = false;
 }
 
 // Check the left side
-leftBlock = collision_rectangle(bbox_left - 5, bbox_top, bbox_left, bbox_bottom, obj_Floor, false, true);
+leftBlock = collision_rectangle(bbox_left - 4, bbox_top, bbox_left - 1, bbox_bottom, obj_Floor, false, true);
 if (leftBlock != noone) {
     // Move immidately to the right of the block
     hspeed = 0;
@@ -69,29 +73,40 @@ if (leftBlock != noone) {
 }
 
 // Check the right side
-rightBlock = collision_rectangle(bbox_right, bbox_top, bbox_right + 5, bbox_bottom, obj_Floor, false, true);
+rightBlock = collision_rectangle(bbox_right + 1, bbox_top, bbox_right + 4, bbox_bottom, obj_Floor, false, true);
 if (rightBlock != noone) {
     // Move immidately to the left of the block
     hspeed = 0;
     x = rightBlock.x - (sprite_width / 2);
 }
 
+// Check the top
+topBlock = collision_rectangle(bbox_left + 1, bbox_top - 2, bbox_right - 1, bbox_top - 1, obj_Floor, false, true);
+if (topBlock != noone) {
+    // only stop vertical upward movement
+    if(vspeed &lt; 0) {
+        vspeed = 0;
+        y = topBlock.y + topBlock.sprite_height + (sprite_height / 2);
+    }
+}
+
 // If we are not moving upward, check the bottom for a block
-if (vspeed &gt;= 0 &amp;&amp; !climbing) {
+if (vspeed &gt;= 0) {
     floorBlock = collision_rectangle(bbox_left + 1, bbox_bottom, bbox_right - 1, bbox_bottom + 5, obj_Floor, false, true);
-    if(floorBlock != noone) {
+    if(floorBlock != noone &amp;&amp; !movingUpLadder) {
         // Move onto the floor and stop gravity
         vspeed = 0;
         y = floorBlock.y - (sprite_height / 2);
         grounded = true;
+        climbing = false;
     } else {
         grounded = false;
     }
 }
 
 // Gravity
-if (!grounded) {
-    vspeed += global.g;
+if (!grounded &amp;&amp; !climbing) {
+    vspeed += global.gravFactor;
     if (vspeed &gt; global.maxFallSpeed) {
         vspeed = global.maxFallSpeed;
     }
@@ -119,13 +134,12 @@ if (!grounded) {
           <argument>
             <kind>1</kind>
             <string>// Check if colliding with a ladder
-ladderBlock = collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, obj_Ladder, false, true);
-if (ladderBlock != noone) {
+if (touchingLadder) {
     climbing = true;
     y -= 2;
     vspeed = 0;
-    grounded = true;
-    x = ladderBlock.x + (sprite_width / 2)
+    x = ladderBlock.x + (sprite_width / 2);
+    movingUpLadder = true;
 }
 </string>
           </argument>
@@ -150,12 +164,10 @@ if (ladderBlock != noone) {
           <argument>
             <kind>1</kind>
             <string>// Check if colliding with a ladder
-ladderBlock = collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, obj_Ladder, false, true);
-if (ladderBlock != noone) {
+if (touchingLadder) {
     climbing = true;
     y += 2;
     vspeed = 0;
-    grounded = true;
     x = ladderBlock.x + (sprite_width / 2)
 }
 </string>
@@ -180,7 +192,7 @@ if (ladderBlock != noone) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x += 5;
+            <string>x += 4;
 </string>
           </argument>
         </arguments>
@@ -203,7 +215,7 @@ if (ladderBlock != noone) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x -= 5;
+            <string>x -= 4;
 </string>
           </argument>
         </arguments>
@@ -227,13 +239,12 @@ if (ladderBlock != noone) {
           <argument>
             <kind>1</kind>
             <string>if (grounded &amp;&amp; !climbing) {
-    vspeed -= 5;
+    vspeed -= 4;
     grounded = false;
     jumping = true;
 }
 
 if (climbing) {
-    grounded = false;
     climbing = false;
 }
 </string>
@@ -255,6 +266,29 @@ if (climbing) {
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+      </action>
+    </event>
+    <event eventtype="10" enumb="87">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>movingUpLadder = false;
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
   </events>

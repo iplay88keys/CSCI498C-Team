@@ -10,6 +10,7 @@
     <sprite>sprites\spr_Door</sprite>
     <sprite>sprites\spr_Switch</sprite>
     <sprite>sprites\spr_Character</sprite>
+    <sprite>sprites\spr_Ladder</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -19,6 +20,7 @@
     <object>objects\obj_Switch</object>
     <object>objects\obj_Character</object>
     <object>objects\obj_init</object>
+    <object>objects\obj_Ladder</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room0</room>

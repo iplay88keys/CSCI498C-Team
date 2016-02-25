@@ -50,9 +50,27 @@ jumping = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// If we are falling or are standing still, check the bottom for a block
+            <string>// === COLLISION ===
+
+// Check the left side
+leftBlock = collision_rectangle(bbox_left - 5, bbox_top, bbox_left, bbox_bottom, obj_Floor, false, true);
+if (leftBlock != noone) {
+    // Move immidately to the right of the block
+    hspeed = 0;
+    x = leftBlock.x + leftBlock.sprite_width + (sprite_width / 2);
+}
+
+// Check the right side
+rightBlock = collision_rectangle(bbox_right, bbox_top, bbox_right + 5, bbox_bottom, obj_Floor, false, true);
+if (rightBlock != noone) {
+    // Move immidately to the left of the block
+    hspeed = 0;
+    x = rightBlock.x - (sprite_width / 2);
+}
+
+// If we are not moving upward, check the bottom for a block
 if (vspeed &gt;= 0) {
-    floorBlock = collision_rectangle(bbox_left, bbox_bottom, bbox_right, bbox_bottom + 5, obj_Floor, false, true);
+    floorBlock = collision_rectangle(bbox_left + 1, bbox_bottom, bbox_right - 1, bbox_bottom + 5, obj_Floor, false, true);
     if(floorBlock != noone) {
         // Move onto the floor and stop gravity
         vspeed = 0;
@@ -61,22 +79,6 @@ if (vspeed &gt;= 0) {
     } else {
         grounded = false;
     }
-}
-
-// Check the left side
-leftBlock = collision_rectangle(bbox_left - 5, bbox_top, bbox_left, bbox_bottom, obj_Floor, false, true);
-if (leftBlock != noone) {
-    // Move onto the floor and stop gravity
-    hspeed = 0;
-    x = leftBlock.x + leftBlock.sprite_width + (sprite_width / 2);
-}
-
-// Check the left side
-rightBlock = collision_rectangle(bbox_right, bbox_top, bbox_right + 5, bbox_bottom, obj_Floor, false, true);
-if (rightBlock != noone) {
-    // Move onto the floor and stop gravity
-    hspeed = 0;
-    x = rightBlock.x - (sprite_width / 2);
 }
 
 // Gravity

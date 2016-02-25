@@ -28,6 +28,7 @@
             <string>vspeed = 0;
 grounded = false;
 jumping = false;
+climbing = false;
 </string>
           </argument>
         </arguments>
@@ -50,8 +51,16 @@ jumping = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// If we are falling or are standing still, check the bottom for a block
-if (vspeed &gt;= 0) {
+            <string>// Check if colliding with a ladder
+ladderBlock = collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, obj_Ladder, false, true);
+if (ladderBlock != noone &amp;&amp; climbing) {
+    grounded = true;
+} else {
+    climbing = false;
+}
+
+// If we are falling or are standing still, check the bottom for a block
+if (vspeed &gt;= 0 &amp;&amp; !climbing) {
     floorBlock = collision_rectangle(bbox_left, bbox_bottom, bbox_right, bbox_bottom + 5, obj_Floor, false, true);
     if(floorBlock != noone) {
         // Move onto the floor and stop gravity
@@ -85,6 +94,68 @@ if (!grounded) {
     if (vspeed &gt; global.maxFallSpeed) {
         vspeed = global.maxFallSpeed;
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="87">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// Check if colliding with a ladder
+ladderBlock = collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, obj_Ladder, false, true);
+if (ladderBlock != noone) {
+    climbing = true;
+    y -= 2;
+    vspeed = 0;
+    grounded = true;
+    x = ladderBlock.x + (sprite_width / 2)
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="83">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// Check if colliding with a ladder
+ladderBlock = collision_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, obj_Ladder, false, true);
+if (ladderBlock != noone) {
+    climbing = true;
+    y += 2;
+    vspeed = 0;
+    grounded = true;
+    x = ladderBlock.x + (sprite_width / 2)
 }
 </string>
           </argument>
@@ -154,10 +225,15 @@ if (!grounded) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (grounded) {
+            <string>if (grounded &amp;&amp; !climbing) {
     vspeed -= 5;
     grounded = false;
     jumping = true;
+}
+
+if (climbing) {
+    grounded = false;
+    climbing = false;
 }
 </string>
           </argument>

@@ -11,6 +11,7 @@
     <sprite>sprites\spr_Switch</sprite>
     <sprite>sprites\spr_Character</sprite>
     <sprite>sprites\spr_Ladder</sprite>
+    <sprite>sprites\spr_Magnet</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -21,9 +22,11 @@
     <object>objects\obj_Character</object>
     <object>objects\obj_init</object>
     <object>objects\obj_Ladder</object>
+    <object>objects\obj_Magnet</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\room0</room>
+    <room>rooms\rm_Boots_Test</room>
+    <room>rooms\rm_Hub</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

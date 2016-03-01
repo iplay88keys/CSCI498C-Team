@@ -25,12 +25,33 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>vspeed = 0;
+            <string>controlsEnabled = true;
+
+// which way her head is pointing
+enum DIR {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST
+}
+
+// state of the player's position/physics
+vspeed = 0;
 grounded = false;
 jumping = false;
 climbing = false;
 touchingLadder = false;
 movingUpLadder = false;
+magnetized = false;
+
+currentDir = DIR.NORTH;
+
+// wall transitions
+degreesToRotate = 0;
+deltaDegrees = 2;
+
+// abilities
+hasMagnetBoots = true;
 </string>
           </argument>
         </arguments>
@@ -116,6 +137,67 @@ if (!grounded &amp;&amp; !climbing) {
         </arguments>
       </action>
     </event>
+    <event eventtype="3" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// Handle transitioning
+if(degreesToRotate != 0) {
+    if(degreesToRotate &gt; 0) {
+        image_angle += deltaDegrees;
+        view_angle -= deltaDegrees;
+        degreesToRotate -= deltaDegrees;
+        x -= .8;
+    } else {
+        image_angle -= deltaDegrees;
+        view_angle += deltaDegrees;
+        degreesToRotate += deltaDegrees;
+        x += .8;
+    }
+} else if(!controlsEnabled) {
+    controlsEnabled = true;
+    
+    // image angle should be from 0-359
+    while(image_angle &lt; 0) {
+        image_angle += 360;
+    }
+    while(image_angle &gt;= 360) {
+        image_angle -= 360;
+    }
+    // set the direction based on the image rotation
+    switch(image_angle) {
+    case 0:
+        currentDir = DIR.NORTH;
+        break;
+    case 90:
+        currentDir = DIR.WEST;
+        break;
+    case 180:
+        currentDir = DIR.SOUTH;
+        break;
+    case 270:
+        currentDir = DIR.EAST;
+        break;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="5" enumb="87">
       <action>
         <libid>1</libid>
@@ -133,13 +215,15 @@ if (!grounded &amp;&amp; !climbing) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Check if colliding with a ladder
-if (touchingLadder) {
-    climbing = true;
-    y -= 2;
-    vspeed = 0;
-    x = ladderBlock.x + (sprite_width / 2);
-    movingUpLadder = true;
+            <string>if(controlsEnabled) {
+    // Check if colliding with a ladder
+    if (touchingLadder) {
+        climbing = true;
+        y -= 2;
+        vspeed = 0;
+        x = ladderBlock.x + (sprite_width / 2);
+        movingUpLadder = true;
+    }
 }
 </string>
           </argument>
@@ -163,12 +247,14 @@ if (touchingLadder) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Check if colliding with a ladder
-if (touchingLadder) {
-    climbing = true;
-    y += 2;
-    vspeed = 0;
-    x = ladderBlock.x + (sprite_width / 2)
+            <string>if(controlsEnabled) {
+    // Check if colliding with a ladder
+    if (touchingLadder) {
+        climbing = true;
+        y += 2;
+        vspeed = 0;
+        x = ladderBlock.x + (sprite_width / 2)
+    }
 }
 </string>
           </argument>
@@ -192,7 +278,32 @@ if (touchingLadder) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x += 4;
+            <string>if(controlsEnabled) {
+    magnet = collision_rectangle(bbox_right + 1, bbox_top - 16, bbox_right + 4, bbox_bottom, obj_Magnet, false, true);
+    if(magnet) {
+        // transition onto the magnet block wall on the right
+        // rotate the player
+        controlsEnabled = false;
+        degreesToRotate += 90;
+        magnetized = true;
+    }
+    
+    
+    switch(currentDir) {
+    case DIR.NORTH:
+        x += 4;
+        break;
+    case DIR.SOUTH:
+        x -= 4;
+        break;
+    case DIR.EAST:
+        y += 4;
+        break;
+    case DIR.WEST:
+        y -= 4;
+        break;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -215,7 +326,32 @@ if (touchingLadder) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>x -= 4;
+            <string>if(controlsEnabled) {
+    magnet = collision_rectangle(bbox_left - 4, bbox_top - 16, bbox_left - 1, bbox_bottom, obj_Magnet, false, true);
+    if(magnet) {
+        // transition onto the magnet block wall on the right
+        // rotate the player
+        controlsEnabled = false;
+        degreesToRotate -= 90;
+        magnetized = true;
+    }
+    
+    
+    switch(currentDir) {
+    case DIR.NORTH:
+        x -= 4;
+        break;
+    case DIR.SOUTH:
+        x += 4;
+        break;
+    case DIR.EAST:
+        y -= 4;
+        break;
+    case DIR.WEST:
+        y += 4;
+        break;
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -238,14 +374,16 @@ if (touchingLadder) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (grounded &amp;&amp; !climbing) {
-    vspeed -= 4;
-    grounded = false;
-    jumping = true;
-}
-
-if (climbing) {
-    climbing = false;
+            <string>if(controlsEnabled) {
+    if (grounded &amp;&amp; !climbing) {
+        vspeed -= 4;
+        grounded = false;
+        jumping = true;
+    }
+    
+    if (climbing) {
+        climbing = false;
+    }
 }
 </string>
           </argument>
@@ -285,7 +423,9 @@ if (climbing) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>movingUpLadder = false;
+            <string>if(controlsEnabled) {
+    movingUpLadder = false;
+}
 </string>
           </argument>
         </arguments>

@@ -79,7 +79,7 @@ if (ladderBlock != noone) {
 }
 
 // Check the left side
-leftBlock = collision_rectangle(bbox_left - 4, bbox_top, bbox_left - 1, bbox_bottom, obj_Floor, false, true);
+leftBlock = checkCollisionDir(currentDir, WAY.LEFT, obj_Floor);
 if (leftBlock != noone) {
     // Move immidately to the right of the block
     hspeed = 0;
@@ -87,7 +87,7 @@ if (leftBlock != noone) {
 }
 
 // Check the right side
-rightBlock = collision_rectangle(bbox_right + 1, bbox_top, bbox_right + 4, bbox_bottom, obj_Floor, false, true);
+rightBlock = checkCollisionDir(currentDir, WAY.RIGHT, obj_Floor);
 if (rightBlock != noone) {
     // Move immidately to the left of the block
     hspeed = 0;

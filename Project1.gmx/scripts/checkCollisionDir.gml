@@ -26,15 +26,29 @@ case WAY.BELOW:
 // checkCollisionDir(DIR, WAY, object to check for)
 
 switch(argument0) {
-case DIR.NORTH:
+case DIR.NORTH: // left
     return collision_rectangle(bbox_left - padSideFar, bbox_top, bbox_left - padSideNear, bbox_bottom, argument2, precise, true);
-case DIR.SOUTH:
-case DIR.EAST:
-case DIR.WEST:
+case DIR.SOUTH: // right
+    return collision_rectangle(bbox_right + padSideNear, bbox_top, bbox_right + padSideFar, bbox_bottom, argument2, precise, true);
+case DIR.EAST: // up
+    return collision_rectangle(bbox_left, bbox_top - padSideFar, bbox_right, bbox_top - padSideNear, argument2, precise, true);
+case DIR.WEST: // down
+    return collision_rectangle(bbox_left, bbox_bottom + padSideNear, bbox_right, bbox_bottom + padSideFar, argument2, precise, true);
 }
 
 #define checkCollisionDirRight
 // checkCollisionDir(DIR, WAY, object to check for)
+
+switch(argument0) {
+case DIR.NORTH: // right
+    return collision_rectangle(bbox_right + padSideNear, bbox_top, bbox_right + padSideFar, bbox_bottom, argument2, precise, true);
+case DIR.SOUTH: // left
+    return collision_rectangle(bbox_left - padSideFar, bbox_top, bbox_left - padSideNear, bbox_bottom, argument2, precise, true);
+case DIR.EAST: // down
+    return collision_rectangle(bbox_left, bbox_bottom + padSideNear, bbox_right, bbox_bottom + padSideFar, argument2, precise, true);
+case DIR.WEST: // up
+    return collision_rectangle(bbox_left, bbox_top - padSideFar, bbox_right, bbox_top - padSideNear, argument2, precise, true);
+}
 
 #define checkCollisionDirAbove
 // checkCollisionDir(DIR, WAY, object to check for)

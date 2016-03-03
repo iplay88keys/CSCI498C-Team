@@ -42,6 +42,7 @@ jumping = false;
 climbing = false;
 touchingLadder = false;
 movingUpLadder = false;
+ladderBelow = false;
 magnetized = false;
 
 currentDir = DIR.NORTH;
@@ -114,14 +115,26 @@ if (topBlock != noone) {
 // If we are not moving upward, check the bottom for a block
 if (vspeed &gt;= 0) {
     floorBlock = collision_rectangle(bbox_left + 1, bbox_bottom, bbox_right - 1, bbox_bottom + 5, obj_Floor, false, true);
+    ladderBlockBelow = collision_rectangle(bbox_left + 1, bbox_bottom, bbox_right - 1, bbox_bottom + 5, obj_Ladder, false, true);
+    restOfBody = collision_rectangle(bbox_left + 1, bbox_bottom - 2, bbox_right - 1, bbox_top, obj_Ladder, false, true);
     if(floorBlock != noone &amp;&amp; !movingUpLadder) {
         // Move onto the floor and stop gravity
         vspeed = 0;
         y = floorBlock.y - (sprite_height / 2);
         grounded = true;
         climbing = false;
+    } else if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone &amp;&amp; !climbing) {
+        vspeed = 0;
+        y = ladderBlockBelow.y - (sprite_height / 2);
+        grounded = true;
     } else {
         grounded = false;
+    }
+    
+    if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone) {
+        ladderBelow = true;
+    } else {
+        ladderBelow = false;
     }
 }
 
@@ -249,11 +262,15 @@ if(degreesToRotate != 0) {
             <kind>1</kind>
             <string>if(controlsEnabled) {
     // Check if colliding with a ladder
-    if (touchingLadder) {
+    if (touchingLadder || ladderBelow) {
         climbing = true;
         y += 2;
         vspeed = 0;
-        x = ladderBlock.x + (sprite_width / 2)
+        if (touchingLadder) {
+            x = ladderBlock.x + (sprite_width / 2);
+        } else if (ladderBelow) {
+            x = ladderBlockBelow.x + (sprite_width / 2);
+        }
     }
 }
 </string>

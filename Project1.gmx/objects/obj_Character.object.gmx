@@ -69,7 +69,7 @@ hasMagnetBoots = true;
             <kind>1</kind>
             <string>// === COLLISION ===
 // Check if colliding with a ladder
-ladderBlock = collision_rectangle(bbox_left + 12, bbox_top, bbox_right - 12, bbox_bottom, obj_Ladder, false, true);
+ladderBlock = checkCollisionDir(currentDir, WAY.SELF, obj_Ladder);
 if (ladderBlock != noone) {
     touchingLadder = true;
 } else {
@@ -94,8 +94,8 @@ if (rightBlock != noone) {
     x = rightBlock.x - (sprite_width / 2);
 }
 
-// Check the top
-topBlock = collision_rectangle(bbox_left + 1, bbox_top - 2, bbox_right - 1, bbox_top - 1, obj_Floor, false, true);
+// Check for a ceiling block
+topBlock = checkCollisionDir(currentDir, WAY.ABOVE, obj_Floor);
 if (topBlock != noone) {
     // only stop vertical upward movement
     if(vspeed &lt; 0) {
@@ -106,8 +106,8 @@ if (topBlock != noone) {
 
 // If we are not moving upward, check the bottom for a block
 if (vspeed &gt;= 0) {
-    floorBlock = collision_rectangle(bbox_left + 1, bbox_bottom, bbox_right - 1, bbox_bottom + 5, obj_Floor, false, true);
-    ladderBlockBelow = collision_rectangle(bbox_left + 1, bbox_bottom, bbox_right - 1, bbox_bottom + 5, obj_Ladder, false, true);
+    floorBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
+    ladderBlockBelow = checkCollisionDir(currentDir, WAY.BELOW, obj_Ladder);
     restOfBody = collision_rectangle(bbox_left + 1, bbox_bottom - 2, bbox_right - 1, bbox_top, obj_Ladder, false, true);
     if(floorBlock != noone &amp;&amp; !movingUpLadder) {
         // Move onto the floor and stop gravity
@@ -159,7 +159,7 @@ if (!grounded &amp;&amp; !climbing) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Handle transitioning
+            <string>// Handle transitioning on right angles (eg. floor to wall, wall to ceiling)
 if(degreesToRotate != 0) {
     if(degreesToRotate &gt; 0) {
         image_angle += deltaDegrees;
@@ -288,7 +288,7 @@ if(degreesToRotate != 0) {
           <argument>
             <kind>1</kind>
             <string>if(controlsEnabled) {
-    magnet = collision_rectangle(bbox_right + 1, bbox_top - 16, bbox_right + 4, bbox_bottom, obj_Magnet, false, true);
+    magnet = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
     if(magnet) {
         // transition onto the magnet block wall on the right
         // rotate the player
@@ -336,7 +336,7 @@ if(degreesToRotate != 0) {
           <argument>
             <kind>1</kind>
             <string>if(controlsEnabled) {
-    magnet = collision_rectangle(bbox_left - 4, bbox_top - 16, bbox_left - 1, bbox_bottom, obj_Magnet, false, true);
+    magnet = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
     if(magnet) {
         // transition onto the magnet block wall on the right
         // rotate the player

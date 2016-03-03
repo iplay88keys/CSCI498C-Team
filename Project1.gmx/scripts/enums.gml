@@ -14,5 +14,6 @@ enum WAY {
     LEFT,
     RIGHT,
     ABOVE,
-    BELOW
+    BELOW,
+    SELF
 }

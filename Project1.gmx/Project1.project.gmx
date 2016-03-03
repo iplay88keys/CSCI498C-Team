@@ -15,6 +15,10 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\checkCollisionDir.gml</script>
+    <script>scripts\enums.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\obj_Floor</object>
     <object>objects\obj_Door</object>

@@ -27,14 +27,6 @@
             <kind>1</kind>
             <string>controlsEnabled = true;
 
-// which way her head is pointing
-enum DIR {
-    NORTH,
-    SOUTH,
-    EAST,
-    WEST
-}
-
 // state of the player's position/physics
 vspeed = 0;
 grounded = false;

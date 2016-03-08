@@ -61,80 +61,92 @@ hasMagnetBoots = true;
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>other</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
           <argument>
             <kind>1</kind>
             <string>// === COLLISION ===
-// Check if colliding with a ladder
-ladderBlock = checkCollisionDir(currentDir, WAY.SELF, obj_Ladder);
-if (ladderBlock != noone) {
-    touchingLadder = true;
-} else {
-    touchingLadder = false;
-    movingUpLadder = false;
-    climbing = false;
-}
-
-// Check the left side
-leftBlock = checkCollisionDir(currentDir, WAY.LEFT, obj_Floor);
-if (leftBlock != noone) {
-    // Move immidately to the right of the block
-    hspeed = 0;
-    x = leftBlock.x + leftBlock.sprite_width + (sprite_width / 2);
-}
-
-// Check the right side
-rightBlock = checkCollisionDir(currentDir, WAY.RIGHT, obj_Floor);
-if (rightBlock != noone) {
-    // Move immidately to the left of the block
-    hspeed = 0;
-    x = rightBlock.x - (sprite_width / 2);
-}
-
-// Check for a ceiling block
-topBlock = checkCollisionDir(currentDir, WAY.ABOVE, obj_Floor);
-if (topBlock != noone) {
-    // only stop vertical upward movement
-    if(vspeed &lt; 0) {
-        vspeed = 0;
-        y = topBlock.y + topBlock.sprite_height + (sprite_height / 2);
-    }
-}
-
-// If we are not moving upward, check the bottom for a block
-if (vspeed &gt;= 0) {
-    floorBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
-    ladderBlockBelow = checkCollisionDir(currentDir, WAY.BELOW, obj_Ladder);
-    restOfBody = collision_rectangle(bbox_left + 1, bbox_bottom - 2, bbox_right - 1, bbox_top, obj_Ladder, false, true);
-    if(floorBlock != noone &amp;&amp; !movingUpLadder) {
-        // Move onto the floor and stop gravity
-        vspeed = 0;
-        y = floorBlock.y - (sprite_height / 2);
-        grounded = true;
-        climbing = false;
-    } else if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone &amp;&amp; !climbing) {
-        vspeed = 0;
-        y = ladderBlockBelow.y - (sprite_height / 2);
-        grounded = true;
+if(controlsEnabled) {    
+    // Check if colliding with a ladder
+    ladderBlock = checkCollisionDir(currentDir, WAY.SELF, obj_Ladder);
+    if (ladderBlock != noone) {
+        touchingLadder = true;
     } else {
-        grounded = false;
+        touchingLadder = false;
+        movingUpLadder = false;
+        climbing = false;
     }
     
-    if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone) {
-        ladderBelow = true;
-    } else {
-        ladderBelow = false;
+    // "Floor" block collisions
+    stdCollision(self, WAY.LEFT, obj_Floor);
+    stdCollision(self, WAY.RIGHT, obj_Floor);
+    stdCollision(self, WAY.ABOVE, obj_Floor);
+    
+    // Magnet block collisions
+    if(!magnetized) {
+        stdCollision(self, WAY.LEFT, obj_Magnet);
+        stdCollision(self, WAY.RIGHT, obj_Magnet);
+        stdCollision(self, WAY.ABOVE, obj_Magnet);  
     }
-}
-
-// Gravity
-if (!grounded &amp;&amp; !climbing) {
-    vspeed += global.gravFactor;
-    if (vspeed &gt; global.maxFallSpeed) {
-        vspeed = global.maxFallSpeed;
+    
+    // If we are not moving upward, check the bottom for a block
+    if (vspeed &gt;= 0) {
+        // determine which blocks we are colliding with
+        floorBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
+        magFloorBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+        ladderBlockBelow = checkCollisionDir(currentDir, WAY.BELOW, obj_Ladder);
+        restOfBody = collision_rectangle(bbox_left + 1, bbox_bottom - 2, bbox_right - 1, bbox_top, obj_Ladder, false, true);
+        if((floorBlock || magFloorBlock) &amp;&amp; !movingUpLadder &amp;&amp; currentDir == DIR.NORTH) {
+            if(floorBlock != noone) {
+                // Move onto the floor and stop gravity
+                vspeed = 0;
+                y = floorBlock.y - (sprite_height / 2);
+                grounded = true;
+                climbing = false;
+            }
+            if(magFloorBlock != noone) {
+                // Move onto the magnet block below and stop gravity
+                vspeed = 0;
+                y = magFloorBlock.y - (sprite_height / 2);
+                grounded = true;
+                climbing = false;
+            }
+        } else if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone &amp;&amp; !climbing) {
+            // stand on the top of ladders
+            vspeed = 0;
+            y = ladderBlockBelow.y - (sprite_height / 2);
+            grounded = true;
+        } else {
+            grounded = false;
+        }
+        
+        if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone) {
+            ladderBelow = true;
+        } else {
+            ladderBelow = false;
+        }
+    }
+    
+    // Gravity
+    if (!grounded &amp;&amp; !climbing &amp;&amp; !magnetized) {
+        vspeed += global.gravFactor;
+        if (vspeed &gt; global.maxFallSpeed) {
+            vspeed = global.maxFallSpeed;
+        }
+    } else {
+        vspeed = 0;
+    }
+    
+    // determine if the player is on a magnet block
+    magnetBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    magnetized = magnetBlock != noone;
+    // instant flip to NORTH when falling off ceilings, etc.
+    if(!magnetized &amp;&amp; currentDir != DIR.NORTH) {
+        image_angle = 0;
+        view_angle = 0;
+        currentDir = DIR.NORTH;
     }
 }
 </string>
@@ -162,17 +174,56 @@ if (!grounded &amp;&amp; !climbing) {
             <string>// Handle transitioning on right angles (eg. floor to wall, wall to ceiling)
 if(degreesToRotate != 0) {
     if(degreesToRotate &gt; 0) {
+        // rotate CCW
         image_angle += deltaDegrees;
         view_angle -= deltaDegrees;
         degreesToRotate -= deltaDegrees;
-        x -= .8;
+        // move the player slightly each frame to prevent them from ending
+        // up in a magnet block after the rotation is complete
+        switch(currentDir) {
+        case DIR.NORTH:
+            x -= 16/45;
+            y += 16/45;
+            break;
+        case DIR.WEST:
+            x += 16/45;
+            y += 16/45;
+            break;
+        case DIR.SOUTH:
+            x += 16/45;
+            y -= 16/45;
+            break;
+        case DIR.EAST:
+            x -= 16/45;
+            y -= 16/45;
+            break;
+        }
     } else {
+        // rotate CW
         image_angle -= deltaDegrees;
         view_angle += deltaDegrees;
         degreesToRotate += deltaDegrees;
-        x += .8;
+        switch(currentDir) {
+        case DIR.NORTH:
+            x += 16/45;
+            y += 16/45;
+            break;
+        case DIR.WEST:
+            x += 16/45;
+            y -= 16/45;
+            break;
+        case DIR.SOUTH:
+            x -= 16/45;
+            y -= 16/45;
+            break;
+        case DIR.EAST:
+            x -= 16/45;
+            y += 16/45;
+            break;
+        }
     }
 } else if(!controlsEnabled) {
+    // the rotation has completed
     controlsEnabled = true;
     
     // image angle should be from 0-359
@@ -182,7 +233,7 @@ if(degreesToRotate != 0) {
     while(image_angle &gt;= 360) {
         image_angle -= 360;
     }
-    // set the direction based on the image rotation
+    // set the new direction based on the image rotation
     switch(image_angle) {
     case 0:
         currentDir = DIR.NORTH;
@@ -196,6 +247,25 @@ if(degreesToRotate != 0) {
     case 270:
         currentDir = DIR.EAST;
         break;
+    }
+         
+    // Now that the rotation is complete, do a final correction
+    magnetBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    if(magnetBlock != noone) {
+        switch(currentDir) {
+            case DIR.NORTH:
+                y = magnetBlock.y - (sprite_height / 2);
+                break;
+            case DIR.EAST:
+                x = magnetBlock.x + magnetBlock.sprite_width + (sprite_height / 2);
+                break;
+            case DIR.SOUTH:
+                y = magnetBlock.y + magnetBlock.sprite_height + (sprite_height / 2);
+                break;
+            case DIR.WEST:
+                x = magnetBlock.x - (sprite_height / 2);
+                break;
+        }
     }
 }
 </string>
@@ -289,28 +359,29 @@ if(degreesToRotate != 0) {
             <kind>1</kind>
             <string>if(controlsEnabled) {
     magnet = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
-    if(magnet) {
+    magFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // rotate the player
         controlsEnabled = false;
         degreesToRotate += 90;
-        magnetized = true;
-    }
-    
-    
-    switch(currentDir) {
-    case DIR.NORTH:
-        x += 4;
-        break;
-    case DIR.SOUTH:
-        x -= 4;
-        break;
-    case DIR.EAST:
-        y += 4;
-        break;
-    case DIR.WEST:
-        y -= 4;
-        break;
+        //magnetized = true;
+    } else {
+        // regular movement
+        switch(currentDir) {
+        case DIR.NORTH:
+            x += 4;
+            break;
+        case DIR.SOUTH:
+            x -= 4;
+            break;
+        case DIR.EAST:
+            y += 4;
+            break;
+        case DIR.WEST:
+            y -= 4;
+            break;
+        }
     }
 }
 </string>
@@ -337,28 +408,29 @@ if(degreesToRotate != 0) {
             <kind>1</kind>
             <string>if(controlsEnabled) {
     magnet = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
-    if(magnet) {
+    magFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // rotate the player
         controlsEnabled = false;
         degreesToRotate -= 90;
-        magnetized = true;
-    }
-    
-    
-    switch(currentDir) {
-    case DIR.NORTH:
-        x -= 4;
-        break;
-    case DIR.SOUTH:
-        x += 4;
-        break;
-    case DIR.EAST:
-        y -= 4;
-        break;
-    case DIR.WEST:
-        y += 4;
-        break;
+        //magnetized = true;
+    } else {
+        // normal movement
+        switch(currentDir) {
+        case DIR.NORTH:
+            x -= 4;
+            break;
+        case DIR.SOUTH:
+            x += 4;
+            break;
+        case DIR.EAST:
+            y -= 4;
+            break;
+        case DIR.WEST:
+            y += 4;
+            break;
+        }
     }
 }
 </string>
@@ -395,6 +467,196 @@ if(degreesToRotate != 0) {
     }
 }
 </string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>524</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_color</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>13</kind>
+            <string>32768</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>Magnetized? :</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>5</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>magnetized</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>120</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>5</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>x: </string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>20</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>x</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>20</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>20</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>y: </string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>35</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>y</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>20</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>35</string>
           </argument>
         </arguments>
       </action>

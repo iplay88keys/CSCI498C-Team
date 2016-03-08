@@ -18,6 +18,7 @@
   <scripts name="scripts">
     <script>scripts\checkCollisionDir.gml</script>
     <script>scripts\enums.gml</script>
+    <script>scripts\stdCollision.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_Floor</object>
@@ -29,7 +30,7 @@
     <object>objects\obj_Magnet</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_Boots_Test</room>
+    <room>rooms\rm_Test</room>
     <room>rooms\rm_Hub</room>
   </rooms>
   <help>

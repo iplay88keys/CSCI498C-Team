@@ -30,8 +30,8 @@
     <object>objects\obj_Magnet</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_Test</room>
     <room>rooms\rm_Hub</room>
+    <room>rooms\rm_Test</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

@@ -41,6 +41,7 @@ currentDir = DIR.NORTH;
 
 // wall transitions
 degreesToRotateInner = 0;
+degreesToRotateOuter = 0;
 deltaDegrees = 2;
 
 // abilities
@@ -225,6 +226,57 @@ if(degreesToRotateInner != 0) {
             break;
         }
     }
+} else if(degreesToRotateOuter != 0) {
+    // do outer corner transition
+    if(degreesToRotateOuter &gt; 0) {
+        // rotate CCW
+        image_angle += deltaDegrees;
+        view_angle -= deltaDegrees;
+        degreesToRotateOuter -= deltaDegrees;
+        // move the player slightly each frame to prevent them from ending
+        // up in a magnet block after the rotation is complete
+        switch(currentDir) {
+        case DIR.NORTH:
+            x -= 16/45;
+            y += 48/45;
+            break;
+        case DIR.WEST:
+            x += 16/45;
+            y += 16/45;
+            break;
+        case DIR.SOUTH:
+            x += 16/45;
+            y -= 16/45;
+            break;
+        case DIR.EAST:
+            x -= 16/45;
+            y -= 16/45;
+            break;
+        }
+    } else {
+        // rotate CW
+        image_angle -= deltaDegrees;
+        view_angle += deltaDegrees;
+        degreesToRotateOuter += deltaDegrees;
+        switch(currentDir) {
+        case DIR.NORTH:
+            x += 16/45;
+            y += 48/45;
+            break;
+        case DIR.WEST:
+            x += 16/45;
+            y -= 16/45;
+            break;
+        case DIR.SOUTH:
+            x -= 16/45;
+            y -= 16/45;
+            break;
+        case DIR.EAST:
+            x -= 16/45;
+            y += 16/45;
+            break;
+        }
+    }
 } else if(!controlsEnabled) {
     // the rotation has completed
     controlsEnabled = true;
@@ -361,18 +413,24 @@ if(degreesToRotateInner != 0) {
           <argument>
             <kind>1</kind>
             <string>if(controlsEnabled) {
+    // inner corner
     magnet = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet, 5, 0);
     magFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    
+    // outer corner
     floorFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
+    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, -2, 0);
+    magLeft = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
+    
     if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // rotate the player
         controlsEnabled = false;
         degreesToRotateInner += 90;
-        //magnetized = true;
-    /*} else if(magFloor == noone &amp;&amp; floorFloor == noone) {
+    } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
         // transition onto the right side of the magnet block just walked over
-        //show_message("Transitioning onto right wall");*/
+        controlsEnabled = false;
+        degreesToRotateOuter -= 90;
     } else {
         // regular movement
         switch(currentDir) {
@@ -414,14 +472,25 @@ if(degreesToRotateInner != 0) {
           <argument>
             <kind>1</kind>
             <string>if(controlsEnabled) {
+    // inner corner
     magnet = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
     magFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    
+    // outer corner
+    floorFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
+    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, 2, 0);
+    magLeft = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
+    
     if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // rotate the player
         controlsEnabled = false;
         degreesToRotateInner -= 90;
         //magnetized = true;
+    } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
+        // transition onto the right side of the magnet block just walked over
+        controlsEnabled = false;
+        degreesToRotateOuter += 90;
     } else {
         // normal movement
         switch(currentDir) {

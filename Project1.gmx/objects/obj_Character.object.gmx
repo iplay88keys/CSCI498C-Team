@@ -40,7 +40,8 @@ magnetized = false;
 currentDir = DIR.NORTH;
 
 // wall transitions
-degreesToRotate = 0;
+degreesToRotateInner = 0;
+degreesToRotateOuter = 0;
 deltaDegrees = 2;
 
 // abilities
@@ -174,13 +175,13 @@ if(controlsEnabled) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Handle transitioning on right angles (eg. floor to wall, wall to ceiling)
-if(degreesToRotate != 0) {
-    if(degreesToRotate &gt; 0) {
+            <string>// Handle transitioning on inner right angles (eg. floor to wall, wall to ceiling)
+if(degreesToRotateInner != 0) {
+    if(degreesToRotateInner &gt; 0) {
         // rotate CCW
         image_angle += deltaDegrees;
         view_angle -= deltaDegrees;
-        degreesToRotate -= deltaDegrees;
+        degreesToRotateInner -= deltaDegrees;
         // move the player slightly each frame to prevent them from ending
         // up in a magnet block after the rotation is complete
         switch(currentDir) {
@@ -205,11 +206,62 @@ if(degreesToRotate != 0) {
         // rotate CW
         image_angle -= deltaDegrees;
         view_angle += deltaDegrees;
-        degreesToRotate += deltaDegrees;
+        degreesToRotateInner += deltaDegrees;
         switch(currentDir) {
         case DIR.NORTH:
             x += 16/45;
             y += 16/45;
+            break;
+        case DIR.WEST:
+            x += 16/45;
+            y -= 16/45;
+            break;
+        case DIR.SOUTH:
+            x -= 16/45;
+            y -= 16/45;
+            break;
+        case DIR.EAST:
+            x -= 16/45;
+            y += 16/45;
+            break;
+        }
+    }
+} else if(degreesToRotateOuter != 0) {
+    // do outer corner transition
+    if(degreesToRotateOuter &gt; 0) {
+        // rotate CCW
+        image_angle += deltaDegrees;
+        view_angle -= deltaDegrees;
+        degreesToRotateOuter -= deltaDegrees;
+        // move the player slightly each frame to prevent them from ending
+        // up in a magnet block after the rotation is complete
+        switch(currentDir) {
+        case DIR.NORTH:
+            x -= 16/45;
+            y += 48/45;
+            break;
+        case DIR.WEST:
+            x += 16/45;
+            y += 16/45;
+            break;
+        case DIR.SOUTH:
+            x += 16/45;
+            y -= 16/45;
+            break;
+        case DIR.EAST:
+            x -= 16/45;
+            y -= 16/45;
+            break;
+        }
+    } else {
+        // rotate CW
+        image_angle -= deltaDegrees;
+        view_angle += deltaDegrees;
+        degreesToRotateOuter += deltaDegrees;
+        switch(currentDir) {
+        case DIR.NORTH:
+            x += 16/45;
+            y += 48/45;
             break;
         case DIR.WEST:
             x += 16/45;
@@ -361,14 +413,24 @@ if(degreesToRotate != 0) {
           <argument>
             <kind>1</kind>
             <string>if(controlsEnabled) {
+    // inner corner
     magnet = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
     magFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    
+    // outer corner
+    floorFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
+    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, -2, 0);
+    magLeft = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
+    
     if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // rotate the player
         controlsEnabled = false;
-        degreesToRotate += 90;
-        //magnetized = true;
+        degreesToRotateInner += 90;
+    } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
+        // transition onto the right side of the magnet block just walked over
+        controlsEnabled = false;
+        degreesToRotateOuter -= 90;
     } else {
         // regular movement
         switch(currentDir) {
@@ -410,14 +472,25 @@ if(degreesToRotate != 0) {
           <argument>
             <kind>1</kind>
             <string>if(controlsEnabled) {
+    // inner corner
     magnet = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
     magFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
+    
+    // outer corner
+    floorFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
+    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, 2, 0);
+    magLeft = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
+    
     if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // rotate the player
         controlsEnabled = false;
-        degreesToRotate -= 90;
+        degreesToRotateInner -= 90;
         //magnetized = true;
+    } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
+        // transition onto the right side of the magnet block just walked over
+        controlsEnabled = false;
+        degreesToRotateOuter += 90;
     } else {
         // normal movement
         switch(currentDir) {
@@ -690,22 +763,6 @@ door_id = "";
             <string>35</string>
           </argument>
         </arguments>
-      </action>
-    </event>
-    <event eventtype="9" enumb="82">
-      <action>
-        <libid>1</libid>
-        <id>223</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_current_room</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
       </action>
     </event>
     <event eventtype="10" enumb="87">

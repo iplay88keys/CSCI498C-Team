@@ -36,6 +36,9 @@ patrolDirection = WAY.LEFT;
 #define enemyCheckCollisionDir
 // enemyCheckCollisionDir(DIR, WAY, object to check for)
 
+lrOffset = 0;
+udOffset = 0;
+
 // whether all these collisions are pixel-wise or bounding box
 precise = false;
 
@@ -56,15 +59,15 @@ padVertNear = 1;
 padSelf = 12;
 
 // deletate the actual work to one of the child scripts
-switch(argument1) {
+switch(argument[1]) {
 case WAY.LEFT:
-    return checkCollisionDirLeft(argument0, argument1, argument2);
+    return checkCollisionDirLeft(argument[0], argument[2], lrOffset, udOffset);
 case WAY.RIGHT:
-    return checkCollisionDirRight(argument0, argument1, argument2);
+    return checkCollisionDirRight(argument[0],argument[2], lrOffset, udOffset);
 case WAY.ABOVE:
-    return checkCollisionDirAbove(argument0, argument1, argument2);
+    return checkCollisionDirAbove(argument[0], argument[2], lrOffset, udOffset);
 case WAY.BELOW:
-    return checkCollisionDirBelow(argument0, argument1, argument2);
+    return checkCollisionDirBelow(argument[0], argument[2], lrOffset, udOffset);
 case WAY.SELF:
-    return checkCollisionDirSelf(argument0, argument1, argument2);
+    return checkCollisionDirSelf(argument[0], argument[2]);
 }

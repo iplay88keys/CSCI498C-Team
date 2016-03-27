@@ -1,6 +1,5 @@
 #define stdCollision
 // stdCollision(player, way, obj)
-
 switch(argument1) {
     case WAY.LEFT:
         stdCollisionLeft(argument0, argument2);

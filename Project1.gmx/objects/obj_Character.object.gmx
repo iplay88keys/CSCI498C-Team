@@ -414,7 +414,7 @@ if(degreesToRotateInner != 0) {
             <kind>1</kind>
             <string>if(controlsEnabled) {
     // inner corner
-    magnet = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet, 5, 0);
+    magnet = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
     magFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
     
     // outer corner

@@ -21,6 +21,7 @@
     <script>scripts\enums.gml</script>
     <script>scripts\stdCollision.gml</script>
     <script>scripts\create_laser.gml</script>
+    <script>scripts\remove_laser.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_Floor</object>

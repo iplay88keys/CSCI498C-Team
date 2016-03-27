@@ -28,6 +28,7 @@
             <string>image_speed = 0;
 activate_id = "";
 is_on = false;
+type = "";
 </string>
           </argument>
         </arguments>
@@ -51,10 +52,20 @@ is_on = false;
           <argument>
             <kind>1</kind>
             <string>if(keyboard_check_pressed(ord('S'))) {
-    if ((activate_id).is_on) {
+    if (activate_id.is_on) {
         activate_id.is_on = false;
+        if (type == "laser") {
+            with (activate_id) {
+                remove_laser();
+            }
+        }
     } else {
         activate_id.is_on = true;
+        if (type == "laser") {
+            with (activate_id) {
+                create_laser();
+            }
+        }
     }
     
     if (is_on) {

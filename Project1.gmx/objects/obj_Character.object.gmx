@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>-100</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -45,6 +45,9 @@ deltaDegrees = 2;
 
 // abilities
 hasMagnetBoots = true;
+
+// transitions
+door_id = "";
 </string>
           </argument>
         </arguments>
@@ -470,6 +473,34 @@ if(degreesToRotateInner != 0) {
         climbing = false;
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (door_id != "") {
+    x = (door_id).x + (sprite_width / 2);
+    y = (door_id).y + (sprite_height / 2);
+}
+
+door_id = "";
 </string>
           </argument>
         </arguments>

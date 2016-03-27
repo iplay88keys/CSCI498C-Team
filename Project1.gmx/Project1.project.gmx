@@ -12,6 +12,7 @@
     <sprite>sprites\spr_Character</sprite>
     <sprite>sprites\spr_Ladder</sprite>
     <sprite>sprites\spr_Magnet</sprite>
+    <sprite>sprites\spr_laser</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -19,6 +20,7 @@
     <script>scripts\checkCollisionDir.gml</script>
     <script>scripts\enums.gml</script>
     <script>scripts\stdCollision.gml</script>
+    <script>scripts\create_laser.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_Floor</object>
@@ -28,10 +30,11 @@
     <object>objects\obj_init</object>
     <object>objects\obj_Ladder</object>
     <object>objects\obj_Magnet</object>
+    <object>objects\obj_Laser</object>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_Test</room>
     <room>rooms\rm_Hub</room>
+    <room>rooms\rm_Test</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

@@ -203,7 +203,7 @@ if instance_exists(obj_Character) {
     cx = obj_Character.x;
     cy = obj_Character.y;
     var sightBlockedByFloor = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Floor, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Floor, false, true);
-    var sightBlockedByMagnet = collision_line(x, y, cx, y, obj_Magnet, false, true);
+    var sightBlockedByMagnet = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Magnet, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Magnet, false, true);
     var playerOnLevel = collision_line(x, y, cx, y, obj_Character, false, true);
     lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet);// and playerOnLevel;
 }

@@ -25,11 +25,26 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>controlsEnabled = false;
+            <string>//This code is borrowed straight from the player
+//as such much of it is probably unnecessary
+
+controlsEnabled = false;
 //currently does not work for speeds less that one because of collisions
 enemySpeed = 1; 
 patrolDirection = WAY.LEFT;
-chasing = false;
+lineOfSightOffsetUp = 28;
+lineOfSightOffsetDown = 32;
+/*
+    Moving toward the player due to line of sight is deactivated
+    when the enemy touches a wall (and therefore must turn around)
+    and is not in the line of sight of the player.
+    This is reactivaed when the player is near horizonal with the enemy and in
+    the line of sight, or when the enemy has moved toActiveLineOfSightSpace pixels
+*/
+toActiveLineOfSightSpace = 256;
+lineOfSightActive = true;
+toActiveLineOfSightCounter = 0;
+chasing = false; //true if chasing the player
 
 // state of the player's position/physics
 vspeed = 0;
@@ -180,18 +195,26 @@ if(controlsEnabled) {
           <argument>
             <kind>1</kind>
             <string>lineOfSightToPlayer = false;
-cx = obj_Character.x;
-cy = obj_Character.y;
+cx = 0;
+cy = 0;
 lastDirection = 0;
-if object_exists(obj_Character) {
-    var sightBlockedByFloor = collision_line(x, y, cx, y, obj_Floor, false, true);
+if instance_exists(obj_Character) {
+    //check if there is  a line of sight to the player
+    cx = obj_Character.x;
+    cy = obj_Character.y;
+    var sightBlockedByFloor = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Floor, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Floor, false, true);
     var sightBlockedByMagnet = collision_line(x, y, cx, y, obj_Magnet, false, true);
     var playerOnLevel = collision_line(x, y, cx, y, obj_Character, false, true);
-    lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet) and playerOnLevel;
+    lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet);// and playerOnLevel;
+}
+//activate line of sight chase if the player is near horizonal with the enemy
+if (abs(cy - y) &lt; 60) {
+    lineOfSightActive = true;
 }
 if (grounded) { //let's say the enemy cannot move left or right unless grounded for now
-    if (lineOfSightToPlayer) {
+    if (lineOfSightToPlayer and lineOfSightActive) {
         chasing = true;
+        enemySpeed = 2;
         x += enemySpeed*sign(cx - x);
         if ((cx - x) &gt; 0) {
             patrolDirection = WAY.RIGHT;
@@ -199,6 +222,7 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
             patrolDirection = WAY.LEFT;
         }
     } else {
+        enemySpeed = 1;
         chasing = false;
         if (patrolDirection == WAY.LEFT) {
             x -= enemySpeed;
@@ -206,6 +230,7 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
             x += enemySpeed;
         }
     }
+    updateLineOfSightStatus(enemySpeed);
 }
 
 // Handle transitioning on right angles (eg. floor to wall, wall to ceiling)
@@ -310,194 +335,42 @@ if(degreesToRotate != 0) {
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="64">
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
-        <id>524</id>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_line(x, y-16, cx, cy + lineOfSightOffsetDown);
+draw_line(x, y-16, cx, cy - lineOfSightOffsetUp);
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>500</id>
         <kind>0</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
         <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_color</functionname>
-        <codestring></codestring>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring>draw_self();</codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>13</kind>
-            <string>32768</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>Magnetized? :</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>5</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>magnetized</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>120</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>5</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>x: </string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>20</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>x</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>20</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>20</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>y: </string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>35</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>y</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>20</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>35</string>
-          </argument>
-        </arguments>
       </action>
     </event>
   </events>

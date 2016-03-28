@@ -19,6 +19,7 @@ if (leftBlock != noone) {
         x = leftBlock.x + leftBlock.sprite_width + (sprite_width / 2);
         break;
     }
+    deactivateLineOfSight();
 }
 
 #define enemyCollisionRight
@@ -31,6 +32,7 @@ patrolDirection = WAY.LEFT;
         x = rightBlock.x - (sprite_width / 2);
         break;
     }
+    deactivateLineOfSight();
 }
 
 #define enemyCheckCollisionDir
@@ -70,4 +72,18 @@ case WAY.BELOW:
     return checkCollisionDirBelow(argument[0], argument[2], lrOffset, udOffset);
 case WAY.SELF:
     return checkCollisionDirSelf(argument[0], argument[2]);
+}
+#define deactivateLineOfSight
+if not(lineOfSightToPlayer) {
+    if (lineOfSightActive) {
+        lineOfSightActive = false;
+        toActiveLineOfSightCounter = toActiveLineOfSightSpace;
+    }
+}
+
+#define updateLineOfSightStatus
+// updateLineOfSightStatus(distanceMoved)
+toActiveLineOfSightCounter  -= argument0;
+if (toActiveLineOfSightCounter <= 0) {
+    lineOfSightActive = true;
 }

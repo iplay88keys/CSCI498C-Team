@@ -27,7 +27,6 @@
             <kind>1</kind>
             <string>global.gravFactor = .1; //gravatitional accleration
 global.maxFallSpeed = 5;
-//view_angle[0] = 90;
 </string>
           </argument>
         </arguments>

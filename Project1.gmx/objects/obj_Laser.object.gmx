@@ -28,9 +28,10 @@
             <string>image_speed = 0;
 image_index = 0;
 is_on = true;
+parent = true;
 facing_direction = DIR.NORTH;
 check_direction = WAY.RIGHT;
-switched = false;
+//switched = false;
 </string>
           </argument>
         </arguments>
@@ -80,7 +81,7 @@ switched = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (is_on) {
+            <string>if (is_on &amp;&amp; parent) {
     create_laser();
 }
 </string>

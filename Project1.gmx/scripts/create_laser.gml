@@ -29,6 +29,7 @@ while (floor_block == noone && magnet_block == noone) {
                 break;
         }
         inst.image_index = 2;
+        inst.parent = false;
         changed = true;
     }
 }

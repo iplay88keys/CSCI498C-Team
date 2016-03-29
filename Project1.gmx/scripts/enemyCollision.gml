@@ -45,7 +45,8 @@ udOffset = 0;
 precise = false;
 
 // constants for bbox offsets from the player
-padFromBottom = 0;
+padFromTop = 0;
+padFromBottom = 5;
 // defines how far to the side the box should check
 padSideFar = enemySpeed;
 padSideNear = 1;

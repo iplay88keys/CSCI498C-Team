@@ -28,9 +28,11 @@
             <string>//This code is borrowed straight from the player
 //as such much of it is probably unnecessary
 
-controlsEnabled = false;
 //currently does not work for speeds less that one because of collisions
-enemySpeed = 1; 
+patrolSpeed = 1;
+chasingSpeed = 2;
+enemySpeed = patrolSpeed; 
+
 patrolDirection = WAY.LEFT;
 lineOfSightOffsetUp = 28;
 lineOfSightOffsetDown = 32;
@@ -90,17 +92,6 @@ door_id = "";
           <argument>
             <kind>1</kind>
             <string>// === COLLISION ===
-if(controlsEnabled) {    
-    /* //Check if colliding with a ladder
-    ladderBlock = checkCollisionDir(currentDir, WAY.SELF, obj_Ladder);
-    if (ladderBlock != noone) {
-        touchingLadder = true;
-    } else {
-        touchingLadder = false;
-        movingUpLadder = false;
-        climbing = false;
-    }
-    */
     
     // "Floor" block collisions
     enemyCollision(self, WAY.LEFT, obj_Floor);
@@ -108,11 +99,11 @@ if(controlsEnabled) {
     stdCollision(self, WAY.ABOVE, obj_Floor);
     
     // Magnet block collisions
-    if(!magnetized) {
-        stdCollision(self, WAY.LEFT, obj_Magnet);
-        stdCollision(self, WAY.RIGHT, obj_Magnet);
-        stdCollision(self, WAY.ABOVE, obj_Magnet);  
-    }
+    //if(!magnetized) {
+    enemyCollision(self, WAY.LEFT, obj_Magnet);
+    enemyCollision(self, WAY.RIGHT, obj_Magnet);
+    stdCollision(self, WAY.ABOVE, obj_Magnet);  
+    //}
     
     // If we are not moving upward, check the bottom for a block
     if (vspeed &gt;= 0) {
@@ -136,7 +127,7 @@ if(controlsEnabled) {
                 grounded = true;
                 climbing = false;
             }
-        } else if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone &amp;&amp; !climbing) {
+        } else if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone) { //&amp;&amp; !climbing
             // stand on the top of ladders
             vspeed = 0;
             y = ladderBlockBelow.y - (sprite_height / 2);
@@ -145,15 +136,15 @@ if(controlsEnabled) {
             grounded = false;
         }
         
-        if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone) {
+        /*if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone) {
             ladderBelow = true;
         } else {
             ladderBelow = false;
-        }
+        }*/
     }
     
     // Gravity
-    if (!grounded &amp;&amp; !climbing &amp;&amp; !magnetized) {
+    if (!grounded) { //&amp;&amp; !climbing &amp;&amp; !magnetized
         vspeed += global.gravFactor;
         if (vspeed &gt; global.maxFallSpeed) {
             vspeed = global.maxFallSpeed;
@@ -161,17 +152,6 @@ if(controlsEnabled) {
     } else {
         vspeed = 0;
     }
-    
-    // determine if the player is on a magnet block
-    magnetBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
-    magnetized = magnetBlock != noone;
-    // instant flip to NORTH when falling off ceilings, etc.
-    if(!magnetized &amp;&amp; currentDir != DIR.NORTH) {
-        image_angle = 0;
-        view_angle = 0;
-        currentDir = DIR.NORTH;
-    }
-}
 </string>
           </argument>
         </arguments>
@@ -214,7 +194,7 @@ if (abs(cy - y) &lt; 60) {
 if (grounded) { //let's say the enemy cannot move left or right unless grounded for now
     if (lineOfSightToPlayer and lineOfSightActive) {
         chasing = true;
-        enemySpeed = 2;
+        enemySpeed = chasingSpeed;
         x += enemySpeed*sign(cx - x);
         if ((cx - x) &gt; 0) {
             patrolDirection = WAY.RIGHT;
@@ -222,7 +202,7 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
             patrolDirection = WAY.LEFT;
         }
     } else {
-        enemySpeed = 1;
+        enemySpeed = patrolSpeed;
         chasing = false;
         if (patrolDirection == WAY.LEFT) {
             x -= enemySpeed;
@@ -232,107 +212,25 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
     }
     updateLineOfSightStatus(enemySpeed);
 }
-
-// Handle transitioning on right angles (eg. floor to wall, wall to ceiling)
-if(degreesToRotate != 0) {
-    if(degreesToRotate &gt; 0) {
-        // rotate CCW
-        image_angle += deltaDegrees;
-        view_angle -= deltaDegrees;
-        degreesToRotate -= deltaDegrees;
-        // move the player slightly each frame to prevent them from ending
-        // up in a magnet block after the rotation is complete
-        switch(currentDir) {
-        case DIR.NORTH:
-            x -= 16/45;
-            y += 16/45;
-            break;
-        case DIR.WEST:
-            x += 16/45;
-            y += 16/45;
-            break;
-        case DIR.SOUTH:
-            x += 16/45;
-            y -= 16/45;
-            break;
-        case DIR.EAST:
-            x -= 16/45;
-            y -= 16/45;
-            break;
-        }
-    } else {
-        // rotate CW
-        image_angle -= deltaDegrees;
-        view_angle += deltaDegrees;
-        degreesToRotate += deltaDegrees;
-        switch(currentDir) {
-        case DIR.NORTH:
-            x += 16/45;
-            y += 16/45;
-            break;
-        case DIR.WEST:
-            x += 16/45;
-            y -= 16/45;
-            break;
-        case DIR.SOUTH:
-            x -= 16/45;
-            y -= 16/45;
-            break;
-        case DIR.EAST:
-            x -= 16/45;
-            y += 16/45;
-            break;
-        }
-    }
-} else if(!controlsEnabled) {
-    // the rotation has completed
-    controlsEnabled = true;
-    
-    // image angle should be from 0-359
-    while(image_angle &lt; 0) {
-        image_angle += 360;
-    }
-    while(image_angle &gt;= 360) {
-        image_angle -= 360;
-    }
-    // set the new direction based on the image rotation
-    switch(image_angle) {
-    case 0:
-        currentDir = DIR.NORTH;
-        break;
-    case 90:
-        currentDir = DIR.WEST;
-        break;
-    case 180:
-        currentDir = DIR.SOUTH;
-        break;
-    case 270:
-        currentDir = DIR.EAST;
-        break;
-    }
-         
-    // Now that the rotation is complete, do a final correction
-    magnetBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
-    if(magnetBlock != noone) {
-        switch(currentDir) {
-            case DIR.NORTH:
-                y = magnetBlock.y - (sprite_height / 2);
-                break;
-            case DIR.EAST:
-                x = magnetBlock.x + magnetBlock.sprite_width + (sprite_height / 2);
-                break;
-            case DIR.SOUTH:
-                y = magnetBlock.y + magnetBlock.sprite_height + (sprite_height / 2);
-                break;
-            case DIR.WEST:
-                x = magnetBlock.x - (sprite_height / 2);
-                break;
-        }
-    }
-}
 </string>
           </argument>
         </arguments>
+      </action>
+    </event>
+    <event eventtype="4" ename="obj_Laser">
+      <action>
+        <libid>1</libid>
+        <id>203</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_kill_object</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
       </action>
     </event>
     <event eventtype="4" ename="obj_Character">

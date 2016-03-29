@@ -73,6 +73,7 @@ case WAY.BELOW:
 case WAY.SELF:
     return checkCollisionDirSelf(argument[0], argument[2]);
 }
+
 #define deactivateLineOfSight
 if not(lineOfSightToPlayer) {
     if (lineOfSightActive) {

@@ -14,8 +14,13 @@
     <sprite>sprites\spr_Ladder</sprite>
     <sprite>sprites\spr_Magnet</sprite>
     <sprite>sprites\spr_laser</sprite>
+    <sprites name="menu">
+      <sprite>sprites\sprite8</sprite>
+    </sprites>
   </sprites>
-  <backgrounds name="background"/>
+  <backgrounds name="background">
+    <background>background\background1</background>
+  </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
     <script>scripts\checkCollisionDir.gml</script>
@@ -35,8 +40,12 @@
     <object>objects\obj_Ladder</object>
     <object>objects\obj_Magnet</object>
     <object>objects\obj_Laser</object>
+    <objects name="menu">
+      <object>objects\obj_start_button</object>
+    </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\rm_Main_Menu</room>
     <room>rooms\rm_Test</room>
     <room>rooms\rm_Hub</room>
   </rooms>

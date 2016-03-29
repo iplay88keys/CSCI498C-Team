@@ -316,27 +316,6 @@ if(degreesToRotateInner != 0) {
         currentDir = DIR.EAST;
         break;
     }
-         
-    // Now that the rotation is complete, do a final correction
-    /*if(currentDir == DIR.SOUTH) {
-        magnetBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
-        if(magnetBlock != noone) {
-            switch(currentDir) {
-                case DIR.NORTH:
-                    y = magnetBlock.y - (sprite_height / 2);
-                    break;
-                case DIR.EAST:
-                    x = magnetBlock.x + magnetBlock.sprite_width + (sprite_height / 2);
-                    break;
-                case DIR.SOUTH:
-                    y = magnetBlock.y + magnetBlock.sprite_height + (sprite_height / 2);
-                    break;
-                case DIR.WEST:
-                    x = magnetBlock.x - (sprite_height / 2);
-                    break;
-            }
-        }
-    }*/
 }
 </string>
           </argument>
@@ -462,6 +441,21 @@ if(degreesToRotateInner != 0) {
         degreesToRotateInner += 90;
     } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
         // transition onto the right side of the magnet block just walked over
+        // position next to the magnet wall
+        switch(currentDir) {
+        case DIR.NORTH:
+            x = magPrev.x + 3 * sprite_width / 2;
+            break;
+        case DIR.SOUTH:
+            x = magPrev.x - sprite_width / 2;
+            break;
+        case DIR.EAST:
+            y = magPrev.y + 3 * sprite_width / 2;
+            break;
+        case DIR.WEST:
+            y = magPrev.y - sprite_width / 2;
+            break;
+        }
         controlsEnabled = false;
         degreesToRotateOuter -= 90;
     } else {
@@ -537,9 +531,23 @@ if(degreesToRotateInner != 0) {
         // rotate the player
         controlsEnabled = false;
         degreesToRotateInner -= 90;
-        //magnetized = true;
     } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
         // transition onto the right side of the magnet block just walked over
+        // pre-position
+        switch(currentDir) {
+        case DIR.NORTH:
+            x = magPrev.x - sprite_width / 2;
+            break;
+        case DIR.SOUTH:
+            x = magPrev.x + 3 * sprite_width / 2;
+            break;
+        case DIR.EAST:
+            y = magPrev.y - sprite_width / 2;
+            break;
+        case DIR.WEST:
+            y = magPrev.y + 3 * sprite_width / 2;
+            break;
+        }
         controlsEnabled = false;
         degreesToRotateOuter += 90;
     } else {

@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>global.gravFactor = .1; //gravatitional accleration
 global.maxFallSpeed = 5;
+randomize();
 </string>
           </argument>
         </arguments>

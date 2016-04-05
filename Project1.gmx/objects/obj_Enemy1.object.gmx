@@ -25,17 +25,24 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//This code is borrowed straight from the player
-//as such much of it is probably unnecessary
-
-//currently does not work for speeds less that one because of collisions
+            <string>//currently does not work for speeds less that one because of collisions
 patrolSpeed = 1;
 chasingSpeed = 2;
 enemySpeed = patrolSpeed; 
+lineOfSightToPlayer = false;
 
 patrolDirection = WAY.LEFT;
+//distances to top and bottom of player
 lineOfSightOffsetUp = 28;
 lineOfSightOffsetDown = 32;
+
+//enemy will pause when it loses sight of the player
+minDistanceBeforeNextPause = 256;
+distanceSinceLastPause = minDistanceBeforeNextPause;
+maxPauseInSeconds = 4;
+pauseActive = true;
+movementActive = true;
+timeToMovementActive = 0;  //keep track of how long the enemy has been paused
 /*
     Moving toward the player due to line of sight is deactivated
     when the enemy touches a wall (and therefore must turn around)
@@ -43,12 +50,13 @@ lineOfSightOffsetDown = 32;
     This is reactivaed when the player is near horizonal with the enemy and in
     the line of sight, or when the enemy has moved toActiveLineOfSightSpace pixels
 */
-toActiveLineOfSightSpace = 256;
+toActiveLineOfSightMinSpace = 192;
+toActiveLineOfSightMaxSpace = 320;
 lineOfSightActive = true;
 toActiveLineOfSightCounter = 0;
 chasing = false; //true if chasing the player
 
-// state of the player's position/physics
+// state of the enemy's position/physics
 vspeed = 0;
 grounded = false;
 jumping = false;
@@ -174,7 +182,9 @@ door_id = "";
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>lineOfSightToPlayer = false;
+            <string>var hadLineofSight = lineOfSightToPlayer;
+var x_0 = x;
+lineOfSightToPlayer = false;
 cx = 0;
 cy = 0;
 lastDirection = 0;
@@ -187,6 +197,7 @@ if instance_exists(obj_Character) {
     var playerOnLevel = collision_line(x, y, cx, y, obj_Character, false, true);
     lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet);// and playerOnLevel;
 }
+
 //activate line of sight chase if the player is near horizonal with the enemy
 if (abs(cy - y) &lt; 60) {
     lineOfSightActive = true;
@@ -196,21 +207,46 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
         chasing = true;
         enemySpeed = chasingSpeed;
         x += enemySpeed*sign(cx - x);
-        if ((cx - x) &gt; 0) {
+        /*if ((cx - x) &gt; 0) {
             patrolDirection = WAY.RIGHT;
         } else {
             patrolDirection = WAY.LEFT;
-        }
-    } else {
-        enemySpeed = patrolSpeed;
-        chasing = false;
-        if (patrolDirection == WAY.LEFT) {
-            x -= enemySpeed;
+        }*/
+        randInt = irandom(1);
+        if (randInt == 1) {
+            patrolDirection = WAY.LEFT;
         } else {
-            x += enemySpeed;
+            patrolDirection = WAY.RIGHT;
+        }
+    } else { //enemy does not see player
+        //if just lost sight of the player
+        if (hadLineofSight and lineOfSightActive) {
+            //stop moving for some random amount of time
+            //if enemy has just lost sight of the player
+            if (movementActive and pauseActive) {
+                movementActive = false;
+                pauseActive = false;
+                distanceSinceLastPause = 0;
+                timeToMovementActive = irandom(room_speed*maxPauseInSeconds);
+            }
+        }
+        
+        if (movementActive) {
+            enemySpeed = patrolSpeed;
+            chasing = false;
+            if (patrolDirection == WAY.LEFT) {
+                x -= enemySpeed;
+            } else {
+                x += enemySpeed;
+            }
+        } else {
+            timeToMovementActive--;
+            if (timeToMovementActive == 0) {
+                movementActive = true;
+            }
         }
     }
-    updateLineOfSightStatus(enemySpeed);
+    updateLineOfSightStatus(abs(x-x_0));
 }
 </string>
           </argument>

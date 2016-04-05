@@ -79,7 +79,7 @@ case WAY.SELF:
 if not(lineOfSightToPlayer) {
     if (lineOfSightActive) {
         lineOfSightActive = false;
-        toActiveLineOfSightCounter = toActiveLineOfSightSpace;
+        toActiveLineOfSightCounter = irandom(toActiveLineOfSightMaxSpace - toActiveLineOfSightMinSpace) + toActiveLineOfSightMinSpace;
     }
 }
 
@@ -88,4 +88,8 @@ if not(lineOfSightToPlayer) {
 toActiveLineOfSightCounter  -= argument0;
 if (toActiveLineOfSightCounter <= 0) {
     lineOfSightActive = true;
+}
+distanceSinceLastPause += argument0;
+if (distanceSinceLastPause >= minDistanceBeforeNextPause) {
+    pauseActive = true;
 }

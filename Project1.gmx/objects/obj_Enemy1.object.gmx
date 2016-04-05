@@ -31,6 +31,10 @@ chasingSpeed = 2;
 enemySpeed = patrolSpeed; 
 lineOfSightToPlayer = false;
 
+//collisoins with player
+padLeft = 8
+padRight = 8
+
 patrolDirection = WAY.LEFT;
 //distances to top and bottom of player
 lineOfSightOffsetUp = 28;
@@ -256,36 +260,68 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
     <event eventtype="4" ename="obj_Laser">
       <action>
         <libid>1</libid>
-        <id>203</id>
-        <kind>0</kind>
+        <id>603</id>
+        <kind>7</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
         <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_kill_object</functionname>
+        <exetype>2</exetype>
+        <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if other.is_on {
+    instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
     <event eventtype="4" ename="obj_Character">
       <action>
         <libid>1</libid>
-        <id>223</id>
-        <kind>0</kind>
+        <id>603</id>
+        <kind>7</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_current_room</functionname>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if collision_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, obj_Character, true, true) {
+    room_restart();
+}
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
     <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>500</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring>draw_self();</codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -304,23 +340,10 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
             <kind>1</kind>
             <string>draw_line(x, y-16, cx, cy + lineOfSightOffsetDown);
 draw_line(x, y-16, cx, cy - lineOfSightOffsetUp);
+draw_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, true);
 </string>
           </argument>
         </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>500</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring>draw_self();</codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
       </action>
     </event>
   </events>

@@ -55,6 +55,9 @@ door_id = 0;
 // animation
 //run_frame_rate = 0.5;
 image_speed = 0.1;
+
+// Looking around
+camera_detached = false;
 </string>
           </argument>
         </arguments>
@@ -372,7 +375,14 @@ if(degreesToRotateInner != 0) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(controlsEnabled) {
+            <string>if (camera_detached) {
+    view_visible[0] = true;
+    view_visible[1] = false;
+    
+    camera_detached = false;
+}
+
+if(controlsEnabled) {
     // Check if colliding with a ladder
     if (touchingLadder) {
         climbing = true;
@@ -404,7 +414,14 @@ if(degreesToRotateInner != 0) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(controlsEnabled) {
+            <string>if (camera_detached) {
+    view_visible[0] = true;
+    view_visible[1] = false;
+    
+    camera_detached = false;
+}
+
+if(controlsEnabled) {
     // Check if colliding with a ladder
     if (touchingLadder || ladderBelow) {
         climbing = true;
@@ -439,7 +456,14 @@ if(degreesToRotateInner != 0) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(controlsEnabled) {
+            <string>if (camera_detached) {
+    view_visible[0] = true;
+    view_visible[1] = false;
+    
+    camera_detached = false;
+}
+
+if(controlsEnabled) {
     // stop off-wall jump momentum if the player wants to control themselves
     hspeed = 0;
     
@@ -536,7 +560,14 @@ if(degreesToRotateInner != 0) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(controlsEnabled) {
+            <string>if (camera_detached) {
+    view_visible[0] = true;
+    view_visible[1] = false;
+    
+    camera_detached = false;
+}
+
+if(controlsEnabled) {
     // stop off-wall jump momentum if the player wants to control themselves
     hspeed = 0;
     
@@ -616,6 +647,150 @@ if(degreesToRotateInner != 0) {
         </arguments>
       </action>
     </event>
+    <event eventtype="5" enumb="40">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// If the camera isn't already detached, use the location of the other view
+if (!camera_detached &amp;&amp;  (grounded || magnetized)) {
+    view_visible[0] = false;
+    view_visible[1] = true;
+
+    view_xview[1] = view_xview[0];
+    view_yview[1] = view_yview[0];
+    
+    camera_detached = true;
+}
+
+if ((view_yview[1] + global.cameraAmount) &lt; (room_height - view_hview[1])) {
+    view_yview[1] = view_yview[1] + global.cameraAmount;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="39">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// If the camera isn't already detached, use the location of the other view
+if (!camera_detached &amp;&amp;  (grounded || magnetized)) {
+    view_visible[0] = false;
+    view_visible[1] = true;
+
+    view_xview[1] = view_xview[0];
+    view_yview[1] = view_yview[0];
+    
+    camera_detached = true;
+}
+
+if (view_xview[1] + global.cameraAmount &lt; room_width - view_wview[1]) {
+    view_xview[1] = view_xview[1] + global.cameraAmount;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="38">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// If the camera isn't already detached, use the location of the other view
+if (!camera_detached &amp;&amp;  (grounded || magnetized)) {
+    view_visible[0] = false;
+    view_visible[1] = true;
+
+    view_xview[1] = view_xview[0];
+    view_yview[1] = view_yview[0];
+    
+    camera_detached = true;
+}
+
+if (view_yview[1] - global.cameraAmount &gt; 0) {
+    view_yview[1] = view_yview[1] - global.cameraAmount;
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="5" enumb="37">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>// If the camera isn't already detached, use the location of the other view
+if (!camera_detached &amp;&amp; (grounded || magnetized)) {
+    view_visible[0] = false;
+    view_visible[1] = true;
+
+    view_xview[1] = view_xview[0];
+    view_yview[1] = view_yview[0];
+    
+    camera_detached = true;
+}
+
+if (view_xview[1] - global.cameraAmount &gt; 0) {
+    view_xview[1] = view_xview[1] - global.cameraAmount;
+} 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="5" enumb="32">
       <action>
         <libid>1</libid>
@@ -633,7 +808,14 @@ if(degreesToRotateInner != 0) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(controlsEnabled) {
+            <string>if (camera_detached) {
+    view_visible[0] = true;
+    view_visible[1] = false;
+    
+    camera_detached = false;
+}
+
+if(controlsEnabled) {
     if(magnetized) {
         switch(currentDir) {
             case DIR.NORTH:
@@ -727,6 +909,11 @@ if(degreesToRotateInner != 0) {
     x = (door_id).x + (sprite_width / 2);
     y = (door_id).y + (sprite_height / 2);
 }
+
+// Set view
+camera_detached = false;
+view_visible[0] = true;
+view_visible[1] = false;
 </string>
           </argument>
         </arguments>

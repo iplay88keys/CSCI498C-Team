@@ -21,16 +21,16 @@ if (leftBlock != noone) {
         hspeed = 0;
         switch(argument0.currentDir) {
             case DIR.NORTH:
-                x = leftBlock.x + leftBlock.sprite_width + (sprite_width / 2);
+                x = leftBlock.bbox_right + 1 + (sprite_width / 2);
                 break;
             case DIR.EAST:
-                y = leftBlock.y + leftBlock.sprite_height + (sprite_width / 2);
+                y = leftBlock.bbox_bottom + 1 + (sprite_width / 2);
                 break;
             case DIR.SOUTH:
-                x = leftBlock.x - (sprite_width / 2);
+                x = leftBlock.bbox_left - (sprite_width / 2);
                 break;
             case DIR.WEST:
-                y = leftBlock.y - (sprite_width / 2);
+                y = leftBlock.bbox_top - (sprite_width / 2);
                 break; 
         }
     }
@@ -45,16 +45,16 @@ if (rightBlock != noone) {
         hspeed = 0;
         switch(argument0.currentDir) {
             case DIR.NORTH:
-                x = rightBlock.x - (sprite_width / 2);
+                x = rightBlock.bbox_left - (sprite_width / 2);
                 break;
             case DIR.EAST:
-                y = rightBlock.y - (sprite_width / 2);
+                y = rightBlock.bbox_top - (sprite_width / 2);
                 break;
             case DIR.SOUTH:
-                x = rightBlock.x + rightBlock.sprite_width + (sprite_width / 2);
+                x = rightBlock.bbox_right + 1 + (sprite_width / 2);
                 break;
             case DIR.WEST:
-                y = rightBlock.y + rightBlock.sprite_height + (sprite_width / 2);
+                y = rightBlock.bbox_bottom + 1 + (sprite_width / 2);
                 break;
         }
     }
@@ -68,7 +68,7 @@ if (topBlock != noone) {
         // only stop vertical upward movement
         if(vspeed < 0) {
             vspeed = 0;
-            y = topBlock.y + topBlock.sprite_height + (sprite_height / 2);
+            y = topBlock.bbox_bottom + 1 + (sprite_height / 2);
         }
     }
 }

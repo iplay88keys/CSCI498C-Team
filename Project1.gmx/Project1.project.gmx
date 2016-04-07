@@ -11,7 +11,8 @@
     <sprite>sprites\spr_Switch</sprite>
     <sprite>sprites\spr_Ladder</sprite>
     <sprite>sprites\spr_Magnet</sprite>
-    <sprite>sprites\spr_laser</sprite>
+    <sprite>sprites\spr_Laser</sprite>
+    <sprite>sprites\spr_SideDoor</sprite>
     <sprites name="menu">
       <sprite>sprites\sprite8</sprite>
     </sprites>
@@ -22,6 +23,9 @@
       <sprite>sprites\spr_Run_Left</sprite>
       <sprite>sprites\spr_Jump_Right</sprite>
       <sprite>sprites\spr_Jump_Left</sprite>
+      <sprite>sprites\spr_Fall_Left</sprite>
+      <sprite>sprites\spr_Fall_Right</sprite>
+      <sprite>sprites\spr_Climb</sprite>
     </sprites>
     <sprites name="Enemy">
       <sprite>sprites\spr_Enemy_Move_Right</sprite>
@@ -38,6 +42,7 @@
     <script>scripts\checkCollisionDir.gml</script>
     <script>scripts\enums.gml</script>
     <script>scripts\stdCollision.gml</script>
+    <script>scripts\stdCollisionDoor.gml</script>
     <script>scripts\enemyCollision.gml</script>
     <script>scripts\create_laser.gml</script>
     <script>scripts\remove_laser.gml</script>
@@ -52,6 +57,7 @@
     <object>objects\obj_Ladder</object>
     <object>objects\obj_Magnet</object>
     <object>objects\obj_Laser</object>
+    <object>objects\obj_SideDoor</object>
     <objects name="menu">
       <object>objects\obj_start_button</object>
     </objects>

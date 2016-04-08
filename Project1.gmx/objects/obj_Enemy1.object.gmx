@@ -204,8 +204,19 @@ if instance_exists(obj_Character) {
     cy = obj_Character.y;
     var sightBlockedByFloor = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Floor, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Floor, false, true);
     var sightBlockedByMagnet = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Magnet, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Magnet, false, true);
+    var sightBlockedBySideDoor = false;
+    var i;
+    for (i = 0; i &lt; instance_number(obj_SideDoor); i += 1) {
+        var sideDoor = instance_find(obj_SideDoor, i);
+        if not(sideDoor.is_on) { //if door is not open
+            if collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_SideDoor, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_SideDoor, false, true) {
+                //if there is a door that blocks line of sight
+                sightBlockedBySideDoor = true;
+            }
+        }
+    }
     //var playerOnLevel = collision_line(x, y, cx, y, obj_Character, false, true);
-    lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet);// and playerOnLevel;
+    lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet or sightBlockedBySideDoor);// and playerOnLevel;
     facingPlayer = (facingDirection == WAY.LEFT and (x - cx &gt;= 0)) or (facingDirection == WAY.RIGHT and (x - cx &lt;= 0))
     playerInPeripheralVisionCone = abs(y - cy)*tan(degtorad(peripheralVisionAngle)) &gt;= abs(x - cx);
 }
@@ -260,7 +271,7 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
             }
         } else { //paused
             timeToMovementActive--;
-            if (timeToMovementActive == 0) { 
+            if (timeToMovementActive &lt;= 0) { 
                 movementActive = true;
             }
             //randomly change direction if paused
@@ -387,7 +398,8 @@ draw_line(x, y-16, cx, cy + lineOfSightOffsetDown);
 draw_line(x, y-16, cx, cy - lineOfSightOffsetUp);
 draw_set_color(c_green);
 draw_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, true);
-draw_text(x - 20, y - 20, movementActive);
+draw_text(x - 20, y - 20, chasing);
+draw_text(x, y - 45, timeToMovementActive);
 if not(playerInPeripheralVisionCone) {
     draw_set_color(c_blue);
 } else {

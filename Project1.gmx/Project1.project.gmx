@@ -6,14 +6,19 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprite>sprites\spr_Floor</sprite>
-    <sprite>sprites\spr_Door</sprite>
-    <sprite>sprites\spr_Switch</sprite>
-    <sprite>sprites\spr_Ladder</sprite>
-    <sprite>sprites\spr_Magnet</sprite>
-    <sprite>sprites\spr_Laser</sprite>
-    <sprite>sprites\spr_SideDoor</sprite>
-    <sprites name="menu">
+    <sprites name="Block">
+      <sprite>sprites\spr_Magnet</sprite>
+      <sprite>sprites\spr_Ladder</sprite>
+      <sprite>sprites\spr_Floor</sprite>
+    </sprites>
+    <sprites name="Entity">
+      <sprite>sprites\spr_PressurePlate</sprite>
+      <sprite>sprites\spr_SideDoor</sprite>
+      <sprite>sprites\spr_Laser</sprite>
+      <sprite>sprites\spr_Switch</sprite>
+      <sprite>sprites\spr_Door</sprite>
+    </sprites>
+    <sprites name="Menu">
       <sprite>sprites\sprite8</sprite>
     </sprites>
     <sprites name="Terisa">
@@ -36,6 +41,11 @@
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
+    <backgrounds name="Tiles">
+      <background>background\tile_Platforms</background>
+      <background>background\tile_BG</background>
+      <background>background\tile_Decor</background>
+    </backgrounds>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -48,18 +58,23 @@
     <script>scripts\remove_laser.gml</script>
   </scripts>
   <objects name="objects">
-    <object>objects\obj_Floor</object>
-    <object>objects\obj_Door</object>
-    <object>objects\obj_Switch</object>
+    <object>objects\obj_init</object>
     <object>objects\obj_Character</object>
     <object>objects\obj_Enemy1</object>
-    <object>objects\obj_init</object>
-    <object>objects\obj_Ladder</object>
-    <object>objects\obj_Magnet</object>
-    <object>objects\obj_Laser</object>
-    <object>objects\obj_SideDoor</object>
-    <objects name="menu">
+    <objects name="Menu">
       <object>objects\obj_start_button</object>
+    </objects>
+    <objects name="Block">
+      <object>objects\obj_Floor</object>
+      <object>objects\obj_Magnet</object>
+      <object>objects\obj_Ladder</object>
+    </objects>
+    <objects name="Entity">
+      <object>objects\obj_PressurePlate</object>
+      <object>objects\obj_SideDoor</object>
+      <object>objects\obj_Laser</object>
+      <object>objects\obj_Switch</object>
+      <object>objects\obj_Door</object>
     </objects>
   </objects>
   <rooms name="rooms">

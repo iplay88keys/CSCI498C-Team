@@ -25,42 +25,51 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//currently does not work for speeds less that one because of collisions
+            <string>//=== tunable parameters ===
+//(these are default paramaters, behavior of an individual enemy can be changed in it's instance creation code)
+//currently does not work for speeds less that one because of collisions
 patrolSpeed = 1;
-patrolImageSpeed = 0.025;
+patrolImageSpeed = 0.025; //animation speed while patroling (chasing speed is calculated based on this)
 chasingSpeed = 2;
+//set a probability factor to -1 for zero probability
 pausedDirectionChangeFactor = 50; //higher number = lower chance of direction change when paused (per frame)
 patrolingPauseFactor = 1000; //higher number = lower chance of randomly pausing while patroling
-peripheralVisionAngle = 5;
-enemySpeed = patrolSpeed; 
-lineOfSightToPlayer = false;
-
-//collisoins with player
-padLeft = 8
-padRight = 8
-
-patrolDirection = WAY.LEFT;
-facingDirection = WAY.LEFT;
-//distances to top and bottom of player
-lineOfSightOffsetUp = 28;
-lineOfSightOffsetDown = 32;
-
+peripheralVisionAngle = 5; //vision cones above and below enemy, allows a small amount of vision behind the enemy
 //enemy will pause when it loses sight of the player
 minDistanceBeforeNextPause = 256;
-distanceSinceLastPause = minDistanceBeforeNextPause;
 maxPauseInSeconds = 4;
-pauseActive = true;
-movementActive = true;
-timeToMovementActive = 0;  //keep track of how long the enemy has been paused
+//collisoins with player, decreasing the size of the enemy hit box
+padLeft = 8
+padRight = 8
 /*
     Moving toward the player due to line of sight is deactivated
     when the enemy touches a wall (and therefore must turn around)
     and is not in the line of sight of the player.
     This is reactivaed when the player is near horizonal with the enemy and in
     the line of sight, or when the enemy has moved toActiveLineOfSightSpace pixels
+
+    Setting these values to zero effectivly disables this mechanic.
+    Updates to the AI have made it uncessary, as it was originally designed to
+    prevet jittery motion from moving in and out of the line of sight of a player near
+    a boundry.  The mechanic can still be activated by chaging these values if desired.
 */
-toActiveLineOfSightMinSpace = 192;
-toActiveLineOfSightMaxSpace = 320;
+toActiveLineOfSightMinSpace = 0; //192;
+toActiveLineOfSightMaxSpace = 0; //320;
+//distances from center of player that enemy can see when calculating line of sight
+lineOfSightOffset = 30;
+//starting condidions
+facingDirection = WAY.LEFT;
+//========================
+
+//set necessary inital conditions
+patrolDirection = facingDirection;
+enemySpeed = patrolSpeed; 
+lineOfSightToPlayer = false;
+
+distanceSinceLastPause = minDistanceBeforeNextPause;
+pauseActive = true;
+movementActive = true;
+timeToMovementActive = 0;  //keep track of how long the enemy has been paused
 lineOfSightActive = true;
 toActiveLineOfSightCounter = 0;
 chasing = false; //true if chasing the player
@@ -229,21 +238,8 @@ if instance_exists(obj_Character) {
     //check if there is  a line of sight to the player
     cx = obj_Character.x;
     cy = obj_Character.y;
-    var sightBlockedByFloor = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Floor, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Floor, false, true);
-    var sightBlockedByMagnet = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Magnet, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Magnet, false, true);
-    var sightBlockedBySideDoor = false;
-    var i;
-    for (i = 0; i &lt; instance_number(obj_SideDoor); i += 1) {
-        var sideDoor = instance_find(obj_SideDoor, i);
-        if not(sideDoor.is_on) { //if door is not open
-            if collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_SideDoor, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_SideDoor, false, true) {
-                //if there is a door that blocks line of sight
-                sightBlockedBySideDoor = true;
-            }
-        }
-    }
-    //var playerOnLevel = collision_line(x, y, cx, y, obj_Character, false, true);
-    lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet or sightBlockedBySideDoor);// and playerOnLevel;
+    playerDirection = obj_Character.currentDir;
+    lineOfSightToPlayer = lineOfSightToPlayerFunction();//not(sightBlockedByFloor or sightBlockedByMagnet or sightBlockedBySideDoor);// and playerOnLevel;
     facingPlayer = (facingDirection == WAY.LEFT and (x - cx &gt;= 0)) or (facingDirection == WAY.RIGHT and (x - cx &lt;= 0))
     playerInPeripheralVisionCone = abs(y - cy)*tan(degtorad(peripheralVisionAngle)) &gt;= abs(x - cx);
 }
@@ -263,17 +259,11 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
         } else {
             x += enemySpeed*sign(cx - x);
         }
-        /*if ((cx - x) &gt; 0) {
-            patrolDirection = WAY.RIGHT;
-        } else {
-            patrolDirection = WAY.LEFT;
-        }*/
-        /*randInt = irandom(1);
-        if (randInt == 1) {
-            patrolDirection = WAY.LEFT;
-        } else {
-            patrolDirection = WAY.RIGHT;
-        }*/
+
+        //move back (net no movement) if that move would have been out of line of sight of the player
+        if not(lineOfSightToPlayerFunction()) {
+            x = x_0;
+        }
     } else { //enemy does not see player
         //if just lost sight of the player
         if (hadLineofSight and lineOfSightActive) {
@@ -319,7 +309,7 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
             }
         }
     }
-    updateLineOfSightStatus(abs(x-x_0));
+    updateLineOfSightStatus(abs(x-x_0)); //also updates pausing status
 }
 </string>
           </argument>
@@ -408,13 +398,16 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
           <argument>
             <kind>1</kind>
             <string>//this is all debug output and should be removed before final version
+//line of sight lines
 if(lineOfSightToPlayer) {
     draw_set_color(c_lime);
 }
-draw_line(x, y-16, cx, cy + lineOfSightOffsetDown);
-draw_line(x, y-16, cx, cy - lineOfSightOffsetUp);
+draw_line(x, y-16, cx + xLineOfSightOffset, cy + yLineOfSightOffset);
+draw_line(x, y-16, cx - xLineOfSightOffset, cy - yLineOfSightOffset);
 draw_set_color(c_green);
+//enemy modifyed hit box
 draw_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, true);
+//peripheral vision cone
 if not(playerInPeripheralVisionCone) {
     draw_set_color(c_blue);
 } else {

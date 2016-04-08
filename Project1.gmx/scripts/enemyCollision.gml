@@ -128,3 +128,33 @@ if (rightDoor != noone && !rightDoor.is_on) {
     }
     deactivateLineOfSight();
 }
+#define lineOfSightToPlayerFunction
+if not(instance_exists(obj_Character)) {
+    return false;
+}
+//offsets from the center of the charater
+xLineOfSightOffset = 0;
+yLineOfSightOffset = 0;
+if (playerDirection == DIR.NORTH or playerDirection == DIR.SOUTH) { //account for rotated player
+    yLineOfSightOffset = lineOfSightOffset;
+} else {
+    xLineOfSightOffset = lineOfSightOffset;
+}
+//There are two sight lines, one to head and one to feet.  Sight is blocked if both of these lines are blocked.
+var lineOneBlocked = collision_line(x, y-16, cx + xLineOfSightOffset, cy + yLineOfSightOffset, obj_Floor, false, true) or collision_line(x, y-16, cx + xLineOfSightOffset, cy + yLineOfSightOffset, obj_Magnet, false, true);
+var lineTwoBlocked = collision_line(x, y-16, cx - xLineOfSightOffset, cy - yLineOfSightOffset, obj_Floor, false, true) or collision_line(x, y-16, cx - xLineOfSightOffset, cy - yLineOfSightOffset, obj_Magnet, false, true);
+
+var i;
+for (i = 0; i < instance_number(obj_SideDoor); i += 1) { //check if sight blocked by closed side door
+    var sideDoor = instance_find(obj_SideDoor, i);
+    if not(sideDoor.is_on) { //if door is not open
+        if collision_line(x, y-16, cx + xLineOfSightOffset, cy + yLineOfSightOffset, obj_SideDoor, false, true) {
+            lineOneBlocked = true;
+        }
+        if collision_line(x, y-16, cx - xLineOfSightOffset, cy - yLineOfSightOffset, obj_SideDoor, false, true) {
+            lineTwoBlocked = true;
+        }
+    }
+}
+
+return not(lineOneBlocked and lineTwoBlocked);

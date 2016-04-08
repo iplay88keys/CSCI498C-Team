@@ -16,8 +16,8 @@ if (leftBlock != noone) {
     patrolDirection = WAY.RIGHT;
     with(argument0) {
         // Move immidately to the right of the block:
-        x = leftBlock.x + leftBlock.sprite_width + (sprite_width / 2);
-        break;
+        //x = leftBlock.x + leftBlock.sprite_width + (sprite_width / 2);
+        x = leftBlock.bbox_right + 1 + (sprite_width / 2);
     }
     deactivateLineOfSight();
 }
@@ -29,8 +29,8 @@ if (rightBlock != noone) {
 patrolDirection = WAY.LEFT;
     with(argument0) {
         // Move immidately to the left of the block
-        x = rightBlock.x - (sprite_width / 2);
-        break;
+        //x = rightBlock.x - (sprite_width / 2);
+        x = rightBlock.bbox_left - (sprite_width / 2);
     }
     deactivateLineOfSight();
 }
@@ -92,4 +92,39 @@ if (toActiveLineOfSightCounter <= 0) {
 distanceSinceLastPause += argument0;
 if (distanceSinceLastPause >= minDistanceBeforeNextPause) {
     pauseActive = true;
+}
+#define enemyCollisionDoor
+// stdCollision(player, way, obj)
+switch(argument1) {
+    case WAY.LEFT:
+        enemyCollisionLeftDoor(argument0, argument2);
+        break;
+    case WAY.RIGHT:
+        enemyCollisionRightDoor(argument0, argument2);
+        break;
+}
+
+#define enemyCollisionLeftDoor
+// stdCollisionLeft(player, obj)
+leftDoor = enemyCheckCollisionDir(argument0.currentDir, WAY.LEFT, argument1);
+if (leftDoor != noone && !leftDoor.is_on) {
+    patrolDirection = WAY.RIGHT;
+    with(argument0) {
+        // Move immidately to the right of the block
+        x = leftDoor.bbox_right + 1 + (sprite_width / 2);
+    }
+    deactivateLineOfSight();
+}
+
+#define enemyCollisionRightDoor
+// stdCollisionRight(player, obj)
+rightDoor = enemyCheckCollisionDir(argument0.currentDir, WAY.RIGHT, argument1);
+if (rightDoor != noone && !rightDoor.is_on) {
+    patrolDirection = WAY.LEFT;
+    with(argument0) {
+        // Move immidately to the left of the block
+        hspeed = 0;
+        x = rightDoor.bbox_left - (sprite_width / 2);
+    }
+    deactivateLineOfSight();
 }

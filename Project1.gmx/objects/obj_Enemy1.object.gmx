@@ -19,7 +19,7 @@
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>other</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
@@ -30,6 +30,7 @@ patrolSpeed = 1;
 chasingSpeed = 2;
 pausedDirectionChangeFactor = 50; //higher number = lower chance of direction change when paused (per frame)
 patrolingPauseFactor = 1000; //higher number = lower chance of randomly pausing while patroling
+peripheralVisionAngle = 5;
 enemySpeed = patrolSpeed; 
 lineOfSightToPlayer = false;
 
@@ -193,6 +194,7 @@ door_id = "";
 var x_0 = x;
 lineOfSightToPlayer = false;
 facingPlayer = false;
+playerInPeripheralVisionCone = false; //does not account for if there is line of sight or not
 cx = 0;
 cy = 0;
 lastDirection = 0;
@@ -202,9 +204,10 @@ if instance_exists(obj_Character) {
     cy = obj_Character.y;
     var sightBlockedByFloor = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Floor, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Floor, false, true);
     var sightBlockedByMagnet = collision_line(x, y-16, cx, cy + lineOfSightOffsetDown, obj_Magnet, false, true) and collision_line(x, y-16, cx, cy - lineOfSightOffsetUp, obj_Magnet, false, true);
-    var playerOnLevel = collision_line(x, y, cx, y, obj_Character, false, true);
+    //var playerOnLevel = collision_line(x, y, cx, y, obj_Character, false, true);
     lineOfSightToPlayer = not(sightBlockedByFloor or sightBlockedByMagnet);// and playerOnLevel;
     facingPlayer = (facingDirection == WAY.LEFT and (x - cx &gt;= 0)) or (facingDirection == WAY.RIGHT and (x - cx &lt;= 0))
+    playerInPeripheralVisionCone = abs(y - cy)*tan(degtorad(peripheralVisionAngle)) &gt;= abs(x - cx);
 }
 
 //activate line of sight chase if the player is near horizonal with the enemy
@@ -212,7 +215,7 @@ if (abs(cy - y) &lt; 60) {
     lineOfSightActive = true;
 }
 if (grounded) { //let's say the enemy cannot move left or right unless grounded for now
-    if (lineOfSightToPlayer and lineOfSightActive and facingPlayer) {
+    if (lineOfSightToPlayer and lineOfSightActive and (facingPlayer or playerInPeripheralVisionCone)) { //conditions for chasing the player
         chasing = true;
         enemySpeed = chasingSpeed;
         x += enemySpeed*sign(cx - x);
@@ -257,7 +260,7 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
             }
         } else { //paused
             timeToMovementActive--;
-            if (timeToMovementActive == 0) {
+            if (timeToMovementActive == 0) { 
                 movementActive = true;
             }
             //randomly change direction if paused
@@ -376,10 +379,25 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_line(x, y-16, cx, cy + lineOfSightOffsetDown);
+            <string>//this is all debug output and should be removed before final version
+if(lineOfSightToPlayer) {
+    draw_set_color(c_lime);
+}
+draw_line(x, y-16, cx, cy + lineOfSightOffsetDown);
 draw_line(x, y-16, cx, cy - lineOfSightOffsetUp);
+draw_set_color(c_green);
 draw_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, true);
 draw_text(x - 20, y - 20, movementActive);
+if not(playerInPeripheralVisionCone) {
+    draw_set_color(c_blue);
+} else {
+    draw_set_color(c_red);
+}
+draw_line(x, y, x+tan(degtorad(peripheralVisionAngle/2))*100, y+200);
+draw_line(x, y, x+tan(degtorad(peripheralVisionAngle/2))*100, y-200);
+draw_line(x, y, x-tan(degtorad(peripheralVisionAngle/2))*100, y+200);
+draw_line(x, y, x-tan(degtorad(peripheralVisionAngle/2))*100, y-200);
+draw_set_color(c_green);
 </string>
           </argument>
         </arguments>

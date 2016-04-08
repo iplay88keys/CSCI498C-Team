@@ -12,8 +12,8 @@ while (floor_block == noone && magnet_block == noone) {
             magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, offset, -4);
             break;
         case WAY.LEFT:
-            floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, offset-sprite_width, -4);
-            magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, offset-sprite_width, -4);
+            floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, offset, -4);
+            magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, offset, -4);
             break;
         case WAY.ABOVE:
             floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, -4, -offset);

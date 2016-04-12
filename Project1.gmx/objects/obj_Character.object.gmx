@@ -48,15 +48,16 @@ deltaDegrees = 2;
 demagedFrames = 0;
 
 // abilities
-hasMagnetBoots = true;
+hasMagnetBoots = false;
 jumpPower = 4;
 
 // transitions
 door_id = 0;
 
 // animation
-//run_frame_rate = 0.5;
-image_speed = 0.1;
+run_frame_rate = 0.08;
+climb_frame_rate = 0.1;
+image_speed = run_frame_rate;
 
 // Looking around
 camera_detached = false;
@@ -129,10 +130,24 @@ if(controlsEnabled) {
                 hspeed = 0;
                 
                 // change the arial sprite to a standing one
-                if(sprite_index == spr_Fall_Right || sprite_index == spr_Jump_Right) {
-                    sprite_index = spr_Stand_Right;
-                } else if(sprite_index == spr_Fall_Left || sprite_index == spr_Jump_Left) {
-                    sprite_index = spr_Stand_Left;
+                if(sprite_index == spr_Fall_Right ||
+                   sprite_index == spr_Jump_Right ||
+                   sprite_index == spr_Fall_Right_Mag ||
+                   sprite_index == spr_Jump_Right_Mag) {
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Stand_Right;
+                    } else {
+                        sprite_index = spr_Stand_Right_Mag;
+                    }
+                } else if(sprite_index == spr_Fall_Left ||
+                          sprite_index == spr_Jump_Left ||
+                          sprite_index == spr_Fall_Left_Mag ||
+                          sprite_index == spr_Jump_Left_Mag) {
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Stand_Left;
+                    } else {
+                        sprite_index = spr_Stand_Left_Mag;
+                    }
                 } 
             }
             if(magFloorBlock != noone) {
@@ -142,11 +157,25 @@ if(controlsEnabled) {
                 grounded = true;
                 climbing = false;
                 hspeed = 0;
-                // change the jumping sprite to a standing one
-                if(sprite_index == spr_Fall_Right || sprite_index == spr_Jump_Right) {
-                    sprite_index = spr_Stand_Right;
-                } else if(sprite_index == spr_Fall_Left || sprite_index == spr_Jump_Left) {
-                    sprite_index = spr_Stand_Left;
+                // change the arial sprite to a standing one
+                if(sprite_index == spr_Fall_Right ||
+                   sprite_index == spr_Jump_Right ||
+                   sprite_index == spr_Fall_Right_Mag ||
+                   sprite_index == spr_Jump_Right_Mag) {
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Stand_Right;
+                    } else {
+                        sprite_index = spr_Stand_Right_Mag;
+                    }
+                } else if(sprite_index == spr_Fall_Left ||
+                          sprite_index == spr_Jump_Left ||
+                          sprite_index == spr_Fall_Left_Mag ||
+                          sprite_index == spr_Jump_Left_Mag) {
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Stand_Left;
+                    } else {
+                        sprite_index = spr_Stand_Left_Mag;
+                    }
                 }
             }
         } else if (ladderBlockBelow != noone &amp;&amp; restOfBody == noone &amp;&amp; !climbing) {
@@ -154,11 +183,25 @@ if(controlsEnabled) {
             vspeed = 0;
             y = ladderBlockBelow.y - (sprite_height / 2);
             grounded = true;
-            // change the jumping sprite to a standing one
-            if(sprite_index == spr_Fall_Right || sprite_index == spr_Jump_Right) {
-                sprite_index = spr_Stand_Right;
-            } else if(sprite_index == spr_Fall_Left || sprite_index == spr_Jump_Left) {
-                sprite_index = spr_Stand_Left;
+            // change the arial sprite to a standing one
+            if(sprite_index == spr_Fall_Right ||
+               sprite_index == spr_Jump_Right ||
+               sprite_index == spr_Fall_Right_Mag ||
+               sprite_index == spr_Jump_Right_Mag) {
+                if(!hasMagnetBoots) {
+                    sprite_index = spr_Stand_Right;
+                } else {
+                    sprite_index = spr_Stand_Right_Mag;
+                }
+            } else if(sprite_index == spr_Fall_Left ||
+                      sprite_index == spr_Jump_Left ||
+                      sprite_index == spr_Fall_Left_Mag ||
+                      sprite_index == spr_Jump_Left_Mag) {
+                if(!hasMagnetBoots) {
+                    sprite_index = spr_Stand_Left;
+                } else {
+                    sprite_index = spr_Stand_Left_Mag;
+                }
             } 
         } else {
             // no ground collision, in free fall
@@ -167,9 +210,17 @@ if(controlsEnabled) {
             // change to falling sprite
             if(!climbing &amp;&amp; !magnetized &amp;&amp; airFrames &gt; 0) {
                 if(facing == WAY.RIGHT) {
-                    sprite_index = spr_Fall_Right;
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Fall_Right;
+                    } else {
+                        sprite_index = spr_Fall_Right_Mag;
+                    }
                 } else {
-                    sprite_index = spr_Fall_Left;
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Fall_Left;
+                    } else {
+                        sprite_index = spr_Fall_Left_Mag;
+                    }
                 }
             } 
         }
@@ -193,7 +244,7 @@ if(controlsEnabled) {
     
     // determine if the player is on a magnet block
     magnetBlock = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet);
-    magnetized = magnetBlock != noone;
+    magnetized = magnetBlock != noone &amp;&amp; hasMagnetBoots;
     
     // count number of frames since touching the ground
     if(grounded) {
@@ -412,16 +463,29 @@ if(controlsEnabled) {
     // Check if colliding with a ladder
     if (touchingLadder) {
         climbing = true;
-        sprite_index = spr_Climb;
+        if(!hasMagnetBoots) {
+            sprite_index = spr_Climb;
+        } else {
+            sprite_index = spr_Climb_Mag;
+        }
+        image_speed = climb_frame_rate;
         y -= 2;
         vspeed = 0;
         x = ladderBlock.x + (sprite_width / 2);
         movingUpLadder = true;
     } else if(!keyboard_check(ord('A')) &amp;&amp; !keyboard_check(ord('D'))){
         if(facing = WAY.RIGHT) {
-            sprite_index = spr_Stand_Right;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Stand_Right;
+            } else {
+                sprite_index = spr_Stand_Right_Mag;
+            }
         } else {
-            sprite_index = spr_Stand_Left;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Stand_Left;
+            } else {
+                sprite_index = spr_Stand_Left_Mag;
+            }
         }
     }
 }
@@ -457,7 +521,12 @@ if(controlsEnabled) {
 if(controlsEnabled) {
     // Check if colliding with a ladder
     if (touchingLadder || ladderBelow) {
-        sprite_index = spr_Climb;
+        if(!hasMagnetBoots) {
+            sprite_index = spr_Climb;
+        } else {
+            sprite_index = spr_Climb_Mag;
+        }
+        image_speed = climb_frame_rate;
         climbing = true;
         y += 2;
         vspeed = 0;
@@ -510,9 +579,10 @@ if(controlsEnabled) {
     magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, -2, 0);
     magLeft = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
     
-    if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
+    if(hasMagnetBoots &amp;&amp; magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // position the player right next to the block to transition to
+        vspeed = 0;
         switch(currentDir) {
         case DIR.NORTH:
             x = magnet.x - sprite_width / 2;
@@ -530,10 +600,15 @@ if(controlsEnabled) {
         // rotate the player
         controlsEnabled = false;
         degreesToRotateInner += 90;
-        sprite_index = spr_Run_Right;
-    } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
+        if(!hasMagnetBoots) {
+            sprite_index = spr_Run_Right;
+        } else {
+            sprite_index = spr_Run_Right_Mag;
+        }
+    } else if(hasMagnetBoots &amp;&amp; magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
         // transition onto the right side of the magnet block just walked over
         // position next to the magnet wall
+        vspeed = 0;
         switch(currentDir) {
         case DIR.NORTH:
             x = magPrev.x + 3 * sprite_width / 2;
@@ -550,13 +625,26 @@ if(controlsEnabled) {
         }
         controlsEnabled = false;
         degreesToRotateOuter -= 90;
-        sprite_index = spr_Run_Right;
+        if(!hasMagnetBoots) {
+            sprite_index = spr_Run_Right;
+        } else {
+            sprite_index = spr_Run_Right_Mag;
+        }
     } else {
         // regular movement
         if(grounded || magnetized) {
-            sprite_index = spr_Run_Right;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Run_Right;
+            } else {
+                sprite_index = spr_Run_Right_Mag;
+            }
+            image_speed = run_frame_rate;
         } else if(!climbing) {
-            sprite_index = spr_Jump_Right;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Jump_Right;
+            } else {
+                sprite_index = spr_Jump_Right_Mag;
+            }
         }
         facing = WAY.RIGHT;
         switch(currentDir) {
@@ -617,9 +705,10 @@ if(controlsEnabled) {
     magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, 2, 0);
     magLeft = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
     
-    if(magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
+    if(hasMagnetBoots &amp;&amp; magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
         // transition onto the magnet block wall on the right
         // position the player right next to the block to transition to
+        vspeed = 0;
         switch(currentDir) {
         case DIR.NORTH:
             x = magnet.x + 3 * sprite_width / 2;
@@ -637,10 +726,16 @@ if(controlsEnabled) {
         // rotate the player
         controlsEnabled = false;
         degreesToRotateInner -= 90;
-        sprite_index = spr_Run_Left;
-    } else if(magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
+        
+        if(!hasMagnetBoots) {
+            sprite_index = spr_Run_Left;
+        } else {
+            sprite_index = spr_Run_Left_Mag;
+        }
+    } else if(hasMagnetBoots &amp;&amp; magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
         // transition onto the right side of the magnet block just walked over
         // pre-position
+        vspeed = 0;
         switch(currentDir) {
         case DIR.NORTH:
             x = magPrev.x - sprite_width / 2;
@@ -661,9 +756,18 @@ if(controlsEnabled) {
     } else {
         // normal movement
         if(grounded || magnetized) {
-            sprite_index = spr_Run_Left;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Run_Left;
+            } else {
+                sprite_index = spr_Run_Left_Mag;
+            }
+            image_speed = run_frame_rate;
         } else if(!climbing) {
-            sprite_index = spr_Jump_Left;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Jump_Left;
+            } else {
+                sprite_index = spr_Jump_Left_Mag;
+            }
         }
         facing = WAY.LEFT;
         
@@ -865,26 +969,50 @@ if(controlsEnabled) {
 
                 // jumping sprite
                 if(facing == WAY.RIGHT) {
-                    sprite_index = spr_Jump_Right;
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Jump_Right;
+                    } else {
+                        sprite_index = spr_Jump_Right_Mag;
+                    }
                 } else {
-                    sprite_index = spr_Jump_Left;
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Jump_Left;
+                    } else {
+                        sprite_index = spr_Jump_Left_Mag;
+                    }
                 }
                 break;
             case DIR.EAST:
                 hspeed += jumpPower / 2;
-                sprite_index = spr_Fall_Right;
+                if(!hasMagnetBoots) {
+                    sprite_index = spr_Fall_Right;
+                } else {
+                    sprite_index = spr_Fall_Right_Mag;
+                }
                 break;
             case DIR.SOUTH:
                 vspeed += jumpPower / 2;
                 if(facing == WAY.RIGHT) {
-                    sprite_index = spr_Fall_Left;
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Fall_Left;
+                    } else {
+                        sprite_index = spr_Fall_Left_Mag;
+                    }
                 } else {
-                    sprite_index = spr_Fall_Right;
+                    if(!hasMagnetBoots) {
+                        sprite_index = spr_Fall_Right;
+                    } else {
+                        sprite_index = spr_Fall_Right_Mag;
+                    }
                 }
                 break;
             case DIR.WEST:
                 hspeed -= jumpPower / 2;
-                sprite_index = spr_Fall_Left;
+                if(!hasMagnetBoots) {
+                    sprite_index = spr_Fall_Left;
+                } else {
+                    sprite_index = spr_Fall_Left_Mag;
+                }
                 break;    
         }
         
@@ -896,9 +1024,17 @@ if(controlsEnabled) {
         
         // set the jumping sprite
         if(facing == WAY.RIGHT) {
-            sprite_index = spr_Jump_Right;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Jump_Right;
+            } else {
+                sprite_index = spr_Jump_Right_Mag;
+            }
         } else {
-            sprite_index = spr_Jump_Left;
+            if(!hasMagnetBoots) {
+                sprite_index = spr_Jump_Left;
+            } else {
+                sprite_index = spr_Jump_Right_Mag;
+            }
         }
         grounded = false;
         jumping = true;
@@ -1179,6 +1315,30 @@ if(room_speed == 60) {
         </arguments>
       </action>
     </event>
+    <event eventtype="9" enumb="77">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//toggle mag boots
+hasMagnetBoots = !hasMagnetBoots
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="10" enumb="87">
       <action>
         <libid>1</libid>
@@ -1198,6 +1358,38 @@ if(room_speed == 60) {
             <kind>1</kind>
             <string>if(controlsEnabled) {
     movingUpLadder = false;
+    // stop animating on ladders when not moving
+    if(!keyboard_check(ord('S'))) {
+        image_speed = 0;
+    }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="10" enumb="83">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if(controlsEnabled) {
+    // stop animating on ladders when not moving
+    if(!keyboard_check(ord('S'))) {
+        image_speed = 0;
+    }
 }
 </string>
           </argument>
@@ -1223,7 +1415,11 @@ if(room_speed == 60) {
             <kind>1</kind>
             <string>// return to standing
 if(!keyboard_check(ord('A')) &amp;&amp; controlsEnabled &amp;&amp; (grounded || magnetized)) {
-    sprite_index = spr_Stand_Right;
+    if(!hasMagnetBoots) {
+        sprite_index = spr_Stand_Right;
+    } else {
+        sprite_index = spr_Stand_Right_Mag;
+    }
 }
 </string>
           </argument>
@@ -1249,7 +1445,11 @@ if(!keyboard_check(ord('A')) &amp;&amp; controlsEnabled &amp;&amp; (grounded || 
             <kind>1</kind>
             <string>// return to standing
 if(!keyboard_check(ord('D')) &amp;&amp; controlsEnabled &amp;&amp; (grounded || magnetized)) {
-    sprite_index = spr_Stand_Left;
+    if(!hasMagnetBoots) {
+        sprite_index = spr_Stand_Left;
+    } else {
+        sprite_index = spr_Stand_Left_Mag;
+    }
 }
 </string>
           </argument>

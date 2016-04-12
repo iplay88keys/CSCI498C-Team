@@ -8,9 +8,9 @@
   <sepmasks>0</sepmasks>
   <bboxmode>0</bboxmode>
   <bbox_left>1</bbox_left>
-  <bbox_right>30</bbox_right>
+  <bbox_right>29</bbox_right>
   <bbox_top>1</bbox_top>
-  <bbox_bottom>63</bbox_bottom>
+  <bbox_bottom>62</bbox_bottom>
   <HTile>0</HTile>
   <VTile>0</VTile>
   <TextureGroups>
@@ -20,7 +20,6 @@
   <width>32</width>
   <height>64</height>
   <frames>
-    <frame index="0">images\spr_Climb_0.png</frame>
-    <frame index="1">images\spr_Climb_1.png</frame>
+    <frame index="0">images\spr_Jump_Right_Mag_0.png</frame>
   </frames>
 </sprite>

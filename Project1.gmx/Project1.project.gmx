@@ -10,6 +10,7 @@
       <sprite>sprites\spr_Magnet</sprite>
       <sprite>sprites\spr_Ladder</sprite>
       <sprite>sprites\spr_Floor</sprite>
+      <sprite>sprites\spr_Magnet_alt</sprite>
     </sprites>
     <sprites name="Entity">
       <sprite>sprites\spr_PressurePlate</sprite>
@@ -22,15 +23,28 @@
       <sprite>sprites\sprite8</sprite>
     </sprites>
     <sprites name="Terisa">
-      <sprite>sprites\spr_Stand_Right</sprite>
-      <sprite>sprites\spr_Stand_Left</sprite>
-      <sprite>sprites\spr_Run_Right</sprite>
-      <sprite>sprites\spr_Run_Left</sprite>
-      <sprite>sprites\spr_Jump_Right</sprite>
-      <sprite>sprites\spr_Jump_Left</sprite>
-      <sprite>sprites\spr_Fall_Left</sprite>
-      <sprite>sprites\spr_Fall_Right</sprite>
-      <sprite>sprites\spr_Climb</sprite>
+      <sprites name="Regular">
+        <sprite>sprites\spr_Stand_Right</sprite>
+        <sprite>sprites\spr_Stand_Left</sprite>
+        <sprite>sprites\spr_Run_Right</sprite>
+        <sprite>sprites\spr_Run_Left</sprite>
+        <sprite>sprites\spr_Jump_Right</sprite>
+        <sprite>sprites\spr_Jump_Left</sprite>
+        <sprite>sprites\spr_Fall_Right</sprite>
+        <sprite>sprites\spr_Fall_Left</sprite>
+        <sprite>sprites\spr_Climb</sprite>
+      </sprites>
+      <sprites name="Magboots">
+        <sprite>sprites\spr_Stand_Right_Mag</sprite>
+        <sprite>sprites\spr_Stand_Left_Mag</sprite>
+        <sprite>sprites\spr_Run_Right_Mag</sprite>
+        <sprite>sprites\spr_Run_Left_Mag</sprite>
+        <sprite>sprites\spr_Jump_Right_Mag</sprite>
+        <sprite>sprites\spr_Jump_Left_Mag</sprite>
+        <sprite>sprites\spr_Fall_Right_Mag</sprite>
+        <sprite>sprites\spr_Fall_Left_Mag</sprite>
+        <sprite>sprites\spr_Climb_Mag</sprite>
+      </sprites>
     </sprites>
     <sprites name="Enemy">
       <sprite>sprites\spr_Enemy_Move_Right</sprite>

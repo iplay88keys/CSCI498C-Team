@@ -57,16 +57,16 @@ type = "";
     for (i = 0; i &lt; ds_list_size(list_id); i++) {
         if (list_id[| i].is_on) {
             list_id[| i].is_on = false;
-            if (type == "laser") {
-                with (list_id[| i]) {
-                    remove_laser();
+            with (list_id[| i]) {
+                if (object_get_name(object_index) == "obj_Laser") {
+                        remove_laser();
                 }
             }
         } else {
             list_id[| i].is_on = true;
-            if (type == "laser") {
-                with (list_id[| i]) {
-                    create_laser();
+            with (list_id[| i]) {
+                if (object_get_name(object_index) == "obj_Laser") {
+                        create_laser();
                 }
             }
         }

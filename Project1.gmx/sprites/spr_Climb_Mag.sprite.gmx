@@ -20,7 +20,7 @@
   <width>32</width>
   <height>64</height>
   <frames>
-    <frame index="0">images\spr_Climb_0.png</frame>
-    <frame index="1">images\spr_Climb_1.png</frame>
+    <frame index="0">images\spr_Climb_Mag_0.png</frame>
+    <frame index="1">images\spr_Climb_Mag_1.png</frame>
   </frames>
 </sprite>

@@ -81,6 +81,7 @@
     <room>rooms\rm_Main_Menu</room>
     <room>rooms\rm_Test</room>
     <room>rooms\rm_Hub</room>
+    <room>rooms\rm_CopyThisForNewLevels</room>
     <room>rooms\rm_Level1_1</room>
     <room>rooms\rm_Level1_2</room>
   </rooms>

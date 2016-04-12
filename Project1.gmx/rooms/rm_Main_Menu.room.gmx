@@ -10,7 +10,9 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code>global.soundtrack = audio_play_sound(snd_Soundtrack, 10, true);</code>
+  <code>global.soundtrack = audio_play_sound(snd_Soundtrack, 10, true)
+audio_sound_gain(global.soundtrack, 0, 0);
+audio_sound_gain(global.soundtrack, 1, 10000); //fade in to skip looped beginning</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>

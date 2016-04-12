@@ -72,6 +72,7 @@
     <script>scripts\enemyCollision.gml</script>
     <script>scripts\create_laser.gml</script>
     <script>scripts\remove_laser.gml</script>
+    <script>scripts\pressurePlate.gml</script>
   </scripts>
   <objects name="objects">
     <object>objects\obj_init</object>

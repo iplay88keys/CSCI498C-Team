@@ -26,11 +26,11 @@
           <argument>
             <kind>1</kind>
             <string>list_id = ds_list_create();
-type = "";
+list_states = ds_list_create();
 
 image_speed = 0;
 is_on = false;
-type = "";
+created = false;
 </string>
           </argument>
         </arguments>
@@ -53,12 +53,27 @@ type = "";
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>player = checkCollisionDir(DIR.NORTH, WAY.SELF, obj_Character);
+            <string>if (!created) {
+    for (i = 0; i &lt; ds_list_size(list_id); i++) {
+        list_states[| i] = list_id[| i].is_on;
+    }
+    created = true;
+}
 
-if(player != noone) {
-    is_on = true;
-} else {
+player = checkCollisionDir(DIR.NORTH, WAY.SELF, obj_Character);
+enemy = checkCollisionDir(DIR.NORTH, WAY.SELF, obj_Enemy1);
+
+if (player == noone &amp;&amp; enemy == noone) {
+    // If the pressure plate is currently on, change it and update the objects
+    if (is_on) {
+        pressurePlate();
+    }
     is_on = false;
+} else {
+    if (!is_on) {
+        pressurePlate();
+    }
+    is_on = true;
 }
 </string>
           </argument>

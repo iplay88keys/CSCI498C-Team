@@ -107,7 +107,6 @@
     <instance objName="obj_Magnet" x="352" y="512" name="inst_97127531" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Magnet" x="352" y="544" name="inst_E933D708" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Magnet" x="352" y="576" name="inst_F1B33650" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_Floor" x="672" y="704" name="inst_D9323282" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="736" y="640" name="inst_E6BDE06B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="768" y="640" name="inst_9F351335" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="832" y="576" name="inst_BFE26648" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
@@ -190,6 +189,13 @@
     <instance objName="obj_Floor" x="160" y="608" name="inst_73EBFAAF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="608" y="448" name="inst_DDE2FD2C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_PressurePlate" x="160" y="704" name="inst_6EF4228E" locked="0" code="ds_list_add(list_id, inst_DB12C637);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Floor" x="704" y="640" name="inst_655B11BB" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Floor" x="672" y="640" name="inst_7192187B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Floor" x="640" y="640" name="inst_41528910" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Floor" x="800" y="640" name="inst_8B785B60" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Floor" x="832" y="640" name="inst_CF60D3E0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_PressurePlate" x="640" y="704" name="inst_08644AFE" locked="0" code="ds_list_add(list_id, inst_FEFEDF5D);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_SideDoor" x="704" y="672" name="inst_FEFEDF5D" locked="0" code="is_on = true;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

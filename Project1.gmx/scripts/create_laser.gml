@@ -3,28 +3,48 @@ image_index = 1;
 offset = 0;
 floor_block = noone;
 magnet_block = noone;
+side_door = noone;
 var inst;
 changed = false;
-while (floor_block == noone && magnet_block == noone) {
+while (floor_block == noone && magnet_block == noone && side_door == noone) {
     switch (check_direction) {
         case WAY.RIGHT:
             floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, offset, -4);
             magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, offset, -4);
+            side_door = checkCollisionDir(facing_direction, check_direction, obj_SideDoor, offset + sprite_width/2, -4);
             break;
         case WAY.LEFT:
-            floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, offset, -4);
-            magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, offset, -4);
+            floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, -offset, -4);
+            magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, -offset, -4);
+            side_door = checkCollisionDir(facing_direction, check_direction, obj_SideDoor, -offset - sprite_width/2, -4);
             break;
         case WAY.ABOVE:
             floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, -4, -offset);
             magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, -4, -offset);
+            side_door = checkCollisionDir(facing_direction, check_direction, obj_SideDoor, -4, -offset - sprite_width);
             break;
         case WAY.BELOW:
             floor_block = checkCollisionDir(facing_direction, check_direction, obj_Floor, -4, offset);
             magnet_block = checkCollisionDir(facing_direction, check_direction, obj_Magnet, -4, offset);
+            side_door = checkCollisionDir(facing_direction, check_direction, obj_SideDoor, -4, offset + sprite_width);
             break;
     }
+    //place the laser in correct location if blocked by a side door
+    if not(side_door == noone) {
+        if (side_door.is_on and (check_direction == WAY.LEFT or check_direction == WAY.RIGHT)) {
+            side_door = noone;
+        } else {
+            if (check_direction == WAY.RIGHT) {
+                show_message("test");
+                offset -= (sprite_width/2 + 4);
+            } else if (check_direction  == WAY.LEFT) {
+                offset -= (sprite_width/2 + 3);
+            }
+        }
+    }
     
+    //there is no if side_door == noone here because we need to know
+    //where the side door is before placing the laser
     if (floor_block == noone && magnet_block == noone) {
         switch (check_direction) {
             case WAY.RIGHT:

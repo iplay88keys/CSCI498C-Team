@@ -20,7 +20,7 @@ padFromBottom = 5;
 padFromTop = 5;
 
 // defines how far to the side the box should check
-padSideFar = 4;
+padSideFar = 3; // should be same as player movement speed
 padSideNear = 1;
 
 // how far in from the sides of the sprite for vertical checks

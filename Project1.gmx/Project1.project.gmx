@@ -6,6 +6,7 @@
   <NewExtensions/>
   <sounds name="sound">
     <sound>sound\snd_Soundtrack</sound>
+    <sound>sound\snd_Item_Get</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="Block">
@@ -20,6 +21,8 @@
       <sprite>sprites\spr_Laser</sprite>
       <sprite>sprites\spr_Switch</sprite>
       <sprite>sprites\spr_Door</sprite>
+      <sprite>sprites\spr_Door_Cage</sprite>
+      <sprite>sprites\spr_Battery_Pickup</sprite>
     </sprites>
     <sprites name="Menu">
       <sprite>sprites\sprite8</sprite>
@@ -57,6 +60,7 @@
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
+    <background>background\bg_Star</background>
     <backgrounds name="Tiles">
       <background>background\tile_Platforms</background>
       <background>background\tile_BG</background>
@@ -92,12 +96,14 @@
       <object>objects\obj_Laser</object>
       <object>objects\obj_Switch</object>
       <object>objects\obj_Door</object>
+      <object>objects\obj_Start_Door</object>
+      <object>objects\obj_Battery</object>
     </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_Main_Menu</room>
+    <room>rooms\rm_Start</room>
     <room>rooms\rm_Test</room>
-    <room>rooms\rm_Hub</room>
     <room>rooms\rm_CopyThisForNewLevels</room>
     <room>rooms\rm_Level1_1</room>
     <room>rooms\rm_Level1_2</room>

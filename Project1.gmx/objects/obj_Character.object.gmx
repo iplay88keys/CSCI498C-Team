@@ -50,6 +50,7 @@ demagedFrames = 0;
 // abilities
 hasMagnetBoots = false;
 jumpPower = 4;
+moveSpeed = 3;
 
 // transitions
 door_id = 0;
@@ -268,6 +269,30 @@ if(controlsEnabled) {
         currentDir = DIR.NORTH;
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="3" enumb="1">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//parallax
+background_x[0] = view_xview[0] * 0.6;
 </string>
           </argument>
         </arguments>
@@ -649,16 +674,16 @@ if(controlsEnabled) {
         facing = WAY.RIGHT;
         switch(currentDir) {
         case DIR.NORTH:
-            x += 4;
+            x += moveSpeed;
             break;
         case DIR.SOUTH:
-            x -= 4;
+            x -= moveSpeed;
             break;
         case DIR.EAST:
-            y += 4;
+            y += moveSpeed;
             break;
         case DIR.WEST:
-            y -= 4;
+            y -= moveSpeed;
             break;
         }
     }
@@ -773,16 +798,16 @@ if(controlsEnabled) {
         
         switch(currentDir) {
         case DIR.NORTH:
-            x -= 4;
+            x -= moveSpeed;
             break;
         case DIR.SOUTH:
-            x += 4;
+            x += moveSpeed;
             break;
         case DIR.EAST:
-            y -= 4;
+            y -= moveSpeed;
             break;
         case DIR.WEST:
-            y += 4;
+            y += moveSpeed;
             break;
         }
     }

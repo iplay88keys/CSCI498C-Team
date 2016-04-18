@@ -91,7 +91,7 @@
     <instance objName="obj_Floor" x="512" y="160" name="inst_5F2A432D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="480" y="160" name="inst_BAA348D4" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="544" y="160" name="inst_FA71BC67" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_Door" x="544" y="96" name="inst_2C7447F5" locked="0" code="is_on = true;&#xA;next_room = rm_Hub;&#xA;next_door_id = inst_80558E2E;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_Door" x="544" y="96" name="inst_2C7447F5" locked="0" code="is_on = true;&#xA;next_room = rm_Test;&#xA;next_door_id = inst_16B2379D;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Magnet" x="576" y="160" name="inst_22AD9B54" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Magnet" x="608" y="160" name="inst_DA613CAE" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Magnet" x="448" y="0" name="inst_A6783016" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

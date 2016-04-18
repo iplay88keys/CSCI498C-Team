@@ -425,13 +425,13 @@ if(degreesToRotateInner != 0) {
     magnetized = true;
     
     // return to standing sprite
-    if(sprite_index == spr_Run_Right)
+    if(sprite_index == spr_Run_Right_Mag)
     {
-        sprite_index = spr_Stand_Right;
+        sprite_index = spr_Stand_Right_Mag;
     }
     else
     {
-        sprite_index = spr_Stand_Left;
+        sprite_index = spr_Stand_Left_Mag;
     }
     
     // image angle should be from 0-359
@@ -528,7 +528,8 @@ if(controlsEnabled) {
         vspeed = 0;
         x = ladderBlock.x + (sprite_width / 2);
         movingUpLadder = true;
-    } else if(!keyboard_check(ord('A')) &amp;&amp; !keyboard_check(ord('D'))){
+    } else if(grounded &amp;&amp; !keyboard_check(ord('A')) &amp;&amp; !keyboard_check(ord('D'))){
+        // stand on the top of a ladder
         if(facing = WAY.RIGHT) {
             if(!hasMagnetBoots) {
                 sprite_index = spr_Stand_Right;
@@ -631,7 +632,7 @@ if(controlsEnabled) {
     
     // outer corner
     floorFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
-    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, -2, 0);
+    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, -3, 0);
     magLeft = checkCollisionDir(currentDir, WAY.LEFT, obj_Magnet);
     
     if(hasMagnetBoots &amp;&amp; magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
@@ -655,11 +656,7 @@ if(controlsEnabled) {
         // rotate the player
         controlsEnabled = false;
         degreesToRotateInner += 90;
-        if(!hasMagnetBoots) {
-            sprite_index = spr_Run_Right;
-        } else {
-            sprite_index = spr_Run_Right_Mag;
-        }
+        sprite_index = spr_Run_Right_Mag;
     } else if(hasMagnetBoots &amp;&amp; magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
         // transition onto the right side of the magnet block just walked over
         // position next to the magnet wall
@@ -680,11 +677,7 @@ if(controlsEnabled) {
         }
         controlsEnabled = false;
         degreesToRotateOuter -= 90;
-        if(!hasMagnetBoots) {
-            sprite_index = spr_Run_Right;
-        } else {
-            sprite_index = spr_Run_Right_Mag;
-        }
+        sprite_index = spr_Run_Right_Mag;
     } else {
         // regular movement
         if(grounded || magnetized) {
@@ -757,7 +750,7 @@ if(controlsEnabled) {
     
     // outer corner
     floorFloor = checkCollisionDir(currentDir, WAY.BELOW, obj_Floor);
-    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, 2, 0);
+    magPrev = checkCollisionDir(currentDir, WAY.BELOW, obj_Magnet, 3, 0);
     magLeft = checkCollisionDir(currentDir, WAY.RIGHT, obj_Magnet);
     
     if(hasMagnetBoots &amp;&amp; magnet &amp;&amp; magFloor &amp;&amp; magnet != magFloor) {
@@ -782,11 +775,7 @@ if(controlsEnabled) {
         controlsEnabled = false;
         degreesToRotateInner -= 90;
         
-        if(!hasMagnetBoots) {
-            sprite_index = spr_Run_Left;
-        } else {
-            sprite_index = spr_Run_Left_Mag;
-        }
+        sprite_index = spr_Run_Left_Mag;
     } else if(hasMagnetBoots &amp;&amp; magFloor == noone &amp;&amp; floorFloor == noone &amp;&amp; magLeft == noone &amp;&amp; magPrev != noone) {
         // transition onto the right side of the magnet block just walked over
         // pre-position
@@ -807,7 +796,7 @@ if(controlsEnabled) {
         }
         controlsEnabled = false;
         degreesToRotateOuter += 90;
-        sprite_index = spr_Run_Left;
+        sprite_index = spr_Run_Left_Mag;
     } else {
         // normal movement
         if(grounded || magnetized) {
@@ -1017,10 +1006,11 @@ if (view_xview[1] - global.cameraAmount &gt; 0) {
 
 if(controlsEnabled) {
     if(magnetized) {
+        // detach from the wall
+        magnetized = false;
         switch(currentDir) {
             case DIR.NORTH:
                 vspeed -= jumpPower;
-                magnetized = false;
 
                 // jumping sprite
                 if(facing == WAY.RIGHT) {
@@ -1039,6 +1029,8 @@ if(controlsEnabled) {
                 break;
             case DIR.EAST:
                 hspeed += jumpPower / 2;
+                x += 1;
+                facing = WAY.RIGHT;
                 if(!hasMagnetBoots) {
                     sprite_index = spr_Fall_Right;
                 } else {
@@ -1063,6 +1055,8 @@ if(controlsEnabled) {
                 break;
             case DIR.WEST:
                 hspeed -= jumpPower / 2;
+                x -= 1;
+                facing = WAY.LEFT;
                 if(!hasMagnetBoots) {
                     sprite_index = spr_Fall_Left;
                 } else {
@@ -1070,7 +1064,6 @@ if(controlsEnabled) {
                 }
                 break;    
         }
-        
 
         grounded = false;
         jumping = true;  

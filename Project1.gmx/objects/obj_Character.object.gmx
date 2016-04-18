@@ -537,7 +537,7 @@ if(controlsEnabled) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (camera_detached) {
+            <string>if (camera_detached &amp;&amp; (touchingLadder || ladderBelow)) {
     view_visible[0] = true;
     view_visible[1] = false;
     

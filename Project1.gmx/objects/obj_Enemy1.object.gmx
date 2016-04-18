@@ -359,7 +359,12 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
           <argument>
             <kind>1</kind>
             <string>if collision_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, obj_Character, true, true) {
-    room_restart();
+    with(other) {
+        dying = true;
+    }
+    patrolSpeed = 0;
+    chasingSpeed = 0;
+    chasing = false;
 }
 </string>
           </argument>

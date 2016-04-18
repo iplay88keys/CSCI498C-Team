@@ -317,146 +317,146 @@ background_x[0] = view_xview[0] * 0.6;
           <argument>
             <kind>1</kind>
             <string>if not(dying) {
-// Handle transitioning on inner right angles (eg. floor to wall, wall to ceiling)
-if(degreesToRotateInner != 0) {
-    if(degreesToRotateInner &gt; 0) {
-        // rotate CCW
-        image_angle += deltaDegrees;
-        view_angle -= deltaDegrees;
-        degreesToRotateInner -= deltaDegrees;
-        // move the player slightly each frame to prevent them from ending
-        // up in a magnet block after the rotation is complete
-        switch(currentDir) {
-        case DIR.NORTH:
-            x -= 16/45;
-            y += 16/45;
+    // Handle transitioning on inner right angles (eg. floor to wall, wall to ceiling)
+    if(degreesToRotateInner != 0) {
+        if(degreesToRotateInner &gt; 0) {
+            // rotate CCW
+            image_angle += deltaDegrees;
+            view_angle -= deltaDegrees;
+            degreesToRotateInner -= deltaDegrees;
+            // move the player slightly each frame to prevent them from ending
+            // up in a magnet block after the rotation is complete
+            switch(currentDir) {
+            case DIR.NORTH:
+                x -= 16/45;
+                y += 16/45;
+                break;
+            case DIR.WEST:
+                x += 16/45;
+                y += 16/45;
+                break;
+            case DIR.SOUTH:
+                x += 16/45;
+                y -= 16/45;
+                break;
+            case DIR.EAST:
+                x -= 16/45;
+                y -= 16/45;
+                break;
+            }
+        } else {
+            // rotate CW
+            image_angle -= deltaDegrees;
+            view_angle += deltaDegrees;
+            degreesToRotateInner += deltaDegrees;
+            switch(currentDir) {
+            case DIR.NORTH:
+                x += 16/45;
+                y += 16/45;
+                break;
+            case DIR.WEST:
+                x += 16/45;
+                y -= 16/45;
+                break;
+            case DIR.SOUTH:
+                x -= 16/45;
+                y -= 16/45;
+                break;
+            case DIR.EAST:
+                x -= 16/45;
+                y += 16/45;
+                break;
+            }
+        }
+    } else if(degreesToRotateOuter != 0) {
+        // do outer corner transition
+        if(degreesToRotateOuter &gt; 0) {
+            // rotate CCW
+            image_angle += deltaDegrees;
+            view_angle -= deltaDegrees;
+            degreesToRotateOuter -= deltaDegrees;
+            // move the player slightly each frame to prevent them from ending
+            // up in a magnet block after the rotation is complete
+            switch(currentDir) {
+            case DIR.NORTH:
+                x -= 16/45;
+                y += 48/45;
+                break;
+            case DIR.WEST:
+                x += 48/45;
+                y += 16/45;
+                break;
+            case DIR.SOUTH:
+                x += 16/45;
+                y -= 48/45;
+                break;
+            case DIR.EAST:
+                x -= 48/45;
+                y -= 16/45;
+                break;
+            }
+        } else {
+            // rotate CW
+            image_angle -= deltaDegrees;
+            view_angle += deltaDegrees;
+            degreesToRotateOuter += deltaDegrees;
+            switch(currentDir) {
+            case DIR.NORTH:
+                x += 16/45;
+                y += 48/45;
+                break;
+            case DIR.WEST:
+                x += 48/45;
+                y -= 16/45;
+                break;
+            case DIR.SOUTH:
+                x -= 16/45;
+                y -= 48/45;
+                break;
+            case DIR.EAST:
+                x -= 48/45;
+                y += 16/45;
+                break;
+            }
+        }
+    } else if(!controlsEnabled) {
+        // the rotation has completed
+        controlsEnabled = true;
+        magnetized = true;
+        
+        // return to standing sprite
+        if(sprite_index == spr_Run_Right_Mag)
+        {
+            sprite_index = spr_Stand_Right_Mag;
+        }
+        else
+        {
+            sprite_index = spr_Stand_Left_Mag;
+        }
+        
+        // image angle should be from 0-359
+        while(image_angle &lt; 0) {
+            image_angle += 360;
+        }
+        while(image_angle &gt;= 360) {
+            image_angle -= 360;
+        }
+        // set the new direction based on the image rotation
+        switch(image_angle) {
+        case 0:
+            currentDir = DIR.NORTH;
             break;
-        case DIR.WEST:
-            x += 16/45;
-            y += 16/45;
+        case 90:
+            currentDir = DIR.WEST;
             break;
-        case DIR.SOUTH:
-            x += 16/45;
-            y -= 16/45;
+        case 180:
+            currentDir = DIR.SOUTH;
             break;
-        case DIR.EAST:
-            x -= 16/45;
-            y -= 16/45;
+        case 270:
+            currentDir = DIR.EAST;
             break;
         }
-    } else {
-        // rotate CW
-        image_angle -= deltaDegrees;
-        view_angle += deltaDegrees;
-        degreesToRotateInner += deltaDegrees;
-        switch(currentDir) {
-        case DIR.NORTH:
-            x += 16/45;
-            y += 16/45;
-            break;
-        case DIR.WEST:
-            x += 16/45;
-            y -= 16/45;
-            break;
-        case DIR.SOUTH:
-            x -= 16/45;
-            y -= 16/45;
-            break;
-        case DIR.EAST:
-            x -= 16/45;
-            y += 16/45;
-            break;
-        }
-    }
-} else if(degreesToRotateOuter != 0) {
-    // do outer corner transition
-    if(degreesToRotateOuter &gt; 0) {
-        // rotate CCW
-        image_angle += deltaDegrees;
-        view_angle -= deltaDegrees;
-        degreesToRotateOuter -= deltaDegrees;
-        // move the player slightly each frame to prevent them from ending
-        // up in a magnet block after the rotation is complete
-        switch(currentDir) {
-        case DIR.NORTH:
-            x -= 16/45;
-            y += 48/45;
-            break;
-        case DIR.WEST:
-            x += 48/45;
-            y += 16/45;
-            break;
-        case DIR.SOUTH:
-            x += 16/45;
-            y -= 48/45;
-            break;
-        case DIR.EAST:
-            x -= 48/45;
-            y -= 16/45;
-            break;
-        }
-    } else {
-        // rotate CW
-        image_angle -= deltaDegrees;
-        view_angle += deltaDegrees;
-        degreesToRotateOuter += deltaDegrees;
-        switch(currentDir) {
-        case DIR.NORTH:
-            x += 16/45;
-            y += 48/45;
-            break;
-        case DIR.WEST:
-            x += 48/45;
-            y -= 16/45;
-            break;
-        case DIR.SOUTH:
-            x -= 16/45;
-            y -= 48/45;
-            break;
-        case DIR.EAST:
-            x -= 48/45;
-            y += 16/45;
-            break;
-        }
-    }
-} else if(!controlsEnabled) {
-    // the rotation has completed
-    controlsEnabled = true;
-    magnetized = true;
-    
-    // return to standing sprite
-    if(sprite_index == spr_Run_Right_Mag)
-    {
-        sprite_index = spr_Stand_Right_Mag;
-    }
-    else
-    {
-        sprite_index = spr_Stand_Left_Mag;
-    }
-    
-    // image angle should be from 0-359
-    while(image_angle &lt; 0) {
-        image_angle += 360;
-    }
-    while(image_angle &gt;= 360) {
-        image_angle -= 360;
-    }
-    // set the new direction based on the image rotation
-    switch(image_angle) {
-    case 0:
-        currentDir = DIR.NORTH;
-        break;
-    case 90:
-        currentDir = DIR.WEST;
-        break;
-    case 180:
-        currentDir = DIR.SOUTH;
-        break;
-    case 270:
-        currentDir = DIR.EAST;
-        break;
-    }
-} 
+    } 
 } else {
     image_speed = 0;
     controlsEnabled = false;

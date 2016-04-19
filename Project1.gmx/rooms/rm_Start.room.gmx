@@ -106,6 +106,7 @@
     <instance objName="obj_Start_Door" x="64" y="192" name="inst_5B03032E" locked="-1" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_init" x="32" y="64" name="inst_C805615E" locked="-1" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Battery" x="416" y="192" name="inst_F13A79B9" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_text_1_1" x="128" y="288" name="inst_411A78A5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles>
     <tile bgName="tile_Platforms" x="0" y="224" w="32" h="32" xo="128" yo="32" id="10000662" name="inst_A3FF9351" depth="1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>

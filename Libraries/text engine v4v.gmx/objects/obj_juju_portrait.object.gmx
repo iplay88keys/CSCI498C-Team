@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,25 +25,18 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.gravFactor = .1; //gravatitional accleration
-global.maxFallSpeed = 5;
-global.cameraAmount = 4;
-randomize();
+            <string>///Create
 
-//soundtrack
-global.soundtrackPlaying = true;
+//Initialise with tweening turned off.
+scr_juju_animate_off();
 
-//text engine
-scr_juju_font_init();
-grid = scr_juju_csv_load("text.csv", chr(124), chr(96));
-global.dialogueDB = scr_juju_dialogue_from_grid(grid, noone);
-ds_grid_destroy(grid);
+destroying = false;
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="113">
+    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -60,32 +53,15 @@ ds_grid_destroy(grid);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.soundtrackPlaying) {
-    audio_sound_gain(global.soundtrack, 0, 1000);
-    global.soundtrackPlaying = false;
-} else {
-    audio_sound_gain(global.soundtrack, 1, 1000);
-    global.soundtrackPlaying = true;
-}
+            <string>///Step
+
+//Handle tweening
+scr_juju_animate_step_event();
+
+if ( destroying ) and ( animateT &lt;= 0 ) instance_destroy();
 </string>
           </argument>
         </arguments>
-      </action>
-    </event>
-    <event eventtype="10" enumb="82">
-      <action>
-        <libid>1</libid>
-        <id>331</id>
-        <kind>0</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_restart_game</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
       </action>
     </event>
   </events>

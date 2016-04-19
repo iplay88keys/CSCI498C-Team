@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>-1</persistent>
+  <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -25,25 +25,16 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.gravFactor = .1; //gravatitional accleration
-global.maxFallSpeed = 5;
-global.cameraAmount = 4;
-randomize();
+            <string>///Create
 
-//soundtrack
-global.soundtrackPlaying = true;
-
-//text engine
-scr_juju_font_init();
-grid = scr_juju_csv_load("text.csv", chr(124), chr(96));
-global.dialogueDB = scr_juju_dialogue_from_grid(grid, noone);
-ds_grid_destroy(grid);
+//Initialise with tweening turned off.
+scr_juju_animate_off();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="9" enumb="113">
+    <event eventtype="3" enumb="0">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -60,32 +51,43 @@ ds_grid_destroy(grid);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.soundtrackPlaying) {
-    audio_sound_gain(global.soundtrack, 0, 1000);
-    global.soundtrackPlaying = false;
-} else {
-    audio_sound_gain(global.soundtrack, 1, 1000);
-    global.soundtrackPlaying = true;
-}
+            <string>///Step
+
+//Handle tweening
+scr_juju_animate_step_event();
 </string>
           </argument>
         </arguments>
       </action>
     </event>
-    <event eventtype="10" enumb="82">
+    <event eventtype="8" enumb="0">
       <action>
         <libid>1</libid>
-        <id>331</id>
-        <kind>0</kind>
+        <id>603</id>
+        <kind>7</kind>
         <userelative>0</userelative>
         <isquestion>0</isquestion>
-        <useapplyto>0</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_restart_game</functionname>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
         <codestring></codestring>
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Draw
+
+//Draw a very simple box. This is definitely something that the developer will want to change...
+draw_set_alpha( image_alpha );
+draw_set_colour( make_colour_rgb( 252, 250, 230 ) );
+draw_rectangle( x, y,   x + dialogueWidth, y + dialogueHeight,   false );
+draw_set_alpha( 1 );
+draw_set_colour( c_black );
+</string>
+          </argument>
+        </arguments>
       </action>
     </event>
   </events>

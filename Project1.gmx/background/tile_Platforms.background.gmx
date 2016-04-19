@@ -13,7 +13,7 @@
     <TextureGroup0>0</TextureGroup0>
   </TextureGroups>
   <For3D>0</For3D>
-  <width>192</width>
+  <width>256</width>
   <height>192</height>
   <data>images\tile_Platforms.png</data>
 </background>

@@ -65,6 +65,9 @@ facingDirection = WAY.LEFT;
 patrolDirection = facingDirection;
 enemySpeed = patrolSpeed; 
 lineOfSightToPlayer = false;
+xLineOfSightOffset = 0;
+yLineOfSightOffset = 0;
+dying = false;
 
 distanceSinceLastPause = minDistanceBeforeNextPause;
 pauseActive = true;
@@ -226,90 +229,100 @@ door_id = "";
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var hadLineofSight = lineOfSightToPlayer and facingPlayer;
-x_0 = x;
-lineOfSightToPlayer = false;
-facingPlayer = false;
-playerInPeripheralVisionCone = false; //does not account for if there is line of sight or not
-cx = 0;
-cy = 0;
-lastDirection = 0;
-if instance_exists(obj_Character) {
-    //check if there is  a line of sight to the player
-    cx = obj_Character.x;
-    cy = obj_Character.y;
-    playerDirection = obj_Character.currentDir;
-    lineOfSightToPlayer = lineOfSightToPlayerFunction();//not(sightBlockedByFloor or sightBlockedByMagnet or sightBlockedBySideDoor);// and playerOnLevel;
-    facingPlayer = (facingDirection == WAY.LEFT and (x - cx &gt;= 0)) or (facingDirection == WAY.RIGHT and (x - cx &lt;= 0))
-    playerInPeripheralVisionCone = abs(y - cy)*tan(degtorad(peripheralVisionAngle)) &gt;= abs(x - cx);
-}
-
-//activate line of sight chase if the player is near horizonal with the enemy
-if (abs(cy - y) &lt; 60) {
-    lineOfSightActive = true;
-}
-if (grounded) { //let's say the enemy cannot move left or right unless grounded for now
-    if (lineOfSightToPlayer and lineOfSightActive and (facingPlayer or playerInPeripheralVisionCone)) { //conditions for chasing the player
-        chasing = true;
-        enemySpeed = chasingSpeed;
-        //if chasing speed would move past the player's x coordinate (or to the player's x coordiante)
-        //then just snap to the player's x coordiante
-        if (sign(x-cx) != sign(x + enemySpeed*sign(cx - x) - cx)) {
-            x = cx;
-        } else {
-            x += enemySpeed*sign(cx - x);
-        }
-
-        //move back (net no movement) if that move would have been out of line of sight of the player
-        if not(lineOfSightToPlayerFunction()) {
-            x = x_0;
-        }
-    } else { //enemy does not see player
-        //if just lost sight of the player
-        if (hadLineofSight and lineOfSightActive) {
-            //stop moving for some random amount of time
-            //if enemy has just lost sight of the player
-            if (movementActive and pauseActive) {
-                movementActive = false;
-                pauseActive = false;
-                distanceSinceLastPause = 0;
-                timeToMovementActive = irandom(room_speed*maxPauseInSeconds);
-            }
-        }
-        
-        if (movementActive) { //patroling
-            enemySpeed = patrolSpeed;
-            chasing = false;
-            if (patrolDirection == WAY.LEFT) {
-                x -= enemySpeed;
+            <string>if not(dying) {
+    var hadLineofSight = lineOfSightToPlayer and facingPlayer;
+    x_0 = x;
+    lineOfSightToPlayer = false;
+    facingPlayer = false;
+    playerInPeripheralVisionCone = false; //does not account for if there is line of sight or not
+    cx = 0;
+    cy = 0;
+    lastDirection = 0;
+    if instance_exists(obj_Character) {
+        //check if there is  a line of sight to the player
+        cx = obj_Character.x;
+        cy = obj_Character.y;
+        playerDirection = obj_Character.currentDir;
+        lineOfSightToPlayer = lineOfSightToPlayerFunction();//not(sightBlockedByFloor or sightBlockedByMagnet or sightBlockedBySideDoor);// and playerOnLevel;
+        facingPlayer = (facingDirection == WAY.LEFT and (x - cx &gt;= 0)) or (facingDirection == WAY.RIGHT and (x - cx &lt;= 0))
+        playerInPeripheralVisionCone = abs(y - cy)*tan(degtorad(peripheralVisionAngle)) &gt;= abs(x - cx);
+    }
+    
+    //activate line of sight chase if the player is near horizonal with the enemy
+    if (abs(cy - y) &lt; 60) {
+        lineOfSightActive = true;
+    }
+    if (grounded) { //let's say the enemy cannot move left or right unless grounded for now
+        if (lineOfSightToPlayer and lineOfSightActive and (facingPlayer or playerInPeripheralVisionCone)) { //conditions for chasing the player
+            chasing = true;
+            enemySpeed = chasingSpeed;
+            //if chasing speed would move past the player's x coordinate (or to the player's x coordiante)
+            //then just snap to the player's x coordiante
+            if (sign(x-cx) != sign(x + enemySpeed*sign(cx - x) - cx)) {
+                x = cx;
             } else {
-                x += enemySpeed;
+                x += enemySpeed*sign(cx - x);
             }
-            //randomly pause sometimes 
-            if (irandom(patrolingPauseFactor) == 0) {
-                movementActive = false;
-                pauseActive = false;
-                distanceSinceLastPause = 0;
-                timeToMovementActive = irandom(room_speed*maxPauseInSeconds);
+    
+            //move back (net no movement) if that move would have been out of line of sight of the player
+            if not(lineOfSightToPlayerFunction()) {
+                x = x_0;
             }
-        } else { //paused
-            timeToMovementActive--;
-            if (timeToMovementActive &lt;= 0) { 
-                movementActive = true;
+        } else { //enemy does not see player
+            //if just lost sight of the player
+            if (hadLineofSight and lineOfSightActive) {
+                //stop moving for some random amount of time
+                //if enemy has just lost sight of the player
+                if (movementActive and pauseActive) {
+                    movementActive = false;
+                    pauseActive = false;
+                    distanceSinceLastPause = 0;
+                    timeToMovementActive = irandom(room_speed*maxPauseInSeconds);
+                }
             }
-            //randomly change direction if paused
-            if (irandom(pausedDirectionChangeFactor) == 0) {
-                if (facingDirection == WAY.LEFT) {
-                    facingDirection = WAY.RIGHT;
-                    patrolDirection = WAY.RIGHT;
+            
+            if (movementActive) { //patroling
+                enemySpeed = patrolSpeed;
+                chasing = false;
+                if (patrolDirection == WAY.LEFT) {
+                    x -= enemySpeed;
                 } else {
-                    facingDirection = WAY.LEFT;
-                    patrolDirection = WAY.LEFT;
+                    x += enemySpeed;
+                }
+                //randomly pause sometimes 
+                if (irandom(patrolingPauseFactor) == 0) {
+                    movementActive = false;
+                    pauseActive = false;
+                    distanceSinceLastPause = 0;
+                    timeToMovementActive = irandom(room_speed*maxPauseInSeconds);
+                }
+            } else { //paused
+                timeToMovementActive--;
+                if (timeToMovementActive &lt;= 0) { 
+                    movementActive = true;
+                }
+                //randomly change direction if paused
+                if (irandom(pausedDirectionChangeFactor) == 0) {
+                    if (facingDirection == WAY.LEFT) {
+                        facingDirection = WAY.RIGHT;
+                        patrolDirection = WAY.RIGHT;
+                    } else {
+                        facingDirection = WAY.LEFT;
+                        patrolDirection = WAY.LEFT;
+                    }
                 }
             }
         }
+        updateLineOfSightStatus(abs(x-x_0)); //also updates pausing status
     }
-    updateLineOfSightStatus(abs(x-x_0)); //also updates pausing status
+} else {
+    image_speed = 0;
+    hspeed = max(0, hspeed-1);
+    vspeed = max(0, vspeed-1);
+    image_alpha -= 0.01;
+    if (image_alpha &lt;= 0) {
+        instance_destroy();
+    }
 }
 </string>
           </argument>
@@ -334,7 +347,7 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
           <argument>
             <kind>1</kind>
             <string>if other.is_on {
-    instance_destroy();
+    dying = true;
 }
 </string>
           </argument>
@@ -358,8 +371,15 @@ if (grounded) { //let's say the enemy cannot move left or right unless grounded 
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if collision_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, obj_Character, true, true) {
-    room_restart();
+            <string>if not(dying) {
+    if collision_rectangle(bbox_left + padLeft, bbox_top, bbox_right - padRight, bbox_bottom, obj_Character, true, true) {
+        with(other) {
+            dying = true;
+        }
+        patrolSpeed = 0;
+        chasingSpeed = 0;
+        chasing = false;
+    }
 }
 </string>
           </argument>

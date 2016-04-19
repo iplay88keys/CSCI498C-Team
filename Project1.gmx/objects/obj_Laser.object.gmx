@@ -55,23 +55,9 @@ check_direction = WAY.RIGHT;
           <argument>
             <kind>1</kind>
             <string>if (is_on) {
-    //reset player state
     with(other) {
-        vspeed = 0;
-        grounded = false;
-        jumping = false;
-        climbing = false;
-        touchingLadder = false;
-        movingUpLadder = false;
-        ladderBelow = false;
-        magnetized = false;
-        if(facing == WAY.RIGHT) {
-            sprite_index = spr_Stand_Right;
-        } else {
-            sprite_index = spr_Stand_Left;
-        }
+        dying = true;
     }
-    room_restart();
 }
 </string>
           </argument>

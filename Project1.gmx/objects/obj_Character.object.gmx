@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>controlsEnabled = true;
+dying = false;
 
 // state of the player's position/physics
 vspeed = 0;
@@ -62,6 +63,11 @@ image_speed = run_frame_rate;
 
 // Looking around
 camera_detached = false;
+
+// Background parallax offset
+bg_offsetX = background_x[0];
+bg_offsetY = background_y[0];
+yPercentage = 0;
 </string>
           </argument>
         </arguments>
@@ -291,8 +297,14 @@ if(controlsEnabled) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//parallax
-background_x[0] = view_xview[0] * 0.6;
+            <string>// parallax
+background_x[0] = view_xview[0] * 0.6 + bg_offsetX;
+
+// get percentage of the room the view is vertically
+if(room_height != view_hview[0]) {
+    yPercentage = view_yview[0] / (room_height - view_hview[0]);
+    background_y[0] = view_yview[0] + background_height[0] * 0.25 - yPercentage * (view_hview[0] - background_height[0]) / 2;
+}
 </string>
           </argument>
         </arguments>
@@ -315,145 +327,174 @@ background_x[0] = view_xview[0] * 0.6;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>// Handle transitioning on inner right angles (eg. floor to wall, wall to ceiling)
-if(degreesToRotateInner != 0) {
-    if(degreesToRotateInner &gt; 0) {
-        // rotate CCW
-        image_angle += deltaDegrees;
-        view_angle -= deltaDegrees;
-        degreesToRotateInner -= deltaDegrees;
-        // move the player slightly each frame to prevent them from ending
-        // up in a magnet block after the rotation is complete
-        switch(currentDir) {
-        case DIR.NORTH:
-            x -= 16/45;
-            y += 16/45;
+            <string>if not(dying) {
+    // Handle transitioning on inner right angles (eg. floor to wall, wall to ceiling)
+    if(degreesToRotateInner != 0) {
+        if(degreesToRotateInner &gt; 0) {
+            // rotate CCW
+            image_angle += deltaDegrees;
+            view_angle -= deltaDegrees;
+            degreesToRotateInner -= deltaDegrees;
+            // move the player slightly each frame to prevent them from ending
+            // up in a magnet block after the rotation is complete
+            switch(currentDir) {
+            case DIR.NORTH:
+                x -= 16/45;
+                y += 16/45;
+                break;
+            case DIR.WEST:
+                x += 16/45;
+                y += 16/45;
+                break;
+            case DIR.SOUTH:
+                x += 16/45;
+                y -= 16/45;
+                break;
+            case DIR.EAST:
+                x -= 16/45;
+                y -= 16/45;
+                break;
+            }
+        } else {
+            // rotate CW
+            image_angle -= deltaDegrees;
+            view_angle += deltaDegrees;
+            degreesToRotateInner += deltaDegrees;
+            switch(currentDir) {
+            case DIR.NORTH:
+                x += 16/45;
+                y += 16/45;
+                break;
+            case DIR.WEST:
+                x += 16/45;
+                y -= 16/45;
+                break;
+            case DIR.SOUTH:
+                x -= 16/45;
+                y -= 16/45;
+                break;
+            case DIR.EAST:
+                x -= 16/45;
+                y += 16/45;
+                break;
+            }
+        }
+    } else if(degreesToRotateOuter != 0) {
+        // do outer corner transition
+        if(degreesToRotateOuter &gt; 0) {
+            // rotate CCW
+            image_angle += deltaDegrees;
+            view_angle -= deltaDegrees;
+            degreesToRotateOuter -= deltaDegrees;
+            // move the player slightly each frame to prevent them from ending
+            // up in a magnet block after the rotation is complete
+            switch(currentDir) {
+            case DIR.NORTH:
+                x -= 16/45;
+                y += 48/45;
+                break;
+            case DIR.WEST:
+                x += 48/45;
+                y += 16/45;
+                break;
+            case DIR.SOUTH:
+                x += 16/45;
+                y -= 48/45;
+                break;
+            case DIR.EAST:
+                x -= 48/45;
+                y -= 16/45;
+                break;
+            }
+        } else {
+            // rotate CW
+            image_angle -= deltaDegrees;
+            view_angle += deltaDegrees;
+            degreesToRotateOuter += deltaDegrees;
+            switch(currentDir) {
+            case DIR.NORTH:
+                x += 16/45;
+                y += 48/45;
+                break;
+            case DIR.WEST:
+                x += 48/45;
+                y -= 16/45;
+                break;
+            case DIR.SOUTH:
+                x -= 16/45;
+                y -= 48/45;
+                break;
+            case DIR.EAST:
+                x -= 48/45;
+                y += 16/45;
+                break;
+            }
+        }
+    } else if(!controlsEnabled) {
+        // the rotation has completed
+        controlsEnabled = true;
+        magnetized = true;
+        
+        // return to standing sprite
+        if(sprite_index == spr_Run_Right_Mag)
+        {
+            sprite_index = spr_Stand_Right_Mag;
+        }
+        else
+        {
+            sprite_index = spr_Stand_Left_Mag;
+        }
+        
+        // image angle should be from 0-359
+        while(image_angle &lt; 0) {
+            image_angle += 360;
+        }
+        while(image_angle &gt;= 360) {
+            image_angle -= 360;
+        }
+        // set the new direction based on the image rotation
+        switch(image_angle) {
+        case 0:
+            currentDir = DIR.NORTH;
             break;
-        case DIR.WEST:
-            x += 16/45;
-            y += 16/45;
+        case 90:
+            currentDir = DIR.WEST;
             break;
-        case DIR.SOUTH:
-            x += 16/45;
-            y -= 16/45;
+        case 180:
+            currentDir = DIR.SOUTH;
             break;
-        case DIR.EAST:
-            x -= 16/45;
-            y -= 16/45;
+        case 270:
+            currentDir = DIR.EAST;
             break;
         }
-    } else {
-        // rotate CW
-        image_angle -= deltaDegrees;
-        view_angle += deltaDegrees;
-        degreesToRotateInner += deltaDegrees;
-        switch(currentDir) {
-        case DIR.NORTH:
-            x += 16/45;
-            y += 16/45;
-            break;
-        case DIR.WEST:
-            x += 16/45;
-            y -= 16/45;
-            break;
-        case DIR.SOUTH:
-            x -= 16/45;
-            y -= 16/45;
-            break;
-        case DIR.EAST:
-            x -= 16/45;
-            y += 16/45;
-            break;
+    } 
+} else {
+    image_speed = 0;
+    controlsEnabled = false;
+    hspeed = max(0, hspeed-1);
+    vspeed = max(0, vspeed-1);
+    image_alpha -= 0.01;
+    if (image_alpha &lt;= 0) {
+        //reset player state
+        vspeed = 0;
+        grounded = false;
+        jumping = false;
+        climbing = false;
+        touchingLadder = false;
+        movingUpLadder = false;
+        ladderBelow = false;
+        magnetized = false;
+        dying = false;
+        if(facing == WAY.RIGHT) {
+            sprite_index = spr_Stand_Right;
+        } else {
+            sprite_index = spr_Stand_Left;
         }
+        image_alpha = 1;
+        controlsEnabled = true;
+        room_restart();
     }
-} else if(degreesToRotateOuter != 0) {
-    // do outer corner transition
-    if(degreesToRotateOuter &gt; 0) {
-        // rotate CCW
-        image_angle += deltaDegrees;
-        view_angle -= deltaDegrees;
-        degreesToRotateOuter -= deltaDegrees;
-        // move the player slightly each frame to prevent them from ending
-        // up in a magnet block after the rotation is complete
-        switch(currentDir) {
-        case DIR.NORTH:
-            x -= 16/45;
-            y += 48/45;
-            break;
-        case DIR.WEST:
-            x += 48/45;
-            y += 16/45;
-            break;
-        case DIR.SOUTH:
-            x += 16/45;
-            y -= 48/45;
-            break;
-        case DIR.EAST:
-            x -= 48/45;
-            y -= 16/45;
-            break;
-        }
-    } else {
-        // rotate CW
-        image_angle -= deltaDegrees;
-        view_angle += deltaDegrees;
-        degreesToRotateOuter += deltaDegrees;
-        switch(currentDir) {
-        case DIR.NORTH:
-            x += 16/45;
-            y += 48/45;
-            break;
-        case DIR.WEST:
-            x += 48/45;
-            y -= 16/45;
-            break;
-        case DIR.SOUTH:
-            x -= 16/45;
-            y -= 48/45;
-            break;
-        case DIR.EAST:
-            x -= 48/45;
-            y += 16/45;
-            break;
-        }
-    }
-} else if(!controlsEnabled) {
-    // the rotation has completed
-    controlsEnabled = true;
-    magnetized = true;
-    
-    // return to standing sprite
-    if(sprite_index == spr_Run_Right_Mag)
-    {
-        sprite_index = spr_Stand_Right_Mag;
-    }
-    else
-    {
-        sprite_index = spr_Stand_Left_Mag;
-    }
-    
-    // image angle should be from 0-359
-    while(image_angle &lt; 0) {
-        image_angle += 360;
-    }
-    while(image_angle &gt;= 360) {
-        image_angle -= 360;
-    }
-    // set the new direction based on the image rotation
-    switch(image_angle) {
-    case 0:
-        currentDir = DIR.NORTH;
-        break;
-    case 90:
-        currentDir = DIR.WEST;
-        break;
-    case 180:
-        currentDir = DIR.SOUTH;
-        break;
-    case 270:
-        currentDir = DIR.EAST;
-        break;
-    }
+
 }
 </string>
           </argument>
@@ -1094,6 +1135,9 @@ if(controlsEnabled) {
 camera_detached = false;
 view_visible[0] = true;
 view_visible[1] = false;
+
+bg_offsetX = background_x[0];
+bg_offsetY = background_y[0];
 </string>
           </argument>
         </arguments>
@@ -1301,6 +1345,118 @@ view_visible[1] = false;
           <argument>
             <kind>0</kind>
             <string>35</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>BGY:</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>50</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>background_y[0]</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>30</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>50</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>y%: </string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>65</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>yPercentage</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>30</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>65</string>
           </argument>
         </arguments>
       </action>

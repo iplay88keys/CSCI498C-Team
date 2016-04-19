@@ -187,8 +187,11 @@
     <room>rooms\rm_Main_Menu</room>
     <room>rooms\rm_Start</room>
     <room>rooms\rm_CopyThisForNewLevels</room>
+    <room>rooms\rm_Level_Jump_Tower</room>
     <room>rooms\rm_Level1_1</room>
     <room>rooms\rm_Level1_2</room>
+    <room>rooms\rm_LevelNP_1</room>
+    <room>rooms\rm_LevelNP_2</room>
     <room>rooms\rm_Test</room>
   </rooms>
   <help>

@@ -65,6 +65,8 @@ facingDirection = WAY.LEFT;
 patrolDirection = facingDirection;
 enemySpeed = patrolSpeed; 
 lineOfSightToPlayer = false;
+xLineOfSightOffset = 0;
+yLineOfSightOffset = 0;
 dying = false;
 
 distanceSinceLastPause = minDistanceBeforeNextPause;

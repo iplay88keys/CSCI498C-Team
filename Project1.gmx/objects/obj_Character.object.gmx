@@ -460,8 +460,8 @@ background_x[0] = view_xview[0] * 0.6;
 } else {
     image_speed = 0;
     controlsEnabled = false;
-    hspeed = max(0, hspeed-2);
-    vspeed = max(0, vspeed-2);
+    hspeed = max(0, hspeed-1);
+    vspeed = max(0, vspeed-1);
     image_alpha -= 0.01;
     if (image_alpha &lt;= 0) {
         //reset player state

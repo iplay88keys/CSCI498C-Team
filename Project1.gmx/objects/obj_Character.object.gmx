@@ -62,6 +62,11 @@ image_speed = run_frame_rate;
 
 // Looking around
 camera_detached = false;
+
+// Background parallax offset
+bg_offsetX = background_x[0];
+bg_offsetY = background_y[0];
+yPercentage = 0;
 </string>
           </argument>
         </arguments>
@@ -291,8 +296,14 @@ if(controlsEnabled) {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//parallax
-background_x[0] = view_xview[0] * 0.6;
+            <string>// parallax
+background_x[0] = view_xview[0] * 0.6 + bg_offsetX;
+
+// get percentage of the room the view is vertically
+if(room_height != view_hview[0]) {
+    yPercentage = view_yview[0] / (room_height - view_hview[0]);
+    background_y[0] = view_yview[0] + background_height[0] * 0.25 - yPercentage * (view_hview[0] - background_height[0]) / 2;
+}
 </string>
           </argument>
         </arguments>
@@ -1094,6 +1105,9 @@ if(controlsEnabled) {
 camera_detached = false;
 view_visible[0] = true;
 view_visible[1] = false;
+
+bg_offsetX = background_x[0];
+bg_offsetY = background_y[0];
 </string>
           </argument>
         </arguments>
@@ -1301,6 +1315,118 @@ view_visible[1] = false;
           <argument>
             <kind>0</kind>
             <string>35</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>BGY:</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>50</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>background_y[0]</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>30</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>50</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>y%: </string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>0</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>65</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>yPercentage</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>30</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>65</string>
           </argument>
         </arguments>
       </action>

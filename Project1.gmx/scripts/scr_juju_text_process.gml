@@ -167,8 +167,9 @@ for( var i = 0; i < ds_list_size( lst_string ); i++ ) {
 //AUTOSIZE AND POSITIONING
 
 //Set up the "carriage" to the top-left
-var carriageX = 0;
-var carriageY = 0;
+var carrigeInit = 70;
+var carriageX = carrigeInit;
+var carriageY = 10;
 var maxWidth = 0;
 
 //Iterate over all string segments
@@ -185,7 +186,7 @@ for( var i = 0; i < ds_list_size( lst_string ); i++ ) {
     
     //Set the position of this string to where the carriage is
     if ( yy != 0 ) {
-        carriageX = 0;
+        carriageX = carrigeInit;
         carriageY += yy;
     }
     

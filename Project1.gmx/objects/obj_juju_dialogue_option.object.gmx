@@ -146,13 +146,15 @@ if ( dialogueText.textDelay &gt;= 0 ) {
     if ( !scr_juju_gamepads_crude_any_connected() ) {
         if ( mouseOver ) {
             draw_set_halign( fa_right );
-            draw_text( x, y, "&gt;" );
+            draw_text_transformed( x + 65, y + 10, "&gt;", .5, .5, 0);
+            //draw_text( x, y, "&gt;" );
             draw_set_halign( fa_left );
         }
     } else {
         if ( gamepadOver ) {
             draw_set_halign( fa_right );
-            draw_text( x, y, "&gt;" );
+            draw_text_transformed( x + 65, y + 10, "&gt;", .5, .5, 0);
+            //draw_text( x, y, "&gt;" );
             draw_set_halign( fa_left );
         }
     }

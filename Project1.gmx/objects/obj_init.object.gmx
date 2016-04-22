@@ -31,6 +31,8 @@ global.cameraAmount = 4;
 randomize();
 
 //soundtrack
+audio_stop_all();
+global.soundtrack = noone;
 global.soundtrackPlaying = true;
 
 //text engine
@@ -38,6 +40,30 @@ scr_juju_font_init();
 grid = scr_juju_csv_load("text.csv", chr(124), chr(96));
 global.dialogueDB = scr_juju_dialogue_from_grid(grid, noone);
 ds_grid_destroy(grid);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>//used to stop a soundtrack after it has faded out
+audio_stop_sound(soundToStop);
 </string>
           </argument>
         </arguments>
@@ -60,12 +86,14 @@ ds_grid_destroy(grid);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if (global.soundtrackPlaying) {
-    audio_sound_gain(global.soundtrack, 0, 1000);
-    global.soundtrackPlaying = false;
-} else {
-    audio_sound_gain(global.soundtrack, 1, 1000);
-    global.soundtrackPlaying = true;
+            <string>if not(global.soundtrack == noone) {
+    if (global.soundtrackPlaying) {
+        audio_sound_gain(global.soundtrack, 0, 1000);
+        global.soundtrackPlaying = false;
+    } else {
+        audio_sound_gain(global.soundtrack, 1, 1000);
+        global.soundtrackPlaying = true;
+    }
 }
 </string>
           </argument>

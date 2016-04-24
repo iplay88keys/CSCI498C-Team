@@ -3,7 +3,7 @@
   <spriteName>&lt;undefined&gt;</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-210</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -33,6 +33,7 @@ gamepadOverEndStep = false;
 
 //Initialise with tweening turned off.
 scr_juju_animate_off();
+
 </string>
           </argument>
         </arguments>
@@ -81,12 +82,11 @@ scr_juju_animate_off();
           <argument>
             <kind>1</kind>
             <string>///Step
-
 if ( dialogueText.textDelay &gt;= 0 ) {
     if ( !scr_juju_gamepads_crude_any_connected() ) {
         
         if ( instance_exists( dialogueText ) ) {
-            if ( point_in_rectangle( mouse_x, mouse_y,   x, y, x + dialogueText.textWidth, y + dialogueText.textHeight - 1 ) ) and ( dialogueText.textDelay &gt;= 0 ) {
+            if ( point_in_rectangle( mouse_x, mouse_y,   x, y, x + dialogueText.textWidth, y + dialogueText.textHeight - 1 ) or true ) and ( dialogueText.textDelay &gt;= 0 ) {
                 mouseOver = true;
                 if ( mouse_check_button_pressed( mb_left ) ) scr_juju_dialogue_clicked( id );
             } else {
@@ -123,7 +123,7 @@ if ( gamepadOverEndStep ) {
         </arguments>
       </action>
     </event>
-    <event eventtype="8" enumb="0">
+    <event eventtype="8" enumb="64">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -141,20 +141,19 @@ if ( gamepadOverEndStep ) {
           <argument>
             <kind>1</kind>
             <string>///Draw
-
 if ( dialogueText.textDelay &gt;= 0 ) {
     if ( !scr_juju_gamepads_crude_any_connected() ) {
-        if ( mouseOver ) {
+        if ( !mouseOver ) {
             draw_set_halign( fa_right );
-            draw_text_transformed( x + 65, y + 10, "&gt;", .5, .5, 0);
-            //draw_text( x, y, "&gt;" );
+            //draw_text_transformed( x + 65, y + 10, "&gt;", .5, .5, 0);
+            draw_text( x + 140, y - 20, "&gt;" );
             draw_set_halign( fa_left );
         }
     } else {
         if ( gamepadOver ) {
             draw_set_halign( fa_right );
-            draw_text_transformed( x + 65, y + 10, "&gt;", .5, .5, 0);
-            //draw_text( x, y, "&gt;" );
+            //draw_text_transformed( x + 65, y + 10, "&gt;", .5, .5, 0);
+            draw_text( x + 140, y - 20, "&gt;" );
             draw_set_halign( fa_left );
         }
     }

@@ -26,8 +26,8 @@ for( var i = 0; i < textSegmentIndex; i++ ) {
     var yy    = ds_list_find_value( lst_string_y    , i );
     
     if ( string_char_at( style, 1 ) != "!" ) scr_juju_text_styles( style );
-    draw_text_transformed( x + xx, round( y + yy + textLineSpacing * 0.5 ), str , .5, .5, 0);
-    //draw_text( x + xx, round( y + yy + textLineSpacing * 0.5 ), str );
+    //draw_text_transformed( x + xx, round( y + yy + textLineSpacing * 0.5 ), str , .5, .5, 0);
+    draw_text( x + xx, round( y + yy + textLineSpacing * 0.5 ), str );
     
 }
 
@@ -38,8 +38,8 @@ var xx    = ds_list_find_value( lst_string_x    , textSegmentIndex );
 var yy    = ds_list_find_value( lst_string_y    , textSegmentIndex );
 
 if ( string_char_at( style, 1 ) != "!" ) scr_juju_text_styles( style );
- draw_text_transformed(x + xx, round( y + yy + textLineSpacing * 0.5 ), string_copy( str, 1, textPos - textSegmentPos ) , .5, .5, 0);
-//draw_text( x + xx, round( y + yy + textLineSpacing * 0.5 ), string_copy( str, 1, textPos - textSegmentPos ) );
+ //draw_text_transformed(x + xx, round( y + yy + textLineSpacing * 0.5 ), string_copy( str, 1, textPos - textSegmentPos ) , .5, .5, 0);
+draw_text( x + xx, round( y + yy + textLineSpacing * 0.5 ), string_copy( str, 1, textPos - textSegmentPos ) );
 
 
 draw_set_colour( oldColour );

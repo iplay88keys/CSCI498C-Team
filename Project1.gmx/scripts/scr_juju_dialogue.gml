@@ -34,10 +34,10 @@ switch( category ) {
         //arg 8: The autosizing width is 400px. This stop any one line from exceeding that width... the system isn't perfect and very long strings without spaces will glitch out.
         //arg 9: Use the defaul line spacing - this is equal to the string height of a newline character in the starting style's font.
         //arg10: The dialogue box object will destroy itself and regenerated every time an option is selected.
-        var backInst = scr_juju_dialogue_box( db, xx, yy, "", category, 8, 8, 6, "styleA", 380, 8,   true );
+        var backInst = scr_juju_dialogue_box( db, xx, yy, "", category, 10, 40, 6, "styleA", 450, "",   true );
         
         //Manually set the width of the dialogue box to 400px. The width that's sent to the dialogue box is automatically autosized to longest line of text in the dialogue box.
-        backInst.dialogueWidth = 380;
+        backInst.dialogueWidth = 450;
         
         //Add a tweening animation to the dialogue box.
         scr_juju_animate( backInst, 0.02,   xx, yy, 0,   xx, yy, 1,   scr_juju_ease_cubic_in );

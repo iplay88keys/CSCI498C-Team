@@ -167,7 +167,7 @@ for( var i = 0; i < ds_list_size( lst_string ); i++ ) {
 //AUTOSIZE AND POSITIONING
 
 //Set up the "carriage" to the top-left
-var carrigeInit = 70;
+var carrigeInit = 140;
 var carriageX = carrigeInit;
 var carriageY = 10;
 var maxWidth = 0;

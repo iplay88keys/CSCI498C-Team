@@ -25,21 +25,23 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>var width = 288
-var height = 96
+            <string>var width = 576
+var height = 192
 
 //Create a dialogue box to attach to.
 //var boxInst = scr_juju_dialogue(view_xview[0] + (view_wview[0] / 2) - (width / 2), view_yview[0] + ((3 * view_hview[0]) / 5) + (height / 2), "sirona0", "default_category");
-var boxInst = scr_juju_dialogue(view_xview[0] + (view_wview[0] / 2) - (width / 2), view_yview[0] + (view_hview[0] / 2) + (height / 2), "sirona0", "default_category");
+//var boxInst = scr_juju_dialogue(0, 0, "sirona0", "default_category");
+
+var boxInst = scr_juju_dialogue(window_get_width()/2 - width/2,window_get_height()/2 + 2*height/3, "sirona0", "default_category");
 
 //Sirona
-with(scr_juju_portrait( boxInst, x - 100, y, spr_Stand_Right, 0, 0, 1, "Sirona")) {
-    scr_juju_animate(id, 0.04, x - 150, y, 0, x, y, 1, scr_juju_ease_cubic_in);
+with(scr_juju_portrait( boxInst, x - 5, y - 90, spr_sirona_head, 0, 0, 1, "L")) {
+    scr_juju_animate(id, 0.04, x, y, 0, x, y, 1, scr_juju_ease_cubic_in);
 }
 
 //Terisa
-with(scr_juju_portrait( boxInst, x + sprite_width, y, spr_Stand_Left, 0, 0, 1, "Terisa")) {
-    scr_juju_animate(id, 0.04, x + 150, y, 0, x, y, 1, scr_juju_ease_cubic_in);
+with(scr_juju_portrait( boxInst, x + 210, y - 90, spr_terisa_head, 0, 0, 1, "R")) {
+    scr_juju_animate(id, 0.04, x, y, 0, x, y, 1, scr_juju_ease_cubic_in);
 }
 </string>
           </argument>

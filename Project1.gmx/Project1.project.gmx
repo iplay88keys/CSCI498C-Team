@@ -78,6 +78,8 @@
       <sprite>sprites\spr_Enemy_Stand_Left</sprite>
     </sprites>
     <sprite>sprites\spr_Dialog_Box</sprite>
+    <sprite>sprites\spr_terisa_head</sprite>
+    <sprite>sprites\spr_sirona_head</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>

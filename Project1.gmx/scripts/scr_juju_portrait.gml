@@ -8,8 +8,7 @@ var img = argument4;
 var spd = argument5;
 var xscl = argument6;
 var name = argument7;
-
-var inst = instance_create( xx, yy, obj_juju_portrait );
+var inst = instance_create( xx*2 - 2, yy*2+4, obj_juju_portrait );
 scr_juju_dialogue_box_add_portrait( boxInst, inst, name );
 inst.sprite_index = spr;
 inst.image_index = img;

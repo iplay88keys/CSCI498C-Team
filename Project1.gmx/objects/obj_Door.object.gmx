@@ -52,8 +52,10 @@ is_on = false;
           <argument>
             <kind>1</kind>
             <string>if(keyboard_check_pressed(ord('S')) &amp;&amp; is_on) {
-    other.door_id = next_door_id;
-    room_goto(next_room);
+    with (other) 
+    {
+        advanceLevel();
+    }
 }
 </string>
           </argument>

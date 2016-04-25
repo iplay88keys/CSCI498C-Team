@@ -30,6 +30,8 @@ global.maxFallSpeed = 5;
 global.cameraAmount = 4;
 randomize();
 
+loadLevelOrder();
+
 //soundtrack
 audio_stop_all();
 global.soundtrack = noone;

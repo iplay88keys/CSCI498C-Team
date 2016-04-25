@@ -10,7 +10,15 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code>changeSoundtrack(snd_Soundtrack, 0, 0);</code>
+  <code>changeSoundtrack(snd_Soundtrack, 0, 0);
+
+var i;
+for (i = 0; i &lt; instance_number(obj_Character); i += 1) {
+   with(instance_find(obj_Character,i))
+   {
+    instance_destroy();
+   }
+}</code>
   <enableViews>0</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>

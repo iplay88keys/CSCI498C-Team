@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>controlsEnabled = true;
 dying = false;
+level = 0; //starting level
 
 // state of the player's position/physics
 vspeed = 0;
@@ -1736,6 +1737,58 @@ if(!keyboard_check(ord('D')) &amp;&amp; controlsEnabled &amp;&amp; (grounded || 
     } else {
         sprite_index = spr_Stand_Left_Mag;
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="10" enumb="34">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>advanceLevel();
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="10" enumb="33">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>if (level &gt; 0) {
+    level -= 2;
+    if (level &lt; 0) {
+        level = 0;
+    }
+    advanceLevel();
 }
 </string>
           </argument>

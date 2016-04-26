@@ -78,7 +78,8 @@
             <string>audio_play_sound(snd_Item_Get, 2, false);
 
 // trigger item get event in player by tell them this item's ID
-other.itemGet = self;
+//id = self;
+other.itemGet = id;
 
 // this item in particular gives magnet boots
 other.hasMagnetBoots = true;

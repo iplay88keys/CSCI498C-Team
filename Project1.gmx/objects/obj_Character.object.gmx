@@ -95,11 +95,17 @@ yPercentage = 0;
           <argument>
             <kind>1</kind>
             <string>controlsEnabled = true;
+
 if(hasMagnetBoots) {
     sprite_index = spr_Stand_Right_Mag;
 } else {
     sprite_index = spr_Stand_Right;
 }
+with(itemGet)
+{
+    instance_destroy();
+}
+itemGet = noone;
 </string>
           </argument>
         </arguments>
@@ -346,15 +352,14 @@ if(alarm[0] &gt; room_speed * 1.5) {
 }
     
 // item get
-if(itemGet != noone &amp;&amp; grounded) {
+if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
     alarm[0] = room_speed * 3;
     controlsEnabled = false;
     itemGet.pickedUp = true;
-
+    
     // reposition the item to be above the player's head
     itemGet.x = x;
     itemGet.y = y - sprite_height / 2 - 1;
-    itemGet = noone;
 }
 
 
@@ -486,7 +491,7 @@ if(itemGet != noone &amp;&amp; grounded) {
                 break;
             }
         }
-    } else if(!controlsEnabled &amp;&amp; itemGet != noone) {
+    } else if(!controlsEnabled &amp;&amp; itemGet == noone) {
         // the rotation has completed
         controlsEnabled = true;
         magnetized = true;

@@ -8,7 +8,8 @@ addLevel(rm_Get_Boots, inst_EDC288F2);
 addLevel(rm_Level1_1, inst_B894C4BB);
 addLevel(rm_Level1_2, inst_DEA3E53B);
 addLevel(rm_LevelNP_1, inst_A76659AF);
-addLevel(rm_Test, inst_16B2379D);
+addLevel(rm_LevelNP_2, inst_0EABE797);
+addLevel(rm_End_Credits, "");
 
 #define addLevel
 //addLevel(room, door_id)

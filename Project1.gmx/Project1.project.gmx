@@ -226,6 +226,7 @@
     <room>rooms\rm_LevelNP_1</room>
     <room>rooms\rm_LevelNP_2</room>
     <room>rooms\rm_Test</room>
+    <room>rooms\rm_End_Credits</room>
   </rooms>
   <help>
     <rtf>help.rtf</rtf>

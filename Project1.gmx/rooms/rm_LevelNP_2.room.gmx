@@ -10,7 +10,9 @@
   <persistent>0</persistent>
   <colour>0</colour>
   <showcolour>-1</showcolour>
-  <code>changeSoundtrack(snd_LaserGridSoundtrack, 10, 2);</code>
+  <code>if not(audio_is_playing(snd_LaserGridSoundtrack)) {
+    changeSoundtrack(snd_LaserGridSoundtrack, 10, 2);
+}</code>
   <enableViews>-1</enableViews>
   <clearViewBackground>-1</clearViewBackground>
   <clearDisplayBuffer>-1</clearDisplayBuffer>

@@ -75,7 +75,9 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>audio_play_sound(snd_Item_Get, 2, false);
+            <string>if not(audio_is_playing(snd_Item_Get)) {
+    audio_play_sound(snd_Item_Get, 2, false);
+}
 
 // trigger item get event in player by tell them this item's ID
 //id = self;

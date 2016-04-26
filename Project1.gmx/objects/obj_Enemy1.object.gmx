@@ -419,6 +419,7 @@ door_id = "";
             <kind>1</kind>
             <string>//this is all debug output and should be removed before final version
 //line of sight lines
+/*
 if(lineOfSightToPlayer) {
     draw_set_color(c_lime);
 }
@@ -438,6 +439,7 @@ draw_line(x, y, x+tan(degtorad(peripheralVisionAngle/2))*100, y-200);
 draw_line(x, y, x-tan(degtorad(peripheralVisionAngle/2))*100, y+200);
 draw_line(x, y, x-tan(degtorad(peripheralVisionAngle/2))*100, y-200);
 draw_set_color(c_green);
+*/
 </string>
           </argument>
         </arguments>

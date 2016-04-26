@@ -35,7 +35,6 @@ while (floor_block == noone && magnet_block == noone && side_door == noone) {
             side_door = noone;
         } else {
             if (check_direction == WAY.RIGHT) {
-                show_message("test");
                 offset -= (sprite_width/2 + 4);
             } else if (check_direction  == WAY.LEFT) {
                 offset -= (sprite_width/2 + 3);

@@ -497,7 +497,7 @@ if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
         magnetized = true;
         
         // return to standing sprite
-        if(sprite_index == spr_Run_Right_Mag)
+        if (facing == WAY.RIGHT)// (sprite_index == spr_Run_Right_Mag)
         {
             sprite_index = spr_Stand_Right_Mag;
         }
@@ -930,7 +930,7 @@ if(controlsEnabled) {
           <argument>
             <kind>1</kind>
             <string>// If the camera isn't already detached, use the location of the other view
-if (!camera_detached &amp;&amp;  (grounded || magnetized)) {
+if (!camera_detached &amp;&amp;  (grounded || magnetized || touchingLadder)) {
     view_visible[0] = false;
     view_visible[1] = true;
 
@@ -966,7 +966,7 @@ if ((view_yview[1] + global.cameraAmount) &lt; (room_height - view_hview[1])) {
           <argument>
             <kind>1</kind>
             <string>// If the camera isn't already detached, use the location of the other view
-if (!camera_detached &amp;&amp;  (grounded || magnetized)) {
+if (!camera_detached &amp;&amp;  (grounded || magnetized || touchingLadder)) {
     view_visible[0] = false;
     view_visible[1] = true;
 
@@ -1002,7 +1002,7 @@ if (view_xview[1] + global.cameraAmount &lt; room_width - view_wview[1]) {
           <argument>
             <kind>1</kind>
             <string>// If the camera isn't already detached, use the location of the other view
-if (!camera_detached &amp;&amp;  (grounded || magnetized)) {
+if (!camera_detached &amp;&amp;  (grounded || magnetized || touchingLadder)) {
     view_visible[0] = false;
     view_visible[1] = true;
 
@@ -1038,7 +1038,7 @@ if (view_yview[1] - global.cameraAmount &gt; 0) {
           <argument>
             <kind>1</kind>
             <string>// If the camera isn't already detached, use the location of the other view
-if (!camera_detached &amp;&amp; (grounded || magnetized)) {
+if (!camera_detached &amp;&amp; (grounded || magnetized || touchingLadder)) {
     view_visible[0] = false;
     view_visible[1] = true;
 

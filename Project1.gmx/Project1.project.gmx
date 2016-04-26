@@ -43,6 +43,7 @@
       <sprite>sprites\spr_Door</sprite>
       <sprite>sprites\spr_Door_Cage</sprite>
       <sprite>sprites\spr_Battery_Pickup</sprite>
+      <sprite>sprites\spr_Battery_Held</sprite>
     </sprites>
     <sprites name="Menu">
       <sprite>sprites\sprite8</sprite>
@@ -58,6 +59,7 @@
         <sprite>sprites\spr_Fall_Right</sprite>
         <sprite>sprites\spr_Fall_Left</sprite>
         <sprite>sprites\spr_Climb</sprite>
+        <sprite>sprites\spr_Item_Get</sprite>
       </sprites>
       <sprites name="Magboots">
         <sprite>sprites\spr_Stand_Right_Mag</sprite>
@@ -69,6 +71,7 @@
         <sprite>sprites\spr_Fall_Right_Mag</sprite>
         <sprite>sprites\spr_Fall_Left_Mag</sprite>
         <sprite>sprites\spr_Climb_Mag</sprite>
+        <sprite>sprites\spr_Item_Get_Mag</sprite>
       </sprites>
     </sprites>
     <sprites name="Enemy">
@@ -77,9 +80,31 @@
       <sprite>sprites\spr_Enemy_Stand_Right</sprite>
       <sprite>sprites\spr_Enemy_Stand_Left</sprite>
     </sprites>
-    <sprite>sprites\spr_Dialog_Box</sprite>
-    <sprite>sprites\spr_terisa_head</sprite>
-    <sprite>sprites\spr_sirona_head</sprite>
+    <sprites name="Dialog">
+      <sprite>sprites\spr_Dialog_Box</sprite>
+      <sprites name="Terisa">
+        <sprite>sprites\spr_Terisa_Head_Neutral_Right</sprite>
+        <sprite>sprites\spr_Terisa_Head_Neutral_Left</sprite>
+        <sprite>sprites\spr_Terisa_Head_Talk_Right</sprite>
+        <sprite>sprites\spr_Terisa_Head_Talk_Left</sprite>
+        <sprite>sprites\spr_Terisa_Head_Blink_Right</sprite>
+        <sprite>sprites\spr_Terisa_Head_Blink_Left</sprite>
+      </sprites>
+      <sprites name="Sorona">
+        <sprite>sprites\spr_Sorona_Neutral_Right</sprite>
+        <sprite>sprites\spr_Sorona_Neutral_Left</sprite>
+        <sprite>sprites\spr_Sorona_Circle_Right</sprite>
+        <sprite>sprites\spr_Sorona_Circle_Left</sprite>
+        <sprite>sprites\spr_Sorona_Check_Right</sprite>
+        <sprite>sprites\spr_Sorona_Check_Left</sprite>
+        <sprite>sprites\spr_Sorona_X_Right</sprite>
+        <sprite>sprites\spr_Sorona_X_Left</sprite>
+        <sprite>sprites\spr_Sorona_Exclamation_Right</sprite>
+        <sprite>sprites\spr_Sorona_Exclamation_Left</sprite>
+        <sprite>sprites\spr_Sorona_Wait_Right</sprite>
+        <sprite>sprites\spr_Sorona_Wait_Left</sprite>
+      </sprites>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\background1</background>
@@ -193,6 +218,7 @@
   <rooms name="rooms">
     <room>rooms\rm_Main_Menu</room>
     <room>rooms\rm_Start</room>
+    <room>rooms\rm_Get_Boots</room>
     <room>rooms\rm_CopyThisForNewLevels</room>
     <room>rooms\rm_Level_Jump_Tower</room>
     <room>rooms\rm_Level1_1</room>

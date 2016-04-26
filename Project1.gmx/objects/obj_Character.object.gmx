@@ -40,6 +40,7 @@ ladderBelow = false;
 magnetized = false;
 facing = WAY.RIGHT;
 airFrames = 0;
+global.dialogueOpen = false;
 
 currentDir = DIR.NORTH;
 
@@ -468,6 +469,9 @@ if(room_height != view_hview[0]) {
             currentDir = DIR.EAST;
             break;
         }
+    }
+    if (global.dialogueOpen) {
+        controlsEnabled = false;
     } 
 } else {
     image_speed = 0;
@@ -493,6 +497,7 @@ if(room_height != view_hview[0]) {
         }
         image_alpha = 1;
         controlsEnabled = true;
+        global.dialogueOpen = false;
         room_restart();
     }
 

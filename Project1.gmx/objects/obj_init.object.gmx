@@ -28,6 +28,8 @@
             <string>global.gravFactor = .1; //gravatitional accleration
 global.maxFallSpeed = 5;
 global.cameraAmount = 4;
+global.loadSavedGame = false; //autosave
+global.saveFile = "Save.sav"
 randomize();
 
 loadLevelOrder();

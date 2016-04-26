@@ -3,5 +3,5 @@ Room 1||||||
 //tag|//text|//check script|//option text|//script to run|//tag destination|
 ||||||
 sirona0|[!spr,L,spr_sirona_head][!spr,R,spr_terisa_head][!img,L,1]Welcome to Sirona Station.[!img,L,0]You can call me Sirona. You woke up here after smuggling aboard the ship. How are you feeling?||Continue||terisa0|
-terisa0|Oh, hi. What happened here?||Continue|||
+terisa0|Oh, hi. What happened here?||Continue|enable_controls||
 !!eB||||||

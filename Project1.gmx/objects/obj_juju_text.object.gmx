@@ -111,7 +111,6 @@ scr_juju_animate_step_event();
           <argument>
             <kind>1</kind>
             <string>///Draw
-
 //Actually draw the text to screen
 scr_juju_text_draw_event();
 </string>

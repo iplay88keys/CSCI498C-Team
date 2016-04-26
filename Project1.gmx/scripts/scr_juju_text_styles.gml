@@ -15,7 +15,7 @@ switch( argument0 ) {
     case "":            { return scr_juju_text_styles( textStartStyle ); break; }
     
     //It's good form to fully define styles that are then used as starting styles for scr_juju_text() and scr_juju_dialogue()
-    case "styleA":      { scr_juju_font_set( fnt_a ); draw_set_colour( make_colour_rgb( 40, 40, 40 ) ); break; }
+    case "styleA":      { scr_juju_font_set( fnt_a ); draw_set_colour( c_white ); break; }
     case "styleB":      { scr_juju_font_set( fnt_b ); draw_set_colour( make_colour_rgb( 40, 40, 40 ) ); break; }
     
     //Note that you really should be assigning custom colours to precomputed values stored in enums/macros/constants.

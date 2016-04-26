@@ -16,7 +16,52 @@ ds_list_add(global.levelDoors, argument1);
 
 #define advanceLevel
 level += 1;
+gotoLevel(level);
+
+#define gotoLevel
+//gotoLevel(levelNumber)
+level = argument0;
 var levelsListId = global.levels;
 var levelDoorsListId = global.levelDoors;
 door_id = levelDoorsListId[| level];
 room_goto(levelsListId[| level]);
+
+//save game
+if (level > 0) {
+    if (file_exists(global.saveFile)){
+     file_delete(global.saveFile)
+    }
+    ini_open(global.saveFile);
+    var savedLevel = base64_encode(string(level));
+    var savedMagnetBoots = "false";
+    if  (hasMagnetBoots)
+    {
+        savedMagnetBoots = "true";
+    }
+    savedMagnetBoots = base64_encode(savedMagnetBoots);
+    ini_write_string("Save", "Level", savedLevel);
+    ini_write_string("Save", "MagnetBoots", savedMagnetBoots);
+    ini_close();
+}
+//TODO delete save file upon game completion
+//(Also probably remove character object from the game on end credits or whatever we have)
+
+#define loadSavedLevel
+//will load and goto saved level if save file exists
+if (global.loadSavedGame and file_exists(global.saveFile)) {
+    ini_open(global.saveFile);
+    var loadedLevel = ini_read_string("Save", "Level", "0");
+    var loadedMagnetBoots = ini_read_string("Save", "MagnetBoots", "false");
+    
+    loadedLevel = real(base64_decode(loadedLevel));
+    loadedMagnetBoots = base64_decode(loadedMagnetBoots);
+    
+    instance_create(0, 0, obj_Character);
+    with(obj_Character) {
+        gotoLevel(loadedLevel);
+        if (loadedMagnetBoots == "true")
+        {
+            hasMagnetBoots = true;
+        }
+    }
+}

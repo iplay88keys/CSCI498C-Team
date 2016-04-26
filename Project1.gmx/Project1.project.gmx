@@ -92,6 +92,7 @@
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
+    <script>scripts\enable_controls.gml</script>
     <script>scripts\loadLevelOrder.gml</script>
     <script>scripts\changeSoundtrack.gml</script>
     <script>scripts\checkCollisionDir.gml</script>
@@ -149,6 +150,7 @@
         <script>scripts\read_me___obj_juju_text.gml</script>
       </scripts>
     </scripts>
+    <script>scripts\create_dialogue.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_a</font>
@@ -179,7 +181,7 @@
       <object>objects\obj_Battery</object>
     </objects>
     <objects name="Text">
-      <object>objects\obj_text_1_1</object>
+      <object>objects\obj_text</object>
       <objects name="Engine">
         <object>objects\obj_juju_dialogue_option</object>
         <object>objects\obj_juju_portrait</object>

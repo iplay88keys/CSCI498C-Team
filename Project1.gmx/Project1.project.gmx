@@ -28,6 +28,7 @@
     <sound>sound\snd_Item_Get</sound>
     <sound>sound\snd_LaserGridSoundtrack</sound>
     <sound>sound\snd_EndCreditsSoundtrack</sound>
+    <sound>sound\snd_FinalPathSoundtrack</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="Block">

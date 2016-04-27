@@ -10,7 +10,7 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code>changeSoundtrack(snd_Soundtrack, 0, 0, false);
+  <code>changeSoundtrack(snd_EndCreditsSoundtrack, 3, 2, false);
 if file_exists(global.saveFile) {
     file_delete(global.saveFile);
 }

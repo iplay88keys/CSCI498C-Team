@@ -1,4 +1,4 @@
-//changeSoundtrack(newSoundtrack, fadeOutTime, fadeInTime)
+//changeSoundtrack(newSoundtrack, fadeOutTime, fadeInTime, loop)
 //fade times are in seconds, soundtracks will overlap while fading
 with (obj_init)
 {
@@ -8,7 +8,9 @@ with (obj_init)
         soundToStop = global.soundtrack;
         alarm[0] = (room_speed * argument1) + 1;
     }
-    global.soundtrack = audio_play_sound(argument0, 10, true);
+    global.soundtrack = audio_play_sound(argument0, 10, argument3);
     audio_sound_gain(global.soundtrack, 0, 0);
-    audio_sound_gain(global.soundtrack, 1, room_speed * argument2);
+    if (global.soundtrackPlaying) {
+        audio_sound_gain(global.soundtrack, 1, room_speed * argument2);
+    }
 }

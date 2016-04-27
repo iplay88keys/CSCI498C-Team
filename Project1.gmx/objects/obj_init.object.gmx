@@ -28,6 +28,7 @@
             <string>global.gravFactor = .1; //gravatitional accleration
 global.maxFallSpeed = 5;
 global.cameraAmount = 4;
+global.dialogueOpen = false;
 global.loadSavedGame = false; //autosave
 global.saveFile = "Save.sav"
 randomize();
@@ -67,7 +68,9 @@ ds_grid_destroy(grid);
           <argument>
             <kind>1</kind>
             <string>//used to stop a soundtrack after it has faded out
-audio_stop_sound(soundToStop);
+if audio_is_playing(soundToStop) {
+    audio_stop_sound(soundToStop);
+}
 </string>
           </argument>
         </arguments>

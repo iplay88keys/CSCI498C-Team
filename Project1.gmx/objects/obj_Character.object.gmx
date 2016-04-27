@@ -531,7 +531,7 @@ if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
     }
     if (global.dialogueOpen) {
         controlsEnabled = false;
-    } 
+    }
 } else {
     image_speed = 0;
     controlsEnabled = false;

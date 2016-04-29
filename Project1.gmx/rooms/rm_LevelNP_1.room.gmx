@@ -121,7 +121,7 @@
     <instance objName="obj_Floor" x="544" y="480" name="inst_B08C5000" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="480" y="480" name="inst_E0D486E5" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Door" x="192" y="320" name="inst_A76659AF" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_PressurePlate" x="320" y="384" name="inst_93273FD3" locked="0" code="ds_list_add(list_id, inst_FF6568E3);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_PressurePlate" x="320" y="384" name="inst_93273FD3" locked="0" code="ds_list_add(list_id, inst_FF6568E3);" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_PressurePlate" x="352" y="416" name="inst_95277658" locked="0" code="ds_list_add(list_id, inst_246AFB1B);&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_SideDoor" x="448" y="416" name="inst_EF54001B" locked="0" code="is_on = true;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Laser" x="736" y="416" name="inst_246AFB1B" locked="0" code="setLaserDirection(WAY.LEFT);&#xA;is_on = false;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

@@ -54,7 +54,9 @@ is_on = false;
             <string>if(keyboard_check_pressed(ord('S')) &amp;&amp; is_on) {
     with (other) 
     {
-        advanceLevel();
+        if (controlsEnabled) {
+            advanceLevel();
+        }
     }
 }
 </string>

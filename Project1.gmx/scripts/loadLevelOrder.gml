@@ -5,6 +5,7 @@ global.levelDoors = ds_list_create();
 addLevel(rm_Start, inst_5B03032E); //this needs to be here because it is level 0
 addLevel(rm_Level_Jump_Tower, inst_05E1338B);
 addLevel(rm_FarAway, inst_119D2842);
+addLevel(rm_LaserDodge, inst_8105CF20);
 addLevel(rm_Get_Boots, inst_EDC288F2);
 addLevel(rm_Level1_1, inst_B894C4BB);
 addLevel(rm_Level1_2, inst_DEA3E53B);

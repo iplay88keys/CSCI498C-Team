@@ -89,26 +89,10 @@
     <sprites name="Dialog">
       <sprite>sprites\spr_Dialog_Box</sprite>
       <sprites name="Terisa">
-        <sprite>sprites\spr_Terisa_Head_Neutral_Right</sprite>
-        <sprite>sprites\spr_Terisa_Head_Neutral_Left</sprite>
-        <sprite>sprites\spr_Terisa_Head_Talk_Right</sprite>
-        <sprite>sprites\spr_Terisa_Head_Talk_Left</sprite>
-        <sprite>sprites\spr_Terisa_Head_Blink_Right</sprite>
-        <sprite>sprites\spr_Terisa_Head_Blink_Left</sprite>
+        <sprite>sprites\spr_Terisa_Head</sprite>
       </sprites>
       <sprites name="Sorona">
-        <sprite>sprites\spr_Sorona_Neutral_Right</sprite>
-        <sprite>sprites\spr_Sorona_Neutral_Left</sprite>
-        <sprite>sprites\spr_Sorona_Circle_Right</sprite>
-        <sprite>sprites\spr_Sorona_Circle_Left</sprite>
-        <sprite>sprites\spr_Sorona_Check_Right</sprite>
-        <sprite>sprites\spr_Sorona_Check_Left</sprite>
-        <sprite>sprites\spr_Sorona_X_Right</sprite>
-        <sprite>sprites\spr_Sorona_X_Left</sprite>
-        <sprite>sprites\spr_Sorona_Exclamation_Right</sprite>
-        <sprite>sprites\spr_Sorona_Exclamation_Left</sprite>
-        <sprite>sprites\spr_Sorona_Wait_Right</sprite>
-        <sprite>sprites\spr_Sorona_Wait_Left</sprite>
+        <sprite>sprites\spr_Sorona_Head</sprite>
       </sprites>
     </sprites>
   </sprites>

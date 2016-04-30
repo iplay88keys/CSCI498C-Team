@@ -497,7 +497,7 @@ audio_listener_position(0, 0, 0);
                 break;
             }
         }
-    } else if(!controlsEnabled &amp;&amp; itemGet == noone) {
+    } else if(!controlsEnabled &amp;&amp; itemGet == noone &amp;&amp; !global.dialogueOpen) {
         // the rotation has completed
         controlsEnabled = true;
         magnetized = true;
@@ -539,6 +539,7 @@ audio_listener_position(0, 0, 0);
         controlsEnabled = false;
     }
 } else {
+    // dying
     image_speed = 0;
     controlsEnabled = false;
     hspeed = max(0, hspeed-1);
@@ -565,7 +566,6 @@ audio_listener_position(0, 0, 0);
         global.dialogueOpen = false;
         room_restart();
     }
-
 }
 </string>
           </argument>
@@ -1247,7 +1247,7 @@ bg_offsetY = background_y[0];
         <arguments>
           <argument>
             <kind>13</kind>
-            <string>32768</string>
+            <string>255</string>
           </argument>
         </arguments>
       </action>
@@ -1267,15 +1267,15 @@ bg_offsetY = background_y[0];
         <arguments>
           <argument>
             <kind>2</kind>
-            <string>Magnetized? :</string>
+            <string>Win width</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>0</string>
+            <string>10</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>5</string>
+            <string>10</string>
           </argument>
         </arguments>
       </action>
@@ -1295,15 +1295,15 @@ bg_offsetY = background_y[0];
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>magnetized</string>
+            <string>window_get_width()</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>120</string>
+            <string>100</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>5</string>
+            <string>10</string>
           </argument>
         </arguments>
       </action>
@@ -1323,15 +1323,15 @@ bg_offsetY = background_y[0];
         <arguments>
           <argument>
             <kind>2</kind>
-            <string>x: </string>
+            <string>Win height</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>0</string>
+            <string>10</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>20</string>
+            <string>25</string>
           </argument>
         </arguments>
       </action>
@@ -1351,295 +1351,15 @@ bg_offsetY = background_y[0];
         <arguments>
           <argument>
             <kind>0</kind>
-            <string>x</string>
+            <string>window_get_height()</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>20</string>
+            <string>100</string>
           </argument>
           <argument>
             <kind>0</kind>
-            <string>20</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>y: </string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>35</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>y</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>20</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>35</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>BGY:</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>50</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>background_y[0]</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>30</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>50</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>y%: </string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>65</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>yPercentage</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>30</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>65</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>mousex:</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>80</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>mouse_x</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>70</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>80</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>514</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_text</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>2</kind>
-            <string>mousey:</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>0</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>95</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>613</id>
-        <kind>0</kind>
-        <userelative>-1</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>1</exetype>
-        <functionname>action_draw_variable</functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>0</kind>
-            <string>mouse_y</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>70</string>
-          </argument>
-          <argument>
-            <kind>0</kind>
-            <string>95</string>
+            <string>25</string>
           </argument>
         </arguments>
       </action>

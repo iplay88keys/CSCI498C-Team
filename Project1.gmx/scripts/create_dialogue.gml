@@ -17,7 +17,7 @@ y = 352;
 var boxInst = scr_juju_dialogue(window_get_width()/2 - width/2,window_get_height()/2 + 2*height/3, argument0, "default_category");
 
 //Sirona
-with(scr_juju_portrait( boxInst, x - 5, y - 89, spr_Sorona_Head, 0, 0, 1, "L")) {
+with(scr_juju_portrait( boxInst, x - 5, y - 89, spr_Sirona_Head, 0, 0, 1, "L")) {
     scr_juju_animate(id, 0.04, x, y, 0, x, y, 1, scr_juju_ease_cubic_in);
 }
 

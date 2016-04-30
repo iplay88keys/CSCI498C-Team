@@ -1,29 +1,45 @@
-//rm_Start
-!!sB
+rm_Start - 6||||||
+!!sB||||||
 //tag|//text|//check script|//option text|//script to run|//tag destination|
-sirona0_0|[!spr,L,spr_Sorona_Head][!spr,R,spr_Terisa_Head][!img,L,0]Hello and welcome to Sirona Station.||Continue||sirona0_1|
-sirona0_1|I am Sirona, the station's artificial intelligence and I run all automated processes of this space station.||Continue||terisa0_0|
-terisa0_0|[!img,R,0]Oh, hi[!delay,40].[!img,R,1].[!delay,40].[!img,R,0] What happened?[!img,R,2] My head hurts[!img,R,0]...||Continue||sirona0_2|
-sirona0_2|[!img,L,5].[!delay,40].[!img,L,4].You seem to have suffered a concussion.[!delay,40][!img,L,0]||Continue||sirona0_3|
-sirona0_3|[!img,L,0]You should start making your way toward the escape shuttle. That door up ahead will lead you there. (press 's' on the switch by the door to activate it.)||Continue|enable_controls||
-!!eB
-
-//rm_Level_Jump_Tower
-!!sB
-//tag|//text|//check script|//option text|//script to run|//tag destination|
-sirona1_0|[!spr,L,spr_Sorona_Head][!spr,R,spr_Terisa_Head]With the damage this ship has endured, this is the only way up to the next level that isn't blocked by debris.||Continue||terisa1_0|
-terisa1_0|[!img,R,0]What caused the damage?||Continue||terisa0_0|
-sirona1_1|[!img,L,5].[!delay,40].[!delay,40].[!delay,40].[!img,R,1]Sirona station is a research station tasked with the mission of exploring prospective world for terraforming.||Continue||sirona1_2|
-sirona1_2|[!img,L,5].[!delay,40].[!img,L,4].You seem to have suffered a concussion.[!delay,40][!img,L,0]||Continue||sirona0_3|
-sirona0_3|[!img,L,0]You should start making your way toward the escape shuttle. That door up ahead will lead you there. (press 's' on the switch by the door to activate it.)||Continue|enable_controls||
-!!eB
-
-//rm_FarAway
-!!sB
-//tag|//text|//check script|//option text|//script to run|//tag destination|
-sirona2_0|[!spr,L,spr_Sorona_Head][!spr,R,spr_Terisa_Head]It seems that some of the station's emergency defences have been activated.||Continue||sirona2_1|
-sirona2_1|You can turn them off using the switches.||Continue||terisa0_0|
-terisa0_0|[!img,R,0]Oh, hi[!delay,40].[!img,R,1].[!delay,40].[!img,R,0] What happened?[!img,R,2] My head hurts[!img,R,0]...||Continue||sirona0_2|
-sirona0_2|[!img,L,5].[!delay,40].[!img,L,4].You seem to have suffered a concussion.[!delay,40][!img,L,0]||Continue||sirona0_3|
-sirona0_3|[!img,L,0]You should start making your way toward the escape shuttle. That door up ahead will lead you there. (press 's' on the switch by the door to activate it.)||Continue|enable_controls||
-!!eB
+sirona0_0|[blue][!spr,L,spr_Sirona_Head][!spr,R,spr_Terisa_Head][!img,L,0]Hello and welcome to Sirona Station.||Continue||sirona0_1|
+sirona0_1|[blue]I am Sirona, the station's artificial intelligence and I run all automated processes of this space station.||Continue||terisa0_0|
+terisa0_0|[red][!img,R,2]Oh, hi.[!delay,40] What happened? My head hurts[!img,R,0]...||Continue||sirona0_2|
+sirona0_2|[blue](.[!img,L,5][!delay,30].[!delay,30].[!delay,30][!img,L,4]) You smuggled aboard a ship on its way to this station. You were caught and put in this holding cell. You must have passed out and hit your head.[!delay,40][!img,L,0]||Continue||sirona0_3|
+sirona0_3|[blue][!img,L,0]You should start making your way toward the escape pods. That door up ahead will lead you there.||Continue||info0_1|
+info0_1|[green](press 's' on the switch by the door to activate it.)||Continue|enable_controls||
+!!eB||||||
+||||||
+rm_Level_Jump_Tower - 6||||||
+!!sB||||||
+sirona1_0|[blue][!spr,L,spr_Sirona_Head][!spr,R,spr_Terisa_Head]With the damage this ship has endured, this is the only way up to the next level that isn't blocked by debris.||Continue||terisa1_0|
+terisa1_0|[red][!img,R,2]What caused the damage[!img,R,0]?||Continue||sirona1_1|
+sirona1_1|[blue](.[!img,L,5][!delay,30].[!delay,30].[!delay,30][!img,L,3]) Sirona station is a research station tasked with the mission of exploring prospective worlds for eventual terraforming[!img,R,0].||Continue||sirona1_2|
+sirona1_2|[blue]Some of the plant life [!img,R,1]brought abord this ship from the planet below contained a virus which has [!img,R,0]infected the scientists.||Continue||sirona1_3|
+sirona1_3|[blue]The [!img,R,1]plants have also grown and spread throughout the [!img,R,0]station causing much of the damage you see.||Continue||sirona1_4|
+sirona1_4|[blue]This is why [!img,R,1]it is imperative that you make it to the [!img,R,0]escape shuttle.||Continue|enable_controls||
+!!eB||||||
+||||||
+rm_FarAway - 6||||||
+!!sB||||||
+sirona2_0|[blue][!spr,L,spr_Sirona_Head][!spr,R,spr_Terisa_Head]Some of the station's emergency defences have been activated as a result of the damage.||Continue||terisa2_0|
+terisa2_0|[red][!img,R,2]Can you deactivate them?||Continue||sirona2_1|
+sirona2_1|[blue][!img,L,2]No.[!img,R,0] In compliance with the Nussix AI charter[!img,R,1], ship AIs do not have control over internal ship defense systems.[!img,R,0] This is for the protection of crews against rogue AIs[!img,L,0].||Continue||sirona2_2|
+sirona2_2|[blue]You can activate lasers using the switches and pressure plates found throughout the station.||Continue||terisa2_1|
+terisa2_1|[blue][!img,R,2]Ok, I'll see if I can figure this out[!img,R,0]!||Continue||info2_0|
+info2_0|[green](You can move the view around using the arrow keys. You can still activate switches while the view is in a different position)||Continue|enable_controls||
+!!eB||||||
+||||||
+rm_Get_Boots - 3||||||
+!!sB||||||
+sirona3_0|[blue][!spr,L,spr_Sirona_Head][!spr,R,spr_Terisa_Head]The battery in this room will power your magnetic boots and allow you to walk on magnetic surfaces.||Continue||terisa3_0|
+terisa3_0|[red][!img,R,2]Awesome! They must have removed my magboot batteries when they found me on the ship[!img,R,0].||Continue||sirona3_1|
+sirona3_1|[blue]You will need to use [!img,R,1]station's defences to help get to the escape pods as[!img,R,0] there are no weapons on this station.||Continue|enable_controls||
+!!eB||||||
+rm_Exit - 5||||||
+!!sB||||||
+sirona4_0|[blue][!spr,L,spr_Sirona_Head][!spr,R,spr_Terisa_Head]The escape pods are just beyond that door[!delay,40].[!img,L,5]..I have notified the nearest vessel who have agreed to pick you up and take you to civilization.||Continue||terisa4_0|
+terisa4_0|[red][!img,R,2]Thank you for all of your help. I would not have been able to get here without it[!img,R,0].||Continue||sirona4_1|
+sirona4_1|[blue]My prime directive is the protection of human life. Helping you was in accordance with that.||Continue||terisa4_1|
+terisa4_1|[red][!img,R,2]Well, thank you nevertheless!||Continue||sirona4_2|
+sirona4_2|[blue]You are welcome. Now, get going!||Continue|enable_controls||
+!!eB||||||

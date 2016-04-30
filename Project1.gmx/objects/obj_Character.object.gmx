@@ -491,7 +491,7 @@ if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
                 break;
             }
         }
-    } else if(!controlsEnabled &amp;&amp; itemGet == noone) {
+    } else if(!controlsEnabled &amp;&amp; itemGet == noone &amp;&amp; !global.dialogueOpen) {
         // the rotation has completed
         controlsEnabled = true;
         magnetized = true;
@@ -533,6 +533,7 @@ if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
         controlsEnabled = false;
     }
 } else {
+    // dying
     image_speed = 0;
     controlsEnabled = false;
     hspeed = max(0, hspeed-1);
@@ -559,7 +560,6 @@ if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
         global.dialogueOpen = false;
         room_restart();
     }
-
 }
 </string>
           </argument>
@@ -1222,6 +1222,140 @@ bg_offsetY = background_y[0];
         <whoName>self</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>524</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_color</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>13</kind>
+            <string>255</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>Win width</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>10</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>10</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>window_get_width()</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>100</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>10</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>514</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_text</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>2</kind>
+            <string>Win height</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>10</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>25</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>613</id>
+        <kind>0</kind>
+        <userelative>-1</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>1</exetype>
+        <functionname>action_draw_variable</functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>0</kind>
+            <string>window_get_height()</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>100</string>
+          </argument>
+          <argument>
+            <kind>0</kind>
+            <string>25</string>
+          </argument>
+        </arguments>
       </action>
     </event>
     <event eventtype="9" enumb="112">

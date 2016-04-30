@@ -104,6 +104,7 @@
       <background>background\tile_BG</background>
       <background>background\tile_Decor</background>
     </backgrounds>
+    <background>background\bg_Credits</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">
@@ -211,8 +212,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_Main_Menu</room>
     <room>rooms\rm_Start</room>
+    <room>rooms\rm_Main_Menu</room>
     <room>rooms\rm_Get_Boots</room>
     <room>rooms\rm_CopyThisForNewLevels</room>
     <room>rooms\rm_LaserDodge</room>

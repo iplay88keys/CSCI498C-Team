@@ -65,6 +65,7 @@ for (i = 0; i &lt; instance_number(obj_Character); i += 1) {
     <instance objName="obj_Move_FadeIn" x="0" y="119" name="inst_E13A6EF9" locked="0" code="xChange = 80;&#xA;yChange = -20;&#xA;frames = 180;&#xA;delay = 120;&#xA;sprite_index = spr_Title_Station;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Button_Credits" x="0" y="260" name="inst_F59D0D0C" locked="0" code="xChange = 50;&#xA;frames = 60;&#xA;&#xA;delay = 330;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Button_Quit" x="1" y="302" name="inst_E8AC89F8" locked="0" code="xChange = 50;&#xA;frames = 60;&#xA;&#xA;delay = 360;&#xA;" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_init" x="408" y="93" name="inst_249A46BD" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

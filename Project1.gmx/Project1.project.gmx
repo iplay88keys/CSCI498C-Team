@@ -29,6 +29,11 @@
     <sound>sound\snd_LaserGridSoundtrack</sound>
     <sound>sound\snd_EndCreditsSoundtrack</sound>
     <sound>sound\snd_FinalPathSoundtrack</sound>
+    <sound>sound\snd_Pressure_Plate_On</sound>
+    <sound>sound\snd_Pressure_Plate_Off</sound>
+    <sound>sound\snd_Switch</sound>
+    <sound>sound\snd_Door_Close</sound>
+    <sound>sound\snd_Door_Open</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="Block">

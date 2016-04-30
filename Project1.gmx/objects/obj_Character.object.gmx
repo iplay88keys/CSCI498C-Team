@@ -72,6 +72,9 @@ camera_detached = false;
 bg_offsetX = background_x[0];
 bg_offsetY = background_y[0];
 yPercentage = 0;
+
+//audio
+audio_listener_orientation(0,1,0,0,0,1);
 </string>
           </argument>
         </arguments>
@@ -361,6 +364,9 @@ if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
     itemGet.x = x;
     itemGet.y = y - sprite_height / 2 - 1;
 }
+
+//audio 
+audio_listener_position(0, 0, 0);
 
 
 

@@ -40,6 +40,11 @@ audio_stop_all();
 global.soundtrack = noone;
 global.soundtrackPlaying = true;
 
+//audio
+global.falloff_ref = 200;
+global.falloff_max = 2000;
+global.falloff_factor = 1;
+
 //text engine
 scr_juju_font_init();
 grid = scr_juju_csv_load("text.csv", chr(124), chr(96));

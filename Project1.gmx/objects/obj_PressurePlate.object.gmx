@@ -67,11 +67,13 @@ if (player == noone &amp;&amp; enemy == noone) {
     // If the pressure plate is currently on, change it and update the objects
     if (is_on) {
         pressurePlate();
+        audio_play_sound_at(snd_Pressure_Plate_Off, x, y, 0, global.falloff_ref, global.falloff_max, global.falloff_factor, false, 1);
     }
     is_on = false;
 } else {
     if (!is_on) {
         pressurePlate();
+        audio_play_sound_at(snd_Pressure_Plate_On, x, y, 0, global.falloff_ref, global.falloff_max, global.falloff_factor, false, 1);
     }
     is_on = true;
 }

@@ -52,6 +52,7 @@ alarm[0] = 180; // three second pause before opening
             <string>image_index = 1; // open the door
 // make the player
 instance_create(x + sprite_width / 2, y, obj_Character);
+create_dialogue("sirona0_0");
 </string>
           </argument>
         </arguments>

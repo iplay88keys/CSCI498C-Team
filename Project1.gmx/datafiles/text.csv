@@ -1,7 +1,29 @@
-Room 1|||||| 
-!!sB||||||
+//rm_Start
+!!sB
 //tag|//text|//check script|//option text|//script to run|//tag destination|
-||||||
-sirona0|[!spr,L,spr_Sorona_X_Right][!spr,R,spr_Terisa_Head_Neutral_Left][!img,L,1]Welcome to Sirona Station.[!spr,L,spr_Sorona_Neutral_Right]You can call me Sirona. You woke up here after smuggling aboard the ship. How are you feeling?||Continue||terisa0|
-terisa0|Oh, hi. What happened here?||Continue|enable_controls||
-!!eB||||||
+sirona0_0|[!spr,L,spr_Sorona_Head][!spr,R,spr_Terisa_Head][!img,L,0]Hello and welcome to Sirona Station.||Continue||sirona0_1|
+sirona0_1|I am Sirona, the station's artificial intelligence and I run all automated processes of this space station.||Continue||terisa0_0|
+terisa0_0|[!img,R,0]Oh, hi[!delay,40].[!img,R,1].[!delay,40].[!img,R,0] What happened?[!img,R,2] My head hurts[!img,R,0]...||Continue||sirona0_2|
+sirona0_2|[!img,L,5].[!delay,40].[!img,L,4].You seem to have suffered a concussion.[!delay,40][!img,L,0]||Continue||sirona0_3|
+sirona0_3|[!img,L,0]You should start making your way toward the escape shuttle. That door up ahead will lead you there. (press 's' on the switch by the door to activate it.)||Continue|enable_controls||
+!!eB
+
+//rm_Level_Jump_Tower
+!!sB
+//tag|//text|//check script|//option text|//script to run|//tag destination|
+sirona1_0|[!spr,L,spr_Sorona_Head][!spr,R,spr_Terisa_Head]With the damage this ship has endured, this is the only way up to the next level that isn't blocked by debris.||Continue||terisa1_0|
+terisa1_0|[!img,R,0]What caused the damage?||Continue||terisa0_0|
+sirona1_1|[!img,L,5].[!delay,40].[!delay,40].[!delay,40].[!img,R,1]Sirona station is a research station tasked with the mission of exploring prospective world for terraforming.||Continue||sirona1_2|
+sirona1_2|[!img,L,5].[!delay,40].[!img,L,4].You seem to have suffered a concussion.[!delay,40][!img,L,0]||Continue||sirona0_3|
+sirona0_3|[!img,L,0]You should start making your way toward the escape shuttle. That door up ahead will lead you there. (press 's' on the switch by the door to activate it.)||Continue|enable_controls||
+!!eB
+
+//rm_FarAway
+!!sB
+//tag|//text|//check script|//option text|//script to run|//tag destination|
+sirona2_0|[!spr,L,spr_Sorona_Head][!spr,R,spr_Terisa_Head]It seems that some of the station's emergency defences have been activated.||Continue||sirona2_1|
+sirona2_1|You can turn them off using the switches.||Continue||terisa0_0|
+terisa0_0|[!img,R,0]Oh, hi[!delay,40].[!img,R,1].[!delay,40].[!img,R,0] What happened?[!img,R,2] My head hurts[!img,R,0]...||Continue||sirona0_2|
+sirona0_2|[!img,L,5].[!delay,40].[!img,L,4].You seem to have suffered a concussion.[!delay,40][!img,L,0]||Continue||sirona0_3|
+sirona0_3|[!img,L,0]You should start making your way toward the escape shuttle. That door up ahead will lead you there. (press 's' on the switch by the door to activate it.)||Continue|enable_controls||
+!!eB

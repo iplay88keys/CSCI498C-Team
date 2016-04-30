@@ -48,7 +48,11 @@
       <sprite>sprites\spr_Battery_Held</sprite>
     </sprites>
     <sprites name="Menu">
-      <sprite>sprites\sprite8</sprite>
+      <sprite>sprites\spr_Title_Station</sprite>
+      <sprite>sprites\spr_Title_Sorona</sprite>
+      <sprite>sprites\spr_Title_Start</sprite>
+      <sprite>sprites\spr_Title_Credits</sprite>
+      <sprite>sprites\spr_Title_Quit</sprite>
     </sprites>
     <sprites name="Terisa">
       <sprites name="Regular">
@@ -109,7 +113,7 @@
     </sprites>
   </sprites>
   <backgrounds name="background">
-    <background>background\background1</background>
+    <background>background\bg_MainMenu</background>
     <background>background\bg_Star</background>
     <backgrounds name="Tiles">
       <background>background\tile_Platforms</background>
@@ -178,6 +182,7 @@
       </scripts>
     </scripts>
     <script>scripts\create_dialogue.gml</script>
+    <script>scripts\gameWindowSize.gml</script>
   </scripts>
   <fonts name="fonts">
     <font>fonts\fnt_a</font>
@@ -191,7 +196,11 @@
     <object>objects\obj_Character</object>
     <object>objects\obj_Enemy1</object>
     <objects name="Menu">
-      <object>objects\obj_start_button</object>
+      <object>objects\obj_Move_FadeIn</object>
+      <object>objects\obj_Button_Start</object>
+      <object>objects\obj_Button_Credits</object>
+      <object>objects\obj_Button_Quit</object>
+      <object>objects\obj_Button_MainMenu</object>
     </objects>
     <objects name="Block">
       <object>objects\obj_Floor</object>

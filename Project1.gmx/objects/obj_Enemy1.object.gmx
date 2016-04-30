@@ -89,6 +89,10 @@ magnetized = false;
 
 currentDir = DIR.NORTH;
 
+// animation
+run_frame_rate = 0.08;
+image_speed = run_frame_rate;
+
 // wall transitions
 degreesToRotate = 0;
 deltaDegrees = 2;

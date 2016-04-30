@@ -87,8 +87,8 @@
       <sprites name="Terisa">
         <sprite>sprites\spr_Terisa_Head</sprite>
       </sprites>
-      <sprites name="Sorona">
-        <sprite>sprites\spr_Sorona_Head</sprite>
+      <sprites name="Sirona">
+        <sprite>sprites\spr_Sirona_Head</sprite>
       </sprites>
     </sprites>
   </sprites>

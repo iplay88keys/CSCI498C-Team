@@ -11,6 +11,7 @@ addLevel(rm_Level1_1, inst_B894C4BB);
 addLevel(rm_Level1_2, inst_DEA3E53B);
 addLevel(rm_LevelNP_1, inst_A76659AF);
 addLevel(rm_LevelNP_2, inst_0EABE797);
+addLevel(rm_Exit, inst_F8A81172);
 addLevel(rm_End_Credits, "");
 
 #define addLevel

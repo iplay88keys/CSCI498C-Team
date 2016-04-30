@@ -206,6 +206,7 @@
     <room>rooms\rm_Start</room>
     <room>rooms\rm_Get_Boots</room>
     <room>rooms\rm_CopyThisForNewLevels</room>
+    <room>rooms\rm_Exit</room>
     <room>rooms\rm_LaserDodge</room>
     <room>rooms\rm_Level_Jump_Tower</room>
     <room>rooms\rm_FarAway</room>

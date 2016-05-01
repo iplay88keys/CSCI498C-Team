@@ -220,8 +220,8 @@
     </objects>
   </objects>
   <rooms name="rooms">
-    <room>rooms\rm_Start</room>
     <room>rooms\rm_Main_Menu</room>
+    <room>rooms\rm_Start</room>
     <room>rooms\rm_Get_Boots</room>
     <room>rooms\rm_CopyThisForNewLevels</room>
     <room>rooms\rm_Exit</room>

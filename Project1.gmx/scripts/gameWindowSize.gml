@@ -9,8 +9,6 @@ surface_resize(application_surface, 1024, 768);
 // actual size change
 window_set_size(1024, 768);
 
-
-
 #define menuWindowSize
 // reposition so the resize is from the center
 window_set_position(window_get_x() - (768 - window_get_width()) / 2,

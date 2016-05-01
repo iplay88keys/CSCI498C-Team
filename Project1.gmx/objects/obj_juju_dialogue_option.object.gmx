@@ -85,7 +85,7 @@ if ( dialogueText.textDelay &gt;= 0 ) {
     if ( !scr_juju_gamepads_crude_any_connected() ) {
         
         if ( instance_exists( dialogueText ) ) {
-            if ( point_in_rectangle( mouse_x, mouse_y, x/2 + 40 + view_xview[0], y/2 + 20 + view_yview[0], (x + dialogueText.textWidth)/2 + 40 + view_xview[0], (y + dialogueText.textHeight - 1 )/2 + 20 + view_yview[0]) ) and ( dialogueText.textDelay &gt;= 0 ) {
+            if ( point_in_rectangle( mouse_x, mouse_y, x/2 + 40 + view_xview[0], y/2 + 20 + view_yview[0] + (728 - window_get_height())/2, (x + dialogueText.textWidth)/2 + 40 + view_xview[0], (y + dialogueText.textHeight - 1 )/2 + 20 + (728 - window_get_height())/2 + view_yview[0]) ) and ( dialogueText.textDelay &gt;= 0 ) {
                 mouseOver = true;
                 if ( mouse_check_button_pressed( mb_left ) ) scr_juju_dialogue_clicked( id );
             } else {
@@ -161,6 +161,32 @@ if ( dialogueText.textDelay &gt;= 0 ) {
         }
     }
 }
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>/*draw_set_color(c_red);
+draw_rectangle(x/2 + 40 + view_xview[0], 0, (x + dialogueText.textWidth)/2 + 40 + view_xview[0], 800, true)
+draw_rectangle(0, y/2 + view_yview[0]  + 20 + (728 - window_get_height())/2, 800, (y + dialogueText.textHeight - 1 )/2 + view_yview[0] + 20 + (728 - window_get_height())/2, true);
+*/
 </string>
           </argument>
         </arguments>

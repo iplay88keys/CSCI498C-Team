@@ -71,7 +71,6 @@ if ( !is_undefined( lst_options ) ) {
         } else check = true;
         
         if ( check ) {
-            
             var optInst = instance_create( backX + offsetX, textInst.y + textInst.textHeight + optionSpacing, optObj );
             scr_juju_dialogue_box_add_child( backInst, optInst );
             scr_juju_animate( optInst, backInst,   optInst.x - backInst.x, optInst.y - backInst.y, 0,   true, true, true,   scr_juju_animate_weld );

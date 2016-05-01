@@ -154,9 +154,6 @@
     <instance objName="obj_Floor" x="96" y="128" name="inst_64D88638" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="32" y="128" name="inst_53EF47B2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Ladder" x="128" y="128" name="inst_7A5B7672" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_Ladder" x="128" y="32" name="inst_A6E1DE39" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_Ladder" x="128" y="64" name="inst_9F36D923" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_Ladder" x="128" y="96" name="inst_BF758160" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="160" y="64" name="inst_E8DAD979" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="160" y="96" name="inst_AEF323A2" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_Floor" x="160" y="128" name="inst_23208F2D" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>

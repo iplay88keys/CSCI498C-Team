@@ -19,14 +19,14 @@
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>obj_Button_Start</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
           <argument>
             <kind>1</kind>
             <string>gameWindowSize();
-if (file_exists(global.saveFile)) {
+if (file_exists(global.saveFile) and global.loadSavedGame) {
     loadSavedLevel();
 } else {
     room_goto(rm_Start);

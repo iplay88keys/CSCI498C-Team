@@ -29,6 +29,7 @@ level = argument0;
 var levelsListId = global.levels;
 var levelDoorsListId = global.levelDoors;
 door_id = levelDoorsListId[| level];
+vspeed = 0;
 room_goto(levelsListId[| level]);
 
 //save game

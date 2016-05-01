@@ -10,7 +10,9 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>-1</showcolour>
-  <code>changeSoundtrack(snd_Soundtrack, 0, 0, true);
+  <code>if not(audio_is_playing(snd_TitleScreenSoundtrack)) {
+    changeSoundtrack(snd_TitleScreenSoundtrack, 0, 0, true);
+}
 
 var i;
 for (i = 0; i &lt; instance_number(obj_Character); i += 1) {

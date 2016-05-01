@@ -41,8 +41,8 @@ global.soundtrack = noone;
 global.soundtrackPlaying = true;
 
 //audio
-global.falloff_ref = 200;
-global.falloff_max = 2000;
+global.falloff_ref = 150;
+global.falloff_max = 1500;
 global.falloff_factor = 1;
 
 //text engine

@@ -34,6 +34,9 @@
     <sound>sound\snd_Switch</sound>
     <sound>sound\snd_Door_Close</sound>
     <sound>sound\snd_Door_Open</sound>
+    <sound>sound\snd_Laser_On</sound>
+    <sound>sound\snd_Laser_Off</sound>
+    <sound>sound\snd_TitleScreenSoundtrack</sound>
   </sounds>
   <sprites name="sprites">
     <sprites name="Block">

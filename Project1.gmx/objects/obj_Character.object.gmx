@@ -366,7 +366,7 @@ if(itemGet != noone &amp;&amp; !itemGet.pickedUp &amp;&amp; grounded) {
 }
 
 //audio 
-audio_listener_position(0, 0, 0);
+audio_listener_position(x, y, 0);
 
 
 

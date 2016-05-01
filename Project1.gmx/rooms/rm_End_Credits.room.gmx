@@ -10,8 +10,7 @@
   <persistent>0</persistent>
   <colour>12632256</colour>
   <showcolour>0</showcolour>
-  <code>changeSoundtrack(snd_EndCreditsSoundtrack, 3, 2, false);
-if file_exists(global.saveFile) {
+  <code>if file_exists(global.saveFile) {
     file_delete(global.saveFile);
 }
 
@@ -20,6 +19,9 @@ for (i = 0; i &lt; instance_number(obj_Character); i += 1) {
    with(instance_find(obj_Character,i))
    {
     instance_destroy();
+   }
+   if (i == 0) { //only play this if end of game (not if from main menu)
+    changeSoundtrack(snd_EndCreditsSoundtrack, 3, 2, false);
    }
 }</code>
   <enableViews>0</enableViews>

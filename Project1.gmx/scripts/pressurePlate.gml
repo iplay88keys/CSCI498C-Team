@@ -4,6 +4,7 @@ for (i = 0; i < ds_list_size(list_id); i++) {
         with (list_id[| i]) {
             if (object_get_name(object_index) == "obj_Laser") {
                 remove_laser();
+                audio_play_sound_at(snd_Laser_Off, x, y, 0, global.falloff_ref, global.falloff_max, global.falloff_factor, false, 1);
             } else if (object_get_name(object_index) == "obj_SideDoor" or object_get_name(object_index) == "obj_Door") {
                 audio_play_sound_at(snd_Door_Close, x, y, 0, global.falloff_ref, global.falloff_max, global.falloff_factor, false, 1);
             }
@@ -13,6 +14,7 @@ for (i = 0; i < ds_list_size(list_id); i++) {
         with (list_id[| i]) {
             if (object_get_name(object_index) == "obj_Laser") {
                 create_laser();
+                audio_play_sound_at(snd_Laser_On, x, y, 0, global.falloff_ref, global.falloff_max, global.falloff_factor, false, 1);
             }  else if (object_get_name(object_index) == "obj_SideDoor" or object_get_name(object_index) == "obj_Door") {
                 audio_play_sound_at(snd_Door_Open, x, y, 0, global.falloff_ref, global.falloff_max, global.falloff_factor, false, 1);
             }

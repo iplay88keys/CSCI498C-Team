@@ -29,7 +29,7 @@
 global.maxFallSpeed = 5;
 global.cameraAmount = 4;
 global.dialogueOpen = false;
-global.loadSavedGame = false; //autosave
+global.loadSavedGame = true; //autosave
 global.saveFile = "SironaStationSave.sav"
 randomize();
 

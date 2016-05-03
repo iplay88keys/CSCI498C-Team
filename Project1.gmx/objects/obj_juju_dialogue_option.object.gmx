@@ -85,7 +85,7 @@ if ( dialogueText.textDelay &gt;= 0 ) {
     if ( !scr_juju_gamepads_crude_any_connected() ) {
         
         if ( instance_exists( dialogueText ) ) {
-            if ( point_in_rectangle( mouse_x, mouse_y, x/2 + 40 + view_xview[0], y/2 + 20 + view_yview[0] + (728 - window_get_height())/2, (x + dialogueText.textWidth)/2 + 40 + view_xview[0], (y + dialogueText.textHeight - 1 )/2 + 20 + (728 - window_get_height())/2 + view_yview[0]) ) and ( dialogueText.textDelay &gt;= 0 ) {
+            if ( dialogueText.textDelay &gt;= 0 ) {
                 mouseOver = true;
                 if ( mouse_check_button_pressed( mb_left ) ) scr_juju_dialogue_clicked( id );
             } else {

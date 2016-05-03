@@ -82,7 +82,7 @@ scr_juju_animate_off();
             <kind>1</kind>
             <string>///Step
 if ( dialogueText.textDelay &gt;= 0 ) {
-    if ( !scr_juju_gamepads_crude_any_connected() ) {
+    //if ( !scr_juju_gamepads_crude_any_connected() ) {
         
         if ( instance_exists( dialogueText ) ) {
             if ( dialogueText.textDelay &gt;= 0 ) {
@@ -93,7 +93,7 @@ if ( dialogueText.textDelay &gt;= 0 ) {
             }
         } else mouseOver = false;
         
-    } else if ( gamepadOver ) {
+    //} else if ( gamepadOver ) {
         
         if ( scr_juju_gamepads_crude_any_button_pressed( gp_padd ) ) {
             gamepadOver = false;
@@ -107,7 +107,7 @@ if ( dialogueText.textDelay &gt;= 0 ) {
         
         if ( scr_juju_gamepads_crude_any_button_pressed( gp_face1 ) ) scr_juju_dialogue_clicked( id );
         
-    }
+    //}
 }
 
 scr_juju_dialogue_step_event();

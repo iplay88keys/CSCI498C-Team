@@ -107,12 +107,12 @@
   <backgrounds name="background">
     <background>background\bg_MainMenu</background>
     <background>background\bg_Star</background>
+    <background>background\bg_Credits</background>
     <backgrounds name="Tiles">
       <background>background\tile_Platforms</background>
       <background>background\tile_BG</background>
       <background>background\tile_Decor</background>
     </backgrounds>
-    <background>background\bg_Credits</background>
   </backgrounds>
   <paths name="paths"/>
   <scripts name="scripts">

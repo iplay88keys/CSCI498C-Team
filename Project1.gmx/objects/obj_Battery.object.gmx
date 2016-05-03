@@ -26,6 +26,7 @@
           <argument>
             <kind>1</kind>
             <string>pickedUp = false;
+frameCount = 0;
 </string>
           </argument>
         </arguments>
@@ -50,6 +51,8 @@
             <kind>1</kind>
             <string>if(!pickedUp) {
     sprite_index = spr_Battery_Pickup;
+    frameCount++;
+    y += 0.1 * sin(frameCount / 30);
 } else {
     sprite_index = spr_Battery_Held;
 }

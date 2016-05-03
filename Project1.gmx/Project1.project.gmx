@@ -57,10 +57,11 @@
     </sprites>
     <sprites name="Menu">
       <sprite>sprites\spr_Title_Station</sprite>
-      <sprite>sprites\spr_Title_Sorona</sprite>
+      <sprite>sprites\spr_Title_Sirona</sprite>
       <sprite>sprites\spr_Title_Start</sprite>
       <sprite>sprites\spr_Title_Credits</sprite>
       <sprite>sprites\spr_Title_Quit</sprite>
+      <sprite>sprites\spr_Dev_Access</sprite>
     </sprites>
     <sprites name="Terisa">
       <sprites name="Regular">
